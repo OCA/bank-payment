@@ -20,10 +20,9 @@ class SaleOrder(models.Model):
     @api.depends("partner_id")
     def _compute_payment_mode(self):
         for order in self:
-            if order.partner_id:
-                order.payment_mode_id = order.partner_id.customer_payment_mode_id
-            else:
-                order.payment_mode_id = False
+            order.payment_mode_id = order.partner_id.with_company(
+                order.company_id
+            ).customer_payment_mode_id
 
     def _get_payment_mode_vals(self, vals):
         if self.payment_mode_id:

@@ -10,11 +10,14 @@ from odoo import fields
 from odoo.tests.common import TransactionCase
 from odoo.tools import float_compare
 
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+
 
 class TestSDDBase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         cls.company_B = cls.env["res.company"].create({"name": "Company B"})
         cls.account_payable_company_B = cls.env["account.account"].create(
             {
@@ -43,8 +46,8 @@ class TestSDDBase(TransactionCase):
         cls.partner_bank_model = cls.env["res.partner.bank"]
         cls.attachment_model = cls.env["ir.attachment"]
         cls.invoice_model = cls.env["account.move"]
-        cls.partner_agrolait = cls.env.ref("base.res_partner_2").copy()
-        cls.partner_c2c = cls.env.ref("base.res_partner_12").copy()
+        cls.partner_agrolait = cls.env["res.partner"].create({"name": "Agrolait"})
+        cls.partner_c2c = cls.env["res.partner"].create({"name": "C2C"})
         cls.eur_currency = cls.env.ref("base.EUR")
         cls.setUpAdditionalAccounts()
         cls.setUpAccountJournal()
@@ -71,14 +74,22 @@ class TestSDDBase(TransactionCase):
                 "property_account_receivable_id": cls.account_receivable_company_B.id,
             }
         )
-        cls.company_bank = cls.env.ref("account_payment_mode.main_company_iban").copy(
+        cls.bank = cls.env["res.bank"].create(
             {
-                "company_id": cls.main_company.id,
-                "partner_id": cls.main_company.partner_id.id,
-                "bank_id": (
-                    cls.env.ref("account_payment_mode.bank_la_banque_postale").id
-                ),
+                "name": "La Banque Postale",
+                "bic": "PSSTFRPPXXX",
+                "street": "115 rue de Sèvres",
+                "zip": "75007",
+                "city": "Paris",
+                "country": cls.env.ref("base.fr").id,
+            }
+        )
+        cls.company_bank = cls.env["res.partner.bank"].create(
+            {
                 "acc_number": "ES52 0182 2782 5688 3882 1868",
+                "bank_id": cls.bank.id,
+                "partner_id": cls.main_company.partner_id.id,
+                "company_id": cls.main_company.id,
             }
         )
         # create journal
@@ -105,41 +116,58 @@ class TestSDDBase(TransactionCase):
             }
         )
         # update payment mode
-        cls.payment_mode = cls.env.ref(
-            "account_banking_sepa_direct_debit.payment_mode_inbound_sepa_dd1"
-        ).copy({"company_id": cls.main_company.id})
-        cls.payment_mode.write(
-            {"bank_account_link": "fixed", "fixed_journal_id": cls.bank_journal.id}
+        cls.payment_mode = cls.env["account.payment.mode"].create(
+            {
+                "name": "SEPA Direct Debit of customers",
+                "company_id": cls.main_company.id,
+                "payment_method_id": cls.env.ref(
+                    "account_banking_sepa_direct_debit.sepa_direct_debit"
+                ).id,
+                "bank_account_link": "fixed",
+                "fixed_journal_id": cls.bank_journal.id,
+            }
         )
         # Copy partner bank accounts
-        bank1 = cls.env.ref("account_payment_mode.res_partner_12_iban").copy(
+        bank1 = cls.env["res.partner.bank"].create(
             {
+                "acc_number": "FR66 1212 1212 1212 1212 1212 121",
+                "bank_id": cls.bank.id,
                 "company_id": cls.main_company.id,
                 "partner_id": cls.partner_c2c.id,
                 "acc_type": "iban",
             }
         )
-        cls.mandate12 = cls.env.ref(
-            "account_banking_sepa_direct_debit.res_partner_12_mandate"
-        ).copy(
+        cls.mandate12 = cls.env["account.banking.mandate"].create(
             {
+                "format": "sepa",
+                "type": "recurrent",
+                "recurrent_sequence_type": "first",
+                "signature_date": fields.Date.to_string(
+                    fields.Date.today().replace(month=1, day=1)
+                ),
                 "partner_bank_id": bank1.id,
                 "company_id": cls.main_company.id,
                 "state": "valid",
                 "unique_mandate_reference": "BMTEST12",
             }
         )
-        bank2 = cls.env.ref("account_payment_mode.res_partner_2_iban").copy(
+        bank2 = cls.env["res.partner.bank"].create(
             {
+                "acc_number": "BE96 9988 7766 5544",
+                "bank_id": cls.bank.id,
                 "company_id": cls.main_company.id,
                 "partner_id": cls.partner_agrolait.id,
                 "acc_type": "iban",
             }
         )
-        cls.mandate2 = cls.env.ref(
-            "account_banking_sepa_direct_debit.res_partner_2_mandate"
-        ).copy(
+        cls.mandate2 = cls.env["account.banking.mandate"].create(
             {
+                "format": "sepa",
+                "type": "recurrent",
+                "recurrent_sequence_type": "first",
+                "signature_date": fields.Date.to_string(
+                    fields.Date.today().replace(day=1)
+                ),
                 "partner_bank_id": bank2.id,
                 "company_id": cls.main_company.id,
                 "state": "valid",
@@ -273,17 +301,6 @@ class TestSDDBase(TransactionCase):
         payment_order.draft2open()
         self.assertEqual(payment_order.state, "open")
         self.assertEqual(payment_order.sepa, True)
-        # Check account payment
-        agrolait_bank_line = payment_order.payment_ids[0]
-        self.assertEqual(agrolait_bank_line.currency_id, self.eur_currency)
-        self.assertEqual(
-            float_compare(agrolait_bank_line.amount, 42.0, precision_digits=accpre),
-            0,
-        )
-        self.assertEqual(agrolait_bank_line.payment_reference, invoice1.name)
-        self.assertEqual(
-            agrolait_bank_line.partner_bank_id, invoice1.mandate_id.partner_bank_id
-        )
         action = payment_order.open2generated()
         self.assertEqual(payment_order.state, "generated")
         self.assertEqual(action["res_model"], "ir.attachment")

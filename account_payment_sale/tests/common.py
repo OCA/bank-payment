@@ -1,15 +1,26 @@
 # Copyright 2018 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase, tagged
+
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
 
+@tagged("post_install", "-at_install")
 class CommonTestCase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
+        if not cls.env.company.chart_template_id:
+            # Load a CoA if there's none in current company
+            coa = cls.env.ref("l10n_generic_coa.configurable_chart_template", False)
+            if not coa:
+                # Load the first available CoA
+                coa = cls.env["account.chart.template"].search(
+                    [("visible", "=", True)], limit=1
+                )
+            coa.try_loading(company=cls.env.company, install_demo=False)
         cls.bank = cls.env["res.partner.bank"].create(
             {"acc_number": "test", "partner_id": cls.env.user.company_id.partner_id.id}
         )
@@ -52,8 +63,22 @@ class CommonTestCase(TransactionCase):
             }
         )
         cls.products = {
-            "prod_order": cls.env.ref("product.product_order_01"),
-            "prod_del": cls.env.ref("product.product_delivery_01"),
+            "prod_order": cls.env["product.product"].create(
+                {
+                    "name": "Test product order",
+                    "detailed_type": "consu",
+                    "list_price": 280,
+                    "standard_price": 235,
+                }
+            ),
+            "prod_del": cls.env["product.product"].create(
+                {
+                    "name": "Test product delivery",
+                    "detailed_type": "consu",
+                    "list_price": 70,
+                    "standard_price": 55,
+                }
+            ),
             "serv_order": cls.env["product.product"].create(
                 {
                     "name": "Test service product order",

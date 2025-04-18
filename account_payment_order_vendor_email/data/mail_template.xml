@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="ach_payment_email_template" model="mail.template">
+        <field name="name">Email for ACH Payments</field>
+        <field
+            name="model_id"
+            ref="account_payment_order.model_account_payment_order"
+        />
+        <field name="email_from"> {{ object.company_id.email or user.email }}</field>
+        <field name="email_cc" />
+        <field name="subject">Remittance Advice</field>
+        <field name="auto_delete" eval="True" />
+        <field name="lang">{{ object.generated_user_id.lang }}</field>
+        <field name="body_html" type="html">
+            <table
+                border="0"
+                cellpadding="0"
+                cellspacing="0"
+                style="padding-top: 16px; background-color: white; font-family:Verdana, Arial,sans-serif; color: #454748; min-width:800px; border-collapse:separate;"
+            >
+                <tr>
+                    <td align="center">
+                        <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            width="800"
+                            style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;"
+                        >
+                        </table>
+                    </td>
+                </tr>
+                <tbody>
+                    <!-- HEADER -->
+                    <tr>
+                        <td align="center" style="min-width: 800px;">
+                            <table
+                                border="0"
+                                cellpadding="0"
+                                cellspacing="0"
+                                width="590"
+                                style="min-width: 800px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:collapse;"
+                            >
+                                <tr>
+                                    <td style="min-width:750px;" valign="middle">
+                                        <span style="font-size: 10px;">Remittance
+                                            Advice
+                                        </span>
+                                        <br />
+                                        <span
+                                            style="font-size: 20px; font-weight: bold;"
+                                        >
+                                            <t t-out="object.name or ''" />
+                                        </span>
+                                    </td>
+                                    <td valign="middle" align="right">
+                                        <img
+                                            src="/logo.png?company=${object.company_id.id}"
+                                            style="padding: 0px; margin: 0px; height: auto; width: 80px;"
+                                            alt="${object.company_id.name}"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        colspan="2"
+                                        style="text-align:center;min-width:750px;"
+                                    >
+                                        <hr
+                                            width="100%"
+                                            style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"
+                                        />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="min-width: 800px;">
+                            <table
+                                border="0"
+                                cellpadding="0"
+                                cellspacing="0"
+                                width="590"
+                                style="min-width: 800px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:collapse;"
+                            >
+                                <tr>
+                                    <td valign="top" style="font-size: 13px;">
+                                        <div>
+                                            Dear <t t-out="object.name or ''" /> ,
+                                            <br /> <br />
+                                            A payment was processed on <t
+                                                t-out="ctx['date']"
+                                            />
+                                            for <t
+                                                t-out="ctx['partner_name']"
+                                            /> in the amount of
+                                            <t
+                                                t-out="ctx['total_amount']"
+                                            /> with reference
+                                            <t t-out="ctx['payment_ref']" />.<br /><br
+                                            />
+                                            <t
+                                                t-set="line_dict"
+                                                t-value="ctx.get('line_data',False)"
+                                            />
+                                            <t t-foreach="line_dict" t-as="line">
+                                                <table
+                                                    style="min-width:800px;background-color: white; padding: 0px 8px 0px 8px; border-collapse: collapse;"
+                                                    width="800"
+                                                >
+                                                    <tr>
+                                                        <td
+                                                            style="border:1px solid #000000;width:80px; min-width:80px; max-width: 80px;"
+                                                        >
+                                                            <t
+                                                                t-if="line == line_dict[0]"
+                                                            >
+                                                                <t
+                                                                    t-out="line.get('inv_date') or ''"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-out="line.get('inv_date') or ''"
+                                                                />
+                                                            </t>
+                                                        </td>
+                                                        <td
+                                                            style="border:1px solid #000000;width:150px; min-width:150px; max-width: 150px;"
+                                                        >
+                                                            <t
+                                                                t-if="line == line_dict[0]"
+                                                            >
+                                                                <t
+                                                                    t-out="line.get('inv_no') or ''"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-out="line.get('inv_no') or ''"
+                                                                />
+                                                            </t>
+                                                        </td>
+                                                        <td
+                                                            style="border:1px solid #000000;width:70px; min-width:70px; max-width: 70px;"
+                                                        >
+                                                            <t
+                                                                t-if="line == line_dict[0]"
+                                                            >
+                                                                <t
+                                                                    t-out="line.get('credit_ref') or ''"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-out="line.get('credit_ref') or ''"
+                                                                />
+                                                            </t>
+                                                        </td>
+                                                        <td
+                                                            style="border:1px solid #000000;width:150px; min-width:150px; max-width: 150px;"
+                                                        >
+                                                            <t
+                                                                t-if="line == line_dict[0]"
+                                                            >
+                                                                <t
+                                                                    t-out="line.get('supp_inv') or ''"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-out="line.get('supp_inv') or ''"
+                                                                />
+                                                            </t>
+                                                        </td>
+                                                        <td
+                                                            style="border:1px solid #000000;width:70px; min-width:70px; max-width: 70px;"
+                                                        >
+                                                            <t
+                                                                t-if="line == line_dict[0]"
+                                                            >
+                                                                <t
+                                                                    t-out="line.get('payment_amount') or ''"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-out="line.get('payment_amount') or ''"
+                                                                />
+                                                            </t>
+                                                        </td>
+                                                        <td
+                                                            style="border:1px solid #000000;width:70px; min-width:70px; max-width: 70px;"
+                                                        >
+                                                            <t
+                                                                t-if="line == line_dict[0]"
+                                                            >
+                                                                <t
+                                                                    t-out="line.get('inv_amount') or ''"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-out="line.get('inv_amount') or ''"
+                                                                />
+                                                            </t>
+                                                        </td>
+                                                        <td
+                                                            style="border:1px solid #000000;width:70px; min-width:70px; max-width: 70px;"
+                                                        >
+                                                            <t
+                                                                t-if="line == line_dict[0]"
+                                                            >
+                                                                <t
+                                                                    t-out="line.get('credit_amount') or ''"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-out="line.get('credit_amount') or ''"
+                                                                />
+                                                            </t>
+                                                        </td>
+                                                        <td
+                                                            style="border:1px solid #000000;width:70px; min-width:70px; max-width: 70px;"
+                                                        >
+                                                            <t
+                                                                t-if="line == line_dict[0]"
+                                                            >
+                                                                <t
+                                                                    t-out="line.get('discount') or ''"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-out="line.get('discount') or ''"
+                                                                />
+                                                            </t>
+                                                        </td>
+                                                        <td
+                                                            style="border:1px solid #000000;width:70px; min-width:70px; max-width: 70px;"
+                                                        >
+                                                            <t
+                                                                t-if="line == line_dict[0]"
+                                                            >
+                                                                <t
+                                                                    t-out="line.get('due_amount') or ''"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-out="line.get('due_amount') or ''"
+                                                                />
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </t>
+                                            Thanks,
+                                            <t t-if="user.signature">
+                                                <br />
+                                                <t t-out="user.signature or ''" />
+                                            </t>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center;">
+                                        <hr
+                                            width="100%"
+                                            style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"
+                                        />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="min-width: 800px;">
+                            <table
+                                border="0"
+                                cellpadding="0"
+                                cellspacing="0"
+                                width="800"
+                                style="min-width: 800px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;"
+                            >
+                                <tr>
+                                    <td valign="middle" align="left">
+                                        <t t-out="object.company_id.name or ''" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        valign="middle"
+                                        align="left"
+                                        style="opacity: 0.7;"
+                                    >
+                                        <t t-out="object.company_id.phone or ''" />
+                                        <t t-if="object.company_id.email">
+                                            |
+                                            <a
+                                                t-att-href="'mailto:%s' % object.company_id.email"
+                                                style="text-decoration:none; color: #454748;"
+                                                t-out="object.company_id.email or ''"
+                                            />
+                                        </t>
+                                        <t t-if="object.company_id.website">
+                                            |
+                                            <a
+                                                t-att-href="'%s' % object.company_id.website"
+                                                style="text-decoration:none; color: #454748;"
+                                                t-out="object.company_id.website or ''"
+                                            />
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- POWERED BY -->
+                <tr>
+                    <td align="center" style="min-width: 800px;">
+                        <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            width="800"
+                            style="min-width: 800px; background-color: white; color: #454748; padding: 8px; border-collapse:separate;"
+                        >
+                            <tr>
+                                <td style="text-align: center; font-size: 13px;">
+                                    Powered by
+                                    <a
+                                        target="_blank"
+                                        href="https://www.odoo.com?utm_source=db&amp;utm_medium=auth"
+                                        style="color: #875A7B;"
+                                    >Odoo</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </field>
+    </record>
+
+</odoo>

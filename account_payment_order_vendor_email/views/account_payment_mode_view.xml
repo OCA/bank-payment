@@ -1,0 +1,16 @@
+<odoo>
+    <record id="account_payment_mode_inherit_email" model="ir.ui.view">
+        <field name="name">account_payment_mode_email_inherit</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form" />
+        <field name="arch" type="xml">
+            <field name="variable_journal_ids" position="after">
+                <field name="send_email_to_partner" />
+                <field
+                    attrs="{'invisible':[('send_email_to_partner','=',False)],'required':[('send_email_to_partner','=',True)]}"
+                    name="email_temp_id"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

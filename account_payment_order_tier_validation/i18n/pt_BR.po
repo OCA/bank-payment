@@ -1,0 +1,117 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_order_tier_validation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2022-09-16 19:07+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__can_review
+msgid "Can Review"
+msgstr "Pode Revisar"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__has_comment
+msgid "Has Comment"
+msgstr "Tem Comentário"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__is_reevaluation_required
+msgid "Is Reevaluation Required"
+msgstr ""
+
+#. module: account_payment_order_tier_validation
+#: model_terms:ir.ui.view,arch_db:account_payment_order_tier_validation.account_payment_order_search_view
+msgid "My Payment Orders to review"
+msgstr "Minhas Ordens de Pagamento para revisar"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__need_validation
+msgid "Need Validation"
+msgstr "Necessita Validação"
+
+#. module: account_payment_order_tier_validation
+#: model_terms:ir.ui.view,arch_db:account_payment_order_tier_validation.account_payment_order_search_view
+msgid "Needs my Review"
+msgstr "Necessita minha Revisão"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__next_review
+msgid "Next Review"
+msgstr "Próxima Revisão"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model,name:account_payment_order_tier_validation.model_account_payment_order
+msgid "Payment Order"
+msgstr "Ordem de Pagamento"
+
+#. module: account_payment_order_tier_validation
+#: model_terms:ir.ui.view,arch_db:account_payment_order_tier_validation.account_payment_order_search_view
+msgid "Payment Orders validated and ready to be confirmed"
+msgstr "Ordens de Pagamento validadas e prontas para serem confirmadas"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__rejected
+msgid "Rejected"
+msgstr "Rejeitada"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__rejected_message
+msgid "Rejected Message"
+msgstr "Mensagem da Rejeição"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__reviewer_ids
+msgid "Reviewers"
+msgstr "Revisores"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model,name:account_payment_order_tier_validation.model_tier_definition
+msgid "Tier Definition"
+msgstr "Definição de nível"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__to_validate_message
+msgid "To Validate Message"
+msgstr "Mensagem para Validar"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__validated
+#: model_terms:ir.ui.view,arch_db:account_payment_order_tier_validation.account_payment_order_search_view
+msgid "Validated"
+msgstr "Validado"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__validated_message
+msgid "Validated Message"
+msgstr "Mensagem da Validação"
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__validation_status
+msgid "Validation Status"
+msgstr ""
+
+#. module: account_payment_order_tier_validation
+#: model:ir.model.fields,field_description:account_payment_order_tier_validation.field_account_payment_order__review_ids
+msgid "Validations"
+msgstr "Validações"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"

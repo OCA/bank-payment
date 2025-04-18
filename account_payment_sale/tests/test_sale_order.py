@@ -3,20 +3,23 @@
 
 from odoo.tests import Form
 
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+
 from .common import CommonTestCase
 
 
 class TestSaleOrder(CommonTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
+
     def create_sale_order(self, payment_mode=None):
         with Form(self.env["sale.order"]) as sale_form:
             sale_form.partner_id = self.base_partner
             for (_, p) in self.products.items():
                 with sale_form.order_line.new() as order_line:
                     order_line.product_id = p
-                    order_line.name = p.name
-                    order_line.product_uom_qty = 2
-                    order_line.product_uom = p.uom_id
-                    order_line.price_unit = p.list_price
         sale = sale_form.save()
         self.assertEqual(
             sale.payment_mode_id, self.base_partner.customer_payment_mode_id
@@ -85,7 +88,14 @@ class TestSaleOrder(CommonTestCase):
             {
                 "advance_payment_method": "fixed",
                 "fixed_amount": 5,
-                "product_id": self.env.ref("sale.advance_product_0").id,
+                "product_id": self.env["product.product"]
+                .create(
+                    {
+                        "name": "Deposit",
+                        "type": "service",
+                    }
+                )
+                .id,
                 "sale_order_ids": order,
             }
         )
@@ -106,7 +116,15 @@ class TestSaleOrder(CommonTestCase):
         Expected result:
             Two invoices should be generated
         """
-        payment_mode_2 = self.env.ref("account_payment_mode.payment_mode_outbound_dd1")
+        payment_mode_2 = self.env["account.payment.mode"].create(
+            {
+                "name": "Direct Debit of suppliers from Société Générale",
+                "bank_account_link": "variable",
+                "payment_method_id": self.env.ref(
+                    "account.account_payment_method_manual_out"
+                ).id,
+            }
+        )
         order_1 = self.create_sale_order()
         order_2 = self.create_sale_order(payment_mode_2)
         orders = order_1 | order_2

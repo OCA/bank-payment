@@ -5,14 +5,17 @@
 from odoo import _, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.fields import Date
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests.common import Form, TransactionCase, tagged
+
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
 
+@tagged("-at_install", "post_install")
 class TestAccountPaymentPartner(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
 
         cls.res_users_model = cls.env["res.users"]
         cls.move_model = cls.env["account.move"]
@@ -22,18 +25,23 @@ class TestAccountPaymentPartner(TransactionCase):
 
         # Refs
         cls.company = cls.env.ref("base.main_company")
-
-        cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
-        charts = cls.env["account.chart.template"].search([])
+        charts = cls.env["account.chart.template"].search([("visible", "=", True)])
         if charts:
             cls.chart = charts[0]
         else:
             raise ValidationError(_("No Chart of Account Template has been defined !"))
-        old_company = cls.env.user.company_id
-        cls.env.user.company_id = cls.company_2.id
+        if not cls.company.chart_template_id:
+            # Load a CoA if there's none in current company
+            coa = cls.env.ref("l10n_generic_coa.configurable_chart_template", False)
+            if not coa:
+                coa = cls.chart
+            coa.try_loading(company=cls.company, install_demo=False)
+
+        cls.company_2 = cls.env["res.company"].create({"name": "Company 2"})
+        charts = cls.env["account.chart.template"].search([])
+        cls.env.user.company_ids = [(4, cls.company_2.id)]
         cls.env.ref("base.user_admin").company_ids = [(4, cls.company_2.id)]
-        cls.chart.try_loading()
-        cls.env.user.company_id = old_company.id
+        cls.chart.try_loading(cls.company_2)
 
         # refs
         cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
@@ -161,8 +169,23 @@ class TestAccountPaymentPartner(TransactionCase):
             ],
             limit=1,
         )
+        bank = (
+            cls.env["res.bank"]
+            .env["res.bank"]
+            .create(
+                {
+                    "name": "Fiducial Banque",
+                    "bic": "FIDCFR21XXX",
+                    "street": "38 rue Sergent Michel Berthet",
+                    "zip": "69009",
+                    "city": "Lyon",
+                    "country": cls.env.ref("base.fr").id,
+                }
+            )
+        )
         cls.journal_bank = cls.env["res.partner.bank"].create(
             {
+                "bank_id": bank.id,
                 "acc_number": "GB95LOYD87430237296288",
                 "partner_id": cls.env.user.company_id.partner_id.id,
             }
@@ -183,6 +206,12 @@ class TestAccountPaymentPartner(TransactionCase):
                 "journal_id": cls.journal_purchase.id,
             }
         )
+        cls.product = cls.env["product.product"].create(
+            {
+                "name": "Test product",
+                "type": "service",
+            }
+        )
 
     def _create_invoice(self, default_move_type, partner):
         move_form = Form(
@@ -191,7 +220,7 @@ class TestAccountPaymentPartner(TransactionCase):
         move_form.partner_id = partner
         move_form.invoice_date = Date.today()
         with move_form.invoice_line_ids.new() as line_form:
-            line_form.product_id = self.env.ref("product.product_product_4")
+            line_form.product_id = self.product
             line_form.name = "product that cost 100"
             line_form.quantity = 1.0
             line_form.price_unit = 100.0
@@ -532,7 +561,16 @@ class TestAccountPaymentPartner(TransactionCase):
         )
 
     def test_account_move_payment_mode_id_default(self):
-        payment_mode = self.env.ref("account_payment_mode.payment_mode_inbound_dd1")
+        payment_mode = self.env["account.payment.mode"].create(
+            {
+                "name": "Direct Debit of customers",
+                "company_id": self.env.ref("base.main_company").id,
+                "bank_account_link": "variable",
+                "payment_method_id": self.env.ref(
+                    "account.account_payment_method_manual_in"
+                ).id,
+            }
+        )
         field = self.env["ir.model.fields"].search(
             [
                 ("model_id.model", "=", self.move_model._name),
@@ -542,15 +580,17 @@ class TestAccountPaymentPartner(TransactionCase):
         move_form = Form(
             self.move_model.with_context(
                 default_name="Invoice test", default_move_type="out_invoice"
-            )
+            ).with_company(self.env.ref("base.main_company").id)
         )
         self.assertFalse(move_form.payment_mode_id)
-        self.env["ir.default"].create(
-            {"field_id": field.id, "json_value": payment_mode.id}
-        )
+        self.env["ir.default"].with_company(
+            self.env.ref("base.main_company").id
+        ).create({"field_id": field.id, "json_value": payment_mode.id})
         move_form = Form(
             self.move_model.with_context(
-                default_name="Invoice test", default_move_type="out_invoice"
-            )
+                default_name="Invoice test",
+                default_move_type="out_invoice",
+                default_company_id=self.env.ref("base.main_company").id,
+            ).with_company(self.env.ref("base.main_company").id)
         )
         self.assertEqual(move_form.payment_mode_id, payment_mode)

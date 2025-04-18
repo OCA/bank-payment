@@ -18,17 +18,22 @@ class TestAccountPaymentMethodFsStorage(AccountTestInvoicingCommon):
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.company_data["company"]
 
-        cls.fs_storage = cls.env.ref("fs_storage.default_fs_storage")
+        cls.fs_storage = cls.env["fs.storage"].create(
+            {
+                "name": "Odoo Filesystem Backend",
+                "protocol": "odoofs",
+                "code": "odoofstest",
+            }
+        )
 
         cls.fs_storage.write(
             {
                 "use_on_payment_method": True,
             }
         )
-        cls.payment_method = cls.env.ref(
-            "account.account_payment_method_manual_out"
-        ).copy(
+        cls.payment_method = cls.env["account.payment.method"].create(
             {
+                "payment_type": "outbound",
                 "storage": str(cls.fs_storage.id),
                 "name": "method test",
                 "code": "test",

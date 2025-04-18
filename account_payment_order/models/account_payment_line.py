@@ -78,7 +78,9 @@ class AccountPaymentLine(models.Model):
         required=False, help="Label of the payment that will be seen by the destinee"
     )
     communication_type = fields.Selection(
-        selection=[("normal", "Free")], required=True, default="normal"
+        selection=[("normal", "Free"), ("structured", "Structured")],
+        required=True,
+        default="normal",
     )
     payment_ids = fields.Many2many(
         comodel_name="account.payment",
@@ -186,13 +188,14 @@ class AccountPaymentLine(models.Model):
         payment lines.
         """
         journal = self.order_id.journal_id
+        payment_mode = self.order_id.payment_mode_id
         vals = {
             "payment_type": self.order_id.payment_type,
             "partner_id": self.partner_id.id,
             "destination_account_id": self.move_line_id.account_id.id,
             "company_id": self.order_id.company_id.id,
             "amount": sum(self.mapped("amount_currency")),
-            "date": self[:1].date,
+            "date": fields.Date.context_today(self),
             "currency_id": self.currency_id.id,
             "ref": self.order_id.name,
             # Put the name as the wildcard for forcing a unique name. If not, Odoo gets
@@ -207,11 +210,7 @@ class AccountPaymentLine(models.Model):
         # Determine payment method line according payment method and journal
         line = self.env["account.payment.method.line"].search(
             [
-                (
-                    "payment_method_id",
-                    "=",
-                    self.order_id.payment_mode_id.payment_method_id.id,
-                ),
+                ("payment_method_id", "=", payment_mode.payment_method_id.id),
                 ("journal_id", "=", journal.id),
             ],
             limit=1,
@@ -245,3 +244,8 @@ class AccountPaymentLine(models.Model):
         if transfer_journal:
             vals["journal_id"] = transfer_journal.id
         return vals
+
+    def action_open_business_doc(self):
+        if not self.move_line_id:
+            return False
+        return self.move_line_id.action_open_business_doc()

@@ -93,11 +93,8 @@ class AccountPaymentOrder(models.Model):
                     )
                     % payment_line.mandate_id.unique_mandate_reference
                 )
-            # The field line.date is the requested payment date
-            # taking into account the 'date_preferred' setting
-            # cf account_banking_payment_export/models/account_payment.py
-            # in the inherit of action_open()
-            key = (line.date, priority, categ_purpose, seq_type, scheme)
+            # The field line.payment_line_date is the requested payment date
+            key = (line.payment_line_date, priority, categ_purpose, seq_type, scheme)
             if key in lines_per_group:
                 lines_per_group[key].append(line)
             else:

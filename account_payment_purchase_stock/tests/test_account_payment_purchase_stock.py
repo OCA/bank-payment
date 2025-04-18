@@ -5,11 +5,11 @@
 from odoo import fields
 
 from odoo.addons.account_payment_purchase.tests.test_account_payment_purchase import (
-    TestAccountPaymentPurchase,
+    TestAccountPaymentPurchaseBase,
 )
 
 
-class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
+class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchaseBase):
     def test_purchase_stock_order_invoicing(self):
         self.purchase.onchange_partner_id()
         self.purchase.button_confirm()
