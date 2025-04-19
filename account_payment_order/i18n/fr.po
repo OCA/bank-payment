@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-10 16:15+0000\n"
-"PO-Revision-Date: 2023-06-29 12:08+0000\n"
-"Last-Translator: Rémi <remi@le-filament.com>\n"
+"PO-Revision-Date: 2025-04-20 01:23+0000\n"
+"Last-Translator: Romain BONNINGUE <bonninguer@gmail.com>\n"
 "Language-Team: French (https://www.transifex.com/oca/teams/23907/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: account_payment_order
 #. odoo-python
@@ -224,7 +224,7 @@ msgstr "Compte bancaire requis"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__partner_bank_acc_type
 msgid "Bank Account Type"
-msgstr ""
+msgstr "Type de Compte bancaire"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__journal_id
@@ -242,6 +242,7 @@ msgstr "Compte bancaire sur lequel nous devrions payer le fournisseur"
 msgid ""
 "Bank account type: Normal or IBAN. Inferred from the bank account number."
 msgstr ""
+"Type de compte banque : normal ou IBAN. Déterminé par le numéro de compte."
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__cancel
@@ -786,6 +787,9 @@ msgid ""
 "No Payment Line created for invoice %s because its payment mode is not "
 "intended for payment orders."
 msgstr ""
+"Aucune ligne de paiement créée pour la facture %s parce que le mode de "
+"paiement renseigné sur cette facture n'est pas prévu pour les ordres de "
+"paiement."
 
 #. module: account_payment_order
 #. odoo-python
@@ -840,7 +844,7 @@ msgstr "Nombre d'erreurs"
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Nombre de message nécessitant une action"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__message_has_error_counter
@@ -927,12 +931,12 @@ msgstr "Ligne de paiement"
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__payment_line_count
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_line_count
 msgid "Payment Line Count"
-msgstr ""
+msgstr "Nombre de lignes de paiement"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_line_date
 msgid "Payment Line Date"
-msgstr ""
+msgstr "Date de la ligne de paiement"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_action
@@ -985,7 +989,7 @@ msgstr "Ordre de paiement"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_move_form
 msgid "Payment Order Lines"
-msgstr ""
+msgstr "Lignes de l'ordre de paiement"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__payment_order_ok
@@ -997,7 +1001,7 @@ msgstr "Ordre de paiement Ok"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__order_state
 msgid "Payment Order State"
-msgstr ""
+msgstr "Statut de l'ordre de paiement"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_outbound_action
@@ -1138,7 +1142,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line__communication_type__structured
 msgid "Structured"
-msgstr ""
+msgstr "Structuré"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__structured
@@ -1173,6 +1177,8 @@ msgstr ""
 msgid ""
 "The invoice %(move)s is already added in the payment order(s) %(order)s."
 msgstr ""
+"La facture %(move)s a déjà été ajoutée à l'(aux) ordre(s) de paiement "
+"%(order)s."
 
 #. module: account_payment_order
 #. odoo-python
@@ -1289,7 +1295,7 @@ msgstr "Type de l'activité-alerte sur l'enregistrement."
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_account_payment_tree_payment_order
 #, python-format
 msgid "Update Payment Reference"
-msgstr ""
+msgstr "Mettre à jour la référence de paiement"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
