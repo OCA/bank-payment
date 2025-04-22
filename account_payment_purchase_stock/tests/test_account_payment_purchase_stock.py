@@ -29,7 +29,7 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
     def test_picking_from_purchase_order_invoicing(self):
         # Test payment mode
         stockable_product = self.env["product.product"].create(
-            {"name": "Test stockable product", "type": "product"}
+            {"name": "Test stockable product", "type": "consu", "is_storable": True}
         )
         self.purchase.order_line[0].product_id = stockable_product
         self.purchase.button_confirm()
@@ -59,7 +59,7 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
     def test_picking_from_purchase_order_invoicing_bank(self):
         # Test partner_bank
         stockable_product = self.env["product.product"].create(
-            {"name": "Test stockable product", "type": "product"}
+            {"name": "Test stockable product", "type": "consu", "is_storable": True}
         )
         self.purchase.order_line[0].product_id = stockable_product
         self.purchase.supplier_partner_bank_id = self.bank
