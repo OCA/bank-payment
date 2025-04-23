@@ -34,7 +34,7 @@ try:
     from plaid.model.transfer_network import TransferNetwork
     from plaid.model.transfer_type import TransferType
 
-except (ImportError, IOError) as err:
+except (OSError, ImportError) as err:
     _logger.debug(err)
 
 
@@ -158,7 +158,8 @@ class PlaidInterface(models.AbstractModel):
         # Check if Plaid says there are more events to fetch
         has_more = response.to_dict().get("has_more", False)
         while has_more:
-            # Here you might want to track the last event's ID rather than just len(events).
+            # Here you might want to track the
+            # last event's ID rather than just len(events).
             # But I'll keep your original approach:
             request = TransferEventSyncRequest(after_id=len(events), count=25)
             try:

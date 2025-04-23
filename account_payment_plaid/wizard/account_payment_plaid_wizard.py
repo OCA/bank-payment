@@ -47,7 +47,7 @@ class AccountPaymentPlaidWizard(models.TransientModel):
                 client=client,
                 account_id=self.company_id.plaid_account_id.account,
                 partner_id=self.partner_id,
-                amount="{:.2f}".format(self.amount),
+                amount=f"{self.amount:.2f}",
                 access_token=self.company_id.plaid_access_token,
             )
         )

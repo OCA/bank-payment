@@ -10,7 +10,7 @@ from odoo.tests import common, tagged
 class TestAccountPaymentPlaidWizard(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
-        super(TestAccountPaymentPlaidWizard, cls).setUpClass()
+        super().setUpClass()
 
         cls.plaid_account = cls.env["plaid.account"].create(
             {

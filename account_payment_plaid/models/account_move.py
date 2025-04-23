@@ -2,7 +2,6 @@ from odoo import _, models
 
 
 class AccountMove(models.Model):
-
     _inherit = "account.move"
 
     def action_payment_with_plaid_wizard(self):

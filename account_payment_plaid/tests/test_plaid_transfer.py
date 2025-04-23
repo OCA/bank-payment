@@ -7,7 +7,7 @@ from odoo.tests import common, tagged
 class TestPlaidTransfer(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
-        super(TestPlaidTransfer, cls).setUpClass()
+        super().setUpClass()
 
         cls.company_id = cls.env.user.company_id
         cls.account_move_id = cls.env["account.move"].create(
@@ -49,7 +49,6 @@ class TestPlaidTransfer(common.SavepointCase):
 
     @patch("plaid.api.plaid_api.PlaidApi.transfer_event_sync")
     def test_cron_sync_transfer_events(self, transfer_event_sync):
-
         transfer_event_sync.return_value = MagicMock(
             to_dict=lambda: {
                 "transfer_events": [

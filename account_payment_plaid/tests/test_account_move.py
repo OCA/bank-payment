@@ -5,7 +5,7 @@ from odoo.tests import common, tagged
 class TestAccountMove(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
-        super(TestAccountMove, cls).setUpClass()
+        super().setUpClass()
         cls.account_move = cls.env["account.move"].create(
             {
                 "name": "Test Account Move",

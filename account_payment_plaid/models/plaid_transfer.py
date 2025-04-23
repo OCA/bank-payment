@@ -75,7 +75,6 @@ class PlaidTransfer(models.Model):
             if transfer_ids:
                 transfer_ids.write({"state": event_type})
             if event_type == "settled":
-
                 for transfer in transfer_ids:
                     PaymentRegister.with_context(
                         active_model="account.move",

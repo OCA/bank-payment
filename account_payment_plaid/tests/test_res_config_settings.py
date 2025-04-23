@@ -8,7 +8,7 @@ from odoo.tests import common
 class TestResConfigSettings(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
-        super(TestResConfigSettings, cls).setUpClass()
+        super().setUpClass()
         cls.company = cls.env["res.company"].create(
             {
                 "name": "Test Company",

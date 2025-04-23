@@ -17,19 +17,19 @@ Account Payment Plaid
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github
-    :target: https://github.com/OCA/bank-payment/tree/16.0/account_payment_plaid
+    :target: https://github.com/OCA/bank-payment/tree/17.0/account_payment_plaid
     :alt: OCA/bank-payment
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/bank-payment-16-0/bank-payment-16-0-account_payment_plaid
+    :target: https://translation.odoo-community.org/projects/bank-payment-17-0/bank-payment-17-0-account_payment_plaid
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This addon allow pay your bills with plaid platform using the ACH transfer method.
-Do you need plaid account for use this module.
+This addon allow pay your bills with plaid platform using the ACH
+transfer method. Do you need plaid account for use this module.
 
 **Table of contents**
 
@@ -39,31 +39,45 @@ Do you need plaid account for use this module.
 Usage
 =====
 
-Using the Plaid API for bank transfers on production or development environment:
+Using the Plaid API for bank transfers on production or development
+environment:
 
-#. Go to "Settings" > "Plaid".
-#. Add your Plaid credentials.
-#. Synchronize with Plaid.
-#. Select your bank account.
-#. Go to "Contacts" and add the plaid client id for the contact.
-#. Go to your invoice and click on "Pay with Plaid" button.\nYou can see the button if the bill is confirmed.\nWhen you click on the button, you will see a confirmation window.
-#. When you confirm the payment and the confirmation window\nis closed you can see the transfer in "Settings" > "Technical" > "Plaid" > "Transfer".
-#. When the transfer is done, you can see the bill as paid and the payment create on odoo.
+1. Go to "Settings" > "Plaid".
+2. Add your Plaid credentials.
+3. Synchronize with Plaid.
+4. Select your bank account.
+5. Go to "Contacts" and add the plaid client id for the contact.
+6. Go to your invoice and click on "Pay with Plaid" button.nYou can see
+   the button if the bill is confirmed.nWhen you click on the button,
+   you will see a confirmation window.
+7. When you confirm the payment and the confirmation windownis closed
+   you can see the transfer in "Settings" > "Technical" > "Plaid" >
+   "Transfer".
+8. When the transfer is done, you can see the bill as paid and the
+   payment create on odoo.
 
-If you are using the sandbox environment for testing,
-do you need to use the simulation method for simulate the transfer.
-This method only works with the sandbox environment.
-You can found this method on "Settings" > "Technical" > "Plaid" > "Transfer".
+If you are using the sandbox environment for testing, do you need to use
+the simulation method for simulate the transfer. This method only works
+with the sandbox environment. You can found this method on "Settings" >
+"Technical" > "Plaid" > "Transfer".
 
-#.  Select the transfer that you want to simulate.
-#.  Click on "Simulate Transfer" button.
-#.  Select the command that you want to simulate.
-    * "Simulate Transfer" : This command create a event on sandbox environment.\nDo you need this event for check the status of the transfer on Odoo.
-    * "Simulate transfer ledger available" : This command simulate converting pending balance\nto available balance for all originators in the Sandbox environment.
-#. Click on "Confirm" button.
+1. Select the transfer that you want to simulate.
+2. Click on "Simulate Transfer" button.
+3. Select the command that you want to simulate.
 
-This addon use the cron for check the status of the transfer on Plaid and update the bill and payment.
-If you need more information about Plaid, please visit the `Plaid website <https://plaid.com>`_ or `Plaid Docs Transfer <https://plaid.com/docs/transfer/>`_.
+   - "Simulate Transfer" : This command create a event on sandbox
+     environment.nDo you need this event for check the status of the
+     transfer on Odoo.
+   - "Simulate transfer ledger available" : This command simulate
+     converting pending balancento available balance for all originators
+     in the Sandbox environment.
+
+4. Click on "Confirm" button.
+
+This addon use the cron for check the status of the transfer on Plaid
+and update the bill and payment. If you need more information about
+Plaid, please visit the `Plaid website <https://plaid.com>`__ or `Plaid
+Docs Transfer <https://plaid.com/docs/transfer/>`__.
 
 Bug Tracker
 ===========
@@ -71,7 +85,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/bank-payment/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_payment_plaid%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_payment_plaid%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -79,19 +93,20 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Binhex
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Binhex <https://binhex.cloud>_`
+- ``Binhex <https://binhex.cloud>``\ \_
 
-  * Adasat Torres de León <a.torres@binhex.cloud>
+  - Adasat Torres de León <a.torres@binhex.cloud>
+  - Carlos Rafael Rodriguez Trujillo <c.rodriguez@binhex.cloud>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -103,6 +118,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/16.0/account_payment_plaid>`_ project on GitHub.
+This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/17.0/account_payment_plaid>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
