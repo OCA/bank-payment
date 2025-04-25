@@ -31,7 +31,7 @@
                     name="payment_mode_id"
                     optional="hide"
                     force_save="1"
-                    column_invisible="account_type not in ['asset_receivable', 'liability_payable']"
+                    invisible="account_type not in ['asset_receivable', 'liability_payable']"
                     readonly="account_type not in ['asset_receivable', 'liability_payable'] or reconciled"
                 />
             </field>
