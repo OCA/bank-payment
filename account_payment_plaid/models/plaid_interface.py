@@ -92,29 +92,32 @@ class PlaidInterface(models.AbstractModel):
             raise ValidationError(_("Error getting accounts: %s") % e.body) from e
         return response.to_dict()["accounts"]
 
-    def _transfer_auth(self, client, access_token, account_id, partner_id, amount):
-        request = TransferAuthorizationCreateRequest(
+    def transfer_auth_credit(
+        self,
+        client,
+        access_token,
+        account_id,
+        amount,
+        receiver_name,
+        receiver_email=None,
+    ):
+        req = TransferAuthorizationCreateRequest(
             access_token=access_token,
             account_id=account_id,
-            # originator_client_id=partner_id.plaid_client_id or None,
-            # originator_client_id='123e4567-e89b-12d3-a456-426614174000',
             type=TransferType("credit"),
             amount=amount,
             network=TransferNetwork("ach"),
-            user=TransferAuthorizationUserInRequest(legal_name=partner_id.name),
             ach_class=ACHClass("ppd"),
+            user=TransferAuthorizationUserInRequest(
+                legal_name=receiver_name,
+                email_address=receiver_email or None,
+            ),
         )
-
         try:
-            response = client.transfer_authorization_create(request)
+            res = client.transfer_authorization_create(req)
+            return res.to_dict()["authorization"]
         except plaid.ApiException as e:
-            raise ValidationError(_("Error getting transfer auth: %s") % e.body) from e
-        response_dict = response.to_dict()["authorization"]
-        return {
-            "authorization_id": response_dict["id"],
-            "decision": response_dict["decision"],
-            "decision_rationale": response_dict["decision_rationale"],
-        }
+            raise ValidationError(_("Auth error: %s") % e.body) from e
 
     def _transfer(
         self, client, access_token, account_id, authorization_id, description
@@ -130,6 +133,60 @@ class PlaidInterface(models.AbstractModel):
         except plaid.ApiException as e:
             raise ValidationError(_("Error creating transfer: %s") % e.body) from e
         return response.to_dict()["transfer"]
+
+    def _transfer_create(
+        self,
+        client,
+        access_token,
+        funding_account_id,
+        amount,
+        description,
+        receiver_account_number,
+        receiver_routing_number,
+        receiver_account_type,
+        authorization_id,
+    ):
+        transfer_request = TransferCreateRequest(
+            access_token=access_token,
+            account_id=funding_account_id,
+            authorization_id=authorization_id,
+            type=TransferType("credit"),
+            network=TransferNetwork("ach"),
+            amount=amount,
+            ach_class=ACHClass("ppd"),
+            description=description,
+            destination={
+                "account": receiver_account_number,
+                "routing_number": receiver_routing_number,
+                "account_type": receiver_account_type,
+            },
+        )
+
+        try:
+            response = client.transfer_create(transfer_request)
+            return response.to_dict()["transfer"]
+        except plaid.ApiException as e:
+            raise ValidationError(_("Error creating transfer: %s") % e.body) from e
+
+    def transfer_create_credit(
+        self,
+        client,
+        access_token,
+        account_id,
+        authorization_id,
+        description,
+    ):
+        req = TransferCreateRequest(
+            access_token=access_token,
+            account_id=account_id,
+            authorization_id=authorization_id,
+            description=(description or "Vendor pay")[:16],
+        )
+        try:
+            res = client.transfer_create(req)
+            return res.to_dict()["transfer"]
+        except plaid.ApiException as e:
+            raise ValidationError(_("Create error: %s") % e.body) from e
 
     def _sync_transfer_events(self, client):
         """Retrieve all transfer events from Plaid in batches of 25."""

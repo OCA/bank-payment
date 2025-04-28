@@ -6,13 +6,40 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
+
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button
+                        name="action_send_plaid_email"
+                        string="Send Plaid invite"
+                        type="object"
+                        class="btn-primary"
+                    />
+                </header>
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <page name="plaid_account_config" string="Plaid Account">
                     <group>
-                        <field name="plaid_client_id" />
+                        <field name="plaid_token" />
+                        <field
+                            name="plaid_portal_link"
+                            readonly="1"
+                            copy="0"
+                            invisible="1"
+                        />
                     </group>
                 </page>
             </xpath>
         </field>
     </record>
+
+    <record id="action_server_send_plaid_email" model="ir.actions.server">
+        <field name="name">Send Plaid Invite</field>
+        <field name="model_id" ref="base.model_res_partner" />
+        <field name="binding_model_id" ref="base.model_res_partner" />
+        <field name="state">code</field>
+        <field name="code">records.action_server_send_plaid_email()</field>
+        <field name="binding_view_types">list</field>
+    </record>
+
 </odoo>

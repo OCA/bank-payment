@@ -85,9 +85,6 @@ class PlaidTransfer(models.Model):
                             "payment_date": transfer.account_move_id.invoice_date,
                             "communication": transfer.account_move_id.name,
                             "amount": transfer.account_move_id.amount_total,
-                            "payment_method_id": self.env.ref(
-                                "account_payment_plaid.account_payment_method_plaid_out"
-                            ).id,
                         }
                     ).action_create_payments()
 

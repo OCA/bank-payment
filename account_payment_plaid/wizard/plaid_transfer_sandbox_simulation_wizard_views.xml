@@ -12,7 +12,7 @@
                     <group
                         string="Simulate Transfer"
                         name="s_tf"
-                        attrs="{'invisible': [('command', '!=' , 's_tf')]}"
+                        invisible="command != 's_tf'"
                     >
                         <field
                             name="transfer_id"
@@ -22,7 +22,7 @@
                         <field name="event_type" widget="radio" require="1" />
                         <field
                             name="failure_reason"
-                            attrs="{'invisible': [('event_type', '!=', 'failed')]}"
+                            invisible="event_type != 'failed'"
                         />
                     </group>
                     <footer>

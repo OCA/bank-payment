@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="mail_template_partner_plaid_invite" model="mail.template">
+    <field name="name">Connect your bank account</field>
+    <field name="model_id" ref="base.model_res_partner" />
+    <field name="subject">Connect your bank account with us</field>
+    <field
+            name="email_from"
+        >{{ object.company_id.email or 'no-reply@example.com' }}</field>
+    <field name="email_to">{{ object.email }}</field>
+    <field name="body_html" type="html">
+        <div style="margin: 0px; padding: 0px;">
+            <p style="font-size: 14px;">
+                Hello <t t-out="object.name or 'there'" />,<br /><br />
+                To get started with our ACH bank transfer process, please connect your account securely by clicking the button below:
+                <br /><br />
+                <a
+                        t-att-href="object.plaid_portal_link"
+                        style="background:#0057b8;color:#fff;padding:12px 25px;border-radius:4px;text-decoration:none;"
+                    >
+                    Connect with Plaid
+                </a>
+                <br /><br />
+                Thank you!
+            </p>
+        </div>
+    </field>
+    <field name="lang">{{ object.lang or 'en_US' }}</field>
+    <field name="auto_delete" eval="True" />
+</record>
+</odoo>

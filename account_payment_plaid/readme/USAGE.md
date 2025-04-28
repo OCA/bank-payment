@@ -35,3 +35,10 @@ This addon use the cron for check the status of the transfer on Plaid
 and update the bill and payment. If you need more information about
 Plaid, please visit the [Plaid website](https://plaid.com) or [Plaid
 Docs Transfer](https://plaid.com/docs/transfer/).
+
+In order for vendors to configure their bank accounts, we have two options:
+    1 - Go to the Partner form view and click the Send Plaid Invite button.
+    2 - From the Tree view, select multiple vendors and click Action → Send Plaid Invite.
+
+Both options will send an email with instructions for the vendor to authorize and select the bank account they wish to use to receive payments through Plaid.
+

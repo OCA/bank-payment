@@ -25,7 +25,7 @@
                         name="action_sandbox_simulation"
                         type="object"
                         class="btn btn-secondary"
-                        attrs="{'invisible': [('host', '!=', 'sand')]}"
+                        invisible='host != "sand"'
                         string="Simulate transfer"
                     />
                         <field name="state" widget="statusbar" />

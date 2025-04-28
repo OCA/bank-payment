@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <template id="portal_plaid_onboard" name="Plaid onboarding page">
+    <t t-call="website.layout">
+      <div class="container mt-5">
+        <h1 class="mb-4">Connect your bank account</h1>
+        <p>Hello <t t-out="partner.name" />!</p>
+        <p
+                >Please click the button below to connect your bank through our provider Plaid.</p>
+        <button
+                    id="plaid-connect-btn"
+                    class="btn btn-primary mt-3"
+                    t-att-data-partner-id="partner.id"
+                >
+          Connect with Plaid
+        </button>
+        <div id="plaid-accounts-container" class="mt-4" />
+      </div>
+
+
+    </t>
+  </template>
+
+  <template id="portal_plaid_success" name="Plaid Success Page">
+    <t t-call="website.layout">
+      <div class="container py-5 text-center">
+        <div class="alert alert-success shadow-lg">
+          <h2 class="mb-3 text-success">✅ Bank Accounts Synced</h2>
+          <p
+                        class="fs-5"
+                    >Your bank accounts have been successfully connected with our payment
+            system.</p>
+          <p class="mt-4">We will now be able to process payments securely.</p>
+          <a href="/my/home" class="btn btn-outline-primary mt-3">Back to My Account</a>
+        </div>
+      </div>
+    </t>
+  </template>
+</odoo>

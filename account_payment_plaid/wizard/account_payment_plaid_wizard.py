@@ -34,29 +34,39 @@ class AccountPaymentPlaidWizard(models.TransientModel):
                     "description": decision["decision_rationale"]["description"],
                 }
             )
-        return decision["authorization_id"]
+        return decision["id"]
 
     def action_confirm(self):
         PlaidInterface = self.env["plaid.interface"]
-        client_id = self.env.user.company_id.plaid_client_id
-        secret = self.env.user.company_id.plaid_secret
-        host = self.env.user.company_id.plaid_host
-        client = PlaidInterface._client(client_id, secret, host)
-        auth_id = self._verify_plaid_auth(
-            PlaidInterface._transfer_auth(
-                client=client,
-                account_id=self.company_id.plaid_account_id.account,
-                partner_id=self.partner_id,
-                amount=f"{self.amount:.2f}",
-                access_token=self.company_id.plaid_access_token,
-            )
+
+        client = PlaidInterface._client(
+            self.env.user.company_id.plaid_client_id,
+            self.env.user.company_id.plaid_secret,
+            self.env.user.company_id.plaid_host,
         )
-        self._create_transfer(
-            PlaidInterface._transfer(
-                client=client,
-                access_token=self.company_id.plaid_access_token,
-                account_id=self.company_id.plaid_account_id.account,
-                authorization_id=auth_id,
-                description=self.description[6:-1],
-            )
+
+        partner_bank = self.partner_id.bank_ids.filtered(
+            lambda b: b.plaid_account_id and b.plaid_access_token
+        )[:1]
+        if not partner_bank:
+            raise ValidationError(_("The vendor has no Plaid-connected bank account."))
+
+        auth_data = PlaidInterface.transfer_auth_credit(
+            client=client,
+            access_token=partner_bank.plaid_access_token,
+            account_id=partner_bank.plaid_account_id,
+            amount=f"{self.amount:.2f}",
+            receiver_name=self.partner_id.name,
+            receiver_email=self.partner_id.email,
         )
+        auth_id = self._verify_plaid_auth(auth_data)
+
+        transfer = PlaidInterface.transfer_create_credit(
+            client=client,
+            access_token=partner_bank.plaid_access_token,
+            account_id=partner_bank.plaid_account_id,
+            authorization_id=auth_id,
+            description=self.description[-14:],
+        )
+
+        self._create_transfer(transfer)

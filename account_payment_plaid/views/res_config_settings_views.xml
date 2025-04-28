@@ -1,56 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
-        <field name="name">res.config.settings.view.form.inherit</field>
-        <field name="model">res.config.settings</field>
-        <field name="inherit_id" ref="base.res_config_settings_view_form" />
-        <field name="arch" type="xml">
-            <xpath expr="///div[hasclass('settings')]" position="inside">
-                <div
-                    class="app_settings_block"
+        <record id="res_config_settings_view_form_inherit_plaid" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.plaid</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="90" />
+            <field name="inherit_id" ref="base.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app
                     data-string="Plaid"
+                    id="plaid_settings"
                     string="Plaid"
-                    data-key="base_plaid_connector"
+                    name="plaid"
                     groups="base.group_system"
                 >
-                    <h2>Plaid settings</h2>
-                    <div class="row mt16 o_settings_container">
-                        <div class="col-12 o_setting_box">
-                            <label for="plaid_client_id" />
-                            <field name="plaid_client_id" />
-                        </div>
-                    </div>
-                    <div class="row mt16 o_settings_container">
-                        <div class="col-12 o_setting_box">
-                            <label for="plaid_secret" />
-                            <field name="plaid_secret" />
-                        </div>
-                    </div>
-                    <div class="row mt16 o_settings_container">
-                        <div class="col-12 o_setting_box">
-                            <label for="plaid_host" />
-                            <field name="plaid_host" />
-                        </div>
-                    </div>
-                    <div class="row mt16 o_settings_container">
-                        <div class="col-12 o_setting_box">
-                            <label for="plaid_account_id" />
-                            <field name="plaid_account_id" />
-                        </div>
-                    </div>
-                    <div class="row mt16 o_settings_container">
-                        <div class="col-12 o_setting_box">
-                            <button
+                        <block title="Plaid settings" id="plaid_configuration">
+                            <setting string="Client ID">
+                                <field name="plaid_client_id" />
+                            </setting>
+                            <setting string="Secret">
+                                <field name="plaid_secret" />
+                            </setting>
+                            <setting string="Host">
+                                <field name="plaid_host" />
+                            </setting>
+                            <setting string="Account ID">
+                                <field name="plaid_account_id" />
+                            </setting>
+                            <setting>
+                                <button
                                 name="action_sync_with_plaid"
                                 type="object"
                                 class="btn btn-primary"
                                 string="Sync with Plaid.com"
-                                attrs="{'invisible': ['|', ('plaid_client_id', '=', False), ('plaid_secret', '=', False)]}"
+                                invisible="not plaid_client_id or not plaid_secret"
                             />
-                        </div>
-                    </div>
-                </div>
-            </xpath>
-        </field>
-    </record>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
 </odoo>
