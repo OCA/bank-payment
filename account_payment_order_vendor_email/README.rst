@@ -70,6 +70,7 @@ Contributors
 -  Serpent Consulting Services Pvt. Ltd. <support@serpentcs.com>
 -  Daniel Reis <dreis@opensourceintegrators.com>
 -  Nikul Chaudhary <nchaudhary@opensourceintegrators.com>
+-  Do Anh Duy <duyda@trobz.com>
 
 Maintainers
 -----------

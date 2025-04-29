@@ -13,7 +13,7 @@
                     string="Send Email"
                     type="object"
                     class="oe_highlight"
-                    states="uploaded"
+                    invisible="state != 'uploaded'"
                 />
             </button>
         </field>

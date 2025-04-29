@@ -5,39 +5,40 @@ from odoo.tests.common import TransactionCase
 
 
 class TestVendorEmail(TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
         # Company
-        self.company = self.env.ref("base.main_company")
+        cls.company = cls.env.ref("base.main_company")
 
-        self.journal_c1 = self.env["account.journal"].create(
+        cls.journal_c1 = cls.env["account.journal"].create(
             {
                 "name": "Journal 1",
                 "code": "J1",
                 "type": "bank",
-                "company_id": self.company.id,
+                "company_id": cls.company.id,
             }
         )
 
-        self.manual_out = self.env.ref("account.account_payment_method_manual_out")
+        cls.manual_out = cls.env.ref("account.account_payment_method_manual_out")
 
-        self.email_template = self.env.ref(
+        cls.email_template = cls.env.ref(
             "account_payment_order_vendor_email.ach_payment_email_template"
         )
 
-        self.partner_id = self.env.ref("base.res_partner_12")
+        cls.partner_id = cls.env.ref("base.res_partner_12")
 
-        self.payment_mode_c1 = self.env["account.payment.mode"].create(
+        cls.payment_mode_c1 = cls.env["account.payment.mode"].create(
             {
                 "name": "Direct Debit of suppliers from Bank 1",
                 "bank_account_link": "variable",
-                "payment_method_id": self.manual_out.id,
-                "company_id": self.company.id,
-                "fixed_journal_id": self.journal_c1.id,
-                "variable_journal_ids": [(6, 0, [self.journal_c1.id])],
+                "payment_method_id": cls.manual_out.id,
+                "company_id": cls.company.id,
+                "fixed_journal_id": cls.journal_c1.id,
+                "variable_journal_ids": [(6, 0, [cls.journal_c1.id])],
                 "send_email_to_partner": True,
-                "email_temp_id": self.email_template.id,
+                "email_temp_id": cls.email_template.id,
             }
         )
 

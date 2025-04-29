@@ -6,7 +6,9 @@
             name="model_id"
             ref="account_payment_order.model_account_payment_order"
         />
-        <field name="email_from"> {{ object.company_id.email or user.email }}</field>
+        <field
+            name="email_from"
+        > {{ object.company_id.email_formatted or user.email_formatted }}</field>
         <field name="email_cc" />
         <field name="subject">Remittance Advice</field>
         <field name="auto_delete" eval="True" />
@@ -54,9 +56,9 @@
                                     </td>
                                     <td valign="middle" align="right">
                                         <img
-                                            src="/logo.png?company=${object.company_id.id}"
+                                            t-attf-src="/logo.png?company={{ object.company_id.id }}"
                                             style="padding: 0px; margin: 0px; height: auto; width: 80px;"
-                                            alt="${object.company_id.name}"
+                                            t-att-alt="object.company_id.name"
                                         />
                                     </td>
                                 </tr>

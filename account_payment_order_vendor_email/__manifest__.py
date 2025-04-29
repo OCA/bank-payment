@@ -3,7 +3,7 @@
 
 {
     "name": "Account Payment Order Email",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "maintainers": ["ursais"],
