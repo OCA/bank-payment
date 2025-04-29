@@ -97,7 +97,7 @@ class PaymentOrder(models.Model):
                         )
 
     def generated2uploaded(self):
-        res = super(PaymentOrder, self).generated2uploaded()
+        res = super().generated2uploaded()
         if self.payment_mode_id.send_email_to_partner:
             self.send_vendor_email()
         return res

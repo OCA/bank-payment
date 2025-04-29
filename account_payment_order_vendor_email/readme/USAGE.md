@@ -1,4 +1,4 @@
-Add `send_email_to_partner` on Account Payment Mode records.
+Add send_email_to_partner on Account Payment Mode records.
 
 Add 'email_temp_id' on Account Payment Mode records.
 
