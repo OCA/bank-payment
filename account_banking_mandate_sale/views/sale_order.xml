@@ -14,8 +14,6 @@
                 position="after"
             >
                 <field name="mandate_id" invisible="not mandate_required" />
-                <field name="mandate_required" invisible="1" />
-                <field name="commercial_invoice_partner_id" invisible="1" />
             </xpath>
         </field>
     </record>
