@@ -423,9 +423,14 @@ class AccountPaymentOrder(models.Model):
         self.ensure_one()
         return (False, False)
 
+    def _set_payment_filename(self, filename):
+        """Hook to set payment filename once file has been generated"""
+        return filename
+
     def open2generated(self):
         self.ensure_one()
         payment_file_str, filename = self.generate_payment_file()
+        filename = self._set_payment_filename(filename)
         action = {}
         if payment_file_str and filename:
             attachment = self.env["ir.attachment"].create(
