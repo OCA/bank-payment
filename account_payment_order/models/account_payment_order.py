@@ -8,6 +8,7 @@ import base64
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools import str2bool
 
 
 class AccountPaymentOrder(models.Model):
@@ -292,6 +293,12 @@ class AccountPaymentOrder(models.Model):
             for payline in order.payment_line_ids:
                 try:
                     payline.draft2open_payment_line_check()
+                    if str2bool(
+                        self.env["ir.config_parameter"]
+                        .sudo()
+                        .get_param("account_payment_order.use_allow_out_payment")
+                    ):
+                        payline._check_bank_allows_out_payments()
                 except UserError as e:
                     payline_err_text.append(e.args[0])
                 # Compute requested payment date

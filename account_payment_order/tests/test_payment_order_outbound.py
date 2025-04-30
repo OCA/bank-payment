@@ -20,10 +20,21 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
         super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         cls.company = cls.company_data["company"]
+
+        cls.env["ir.config_parameter"].sudo().set_param(
+            "account_payment_order.use_allow_out_payment", True
+        )
         cls.env.user.company_id = cls.company.id
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "Test Partner",
+                "bank_ids": [
+                    (
+                        0,
+                        0,
+                        {"acc_number": "TEST-NUMBER", "allow_out_payment": True},
+                    )
+                ],
             }
         )
         cls.invoice_line_account = cls.env["account.account"].create(
@@ -209,11 +220,22 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         line_created_due.create_payment_lines()
         self.assertGreater(len(order.payment_line_ids), 0)
         order.draft2open()
-        self.assertEqual(order.payment_ids[0].partner_bank_id, self.partner.bank_ids)
+        self.assertEqual(order.payment_ids[0].partner_bank_id, self.partner.bank_ids[0])
         order.open2generated()
         order.generated2uploaded()
         self.assertEqual(order.move_ids[0].date, order.payment_ids[0].date)
         self.assertEqual(order.state, "uploaded")
+
+    def _line_creation(self, outbound_order):
+        vals = {
+            "order_id": outbound_order.id,
+            "partner_id": self.partner.id,
+            "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
+            "amount_currency": 200.38,
+            "move_line_id": self.invoice.invoice_line_ids[0].id,
+            "partner_bank_id": self.partner_bank.id,
+        }
+        return self.env["account.payment.line"].create(vals)
 
     def test_account_payment_line_creation_without_payment_mode(self):
         self.invoice.payment_mode_id = False
@@ -491,3 +513,47 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.assertEqual(invoice_action["res_id"], self.invoice.id)
         manual_line_action = order.payment_line_ids[1].action_open_business_doc()
         self.assertFalse(manual_line_action)
+
+    def test_check_allow_out_payment(self):
+        """Check that, in case option "Send Money" is not enabled on
+        the bank, out payments are not allowed.
+        """
+        # Open invoice
+        self.invoice.action_post()
+
+        # Do not allow out payments
+        self.partner_bank.allow_out_payment = False
+        for line in self.invoice.line_ids:
+            for bank in line.partner_id.bank_ids:
+                bank.allow_out_payment = False
+
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({}).run()
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        payment_order.write({"journal_id": self.bank_journal.id})
+        # Add to payment order using the wizard: error raised
+        with self.assertRaises(UserError):
+            payment_order.draft2open()
+
+    def test_check_allow_out_payment_from_payment_order(self):
+        """Check that, in case option "Send Money" is not enabled on
+        the bank, out payments are not allowed.
+        """
+        self.partner_bank.allow_out_payment = False
+        outbound_order = self.env["account.payment.order"].create(
+            {
+                "date_prefered": "due",
+                "payment_type": "outbound",
+                "payment_mode_id": self.mode.id,
+                "journal_id": self.bank_journal.id,
+                "description": "order with manual line",
+            }
+        )
+        payment_line_1 = self._line_creation(outbound_order)
+
+        payment_line_1.partner_bank_id = self.partner_bank.id
+
+        # Add to payment order using the wizard: error raised
+        with self.assertRaises(UserError):
+            outbound_order.draft2open()
