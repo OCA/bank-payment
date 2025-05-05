@@ -60,14 +60,17 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
         # Open invoice
         cls.invoice = cls._create_customer_invoice(cls)
         cls.invoice.action_post()
+        # Open receipt
+        cls.receipt = cls._create_customer_invoice(cls, move_type="out_receipt")
+        cls.receipt.action_post()
         # Add to payment order using the wizard
         cls.env["account.invoice.payment.line.multi"].with_context(
             active_model="account.move", active_ids=cls.invoice.ids
         ).create({}).run()
 
-    def _create_customer_invoice(self):
+    def _create_customer_invoice(self, move_type="out_invoice"):
         with Form(
-            self.env["account.move"].with_context(default_move_type="out_invoice")
+            self.env["account.move"].with_context(default_move_type=move_type)
         ) as invoice_form:
             invoice_form.partner_id = self.partner
             with invoice_form.invoice_line_ids.new() as invoice_line_form:
@@ -139,6 +142,35 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
             {"canceled"},
         )
         self.assertEqual(self.invoice.amount_residual, self.invoice.amount_total)
+        payment_order.cancel2draft()
+        payment_order.unlink()
+        self.assertEqual(len(self.payment_order_obj.search(self.domain)), 0)
+
+    def test_creation_out_receipt(self):
+        # Make sure no others orders are present
+        self.payment_order_obj.search(self.domain).unlink()
+        # Add to payment order using the wizard
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.receipt.ids
+        ).create({}).run()
+        payment_order = self.payment_order_obj.search(self.domain)
+        self.assertEqual(len(payment_order.ids), 1)
+        payment_order.write({"journal_id": self.journal.id})
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
+        self.assertFalse(payment_order.payment_ids)
+        # Open payment order
+        payment_order.draft2open()
+        self.assertEqual(payment_order.payment_count, 1)
+        # Generate and upload
+        payment_order.open2generated()
+        payment_order.generated2uploaded()
+        self.assertEqual(payment_order.state, "uploaded")
+        self.assertEqual(self.receipt.payment_state, "in_payment")
+        with self.assertRaises(UserError):
+            payment_order.unlink()
+        # Cancel order
+        payment_order.action_uploaded_cancel()
+        self.assertEqual(payment_order.state, "cancel")
         payment_order.cancel2draft()
         payment_order.unlink()
         self.assertEqual(len(self.payment_order_obj.search(self.domain)), 0)
