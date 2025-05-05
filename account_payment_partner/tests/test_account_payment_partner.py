@@ -303,6 +303,42 @@ class TestAccountPaymentPartner(BaseCommon):
             self.supplier.supplier_payment_mode_id.refund_payment_mode_id,
         )
 
+    def test_invoice_create_in_receipt(self):
+        invoice = self._create_invoice(
+            default_move_type="in_receipt", partner=self.supplier
+        )
+        invoice.action_post()
+        aml = invoice.line_ids.filtered(
+            lambda x: x.account_id.account_type == "liability_payable"
+        )
+        self.assertEqual(invoice.payment_mode_id, aml[0].payment_mode_id)
+        # Test payment mode change on aml
+        mode = self.supplier_payment_mode.copy()
+        aml.payment_mode_id = mode
+        self.assertEqual(invoice.payment_mode_id, mode)
+        # Test payment mode editability on account move
+        self.assertFalse(invoice.has_reconciled_items)
+        invoice.payment_mode_id = self.supplier_payment_mode
+        self.assertEqual(aml.payment_mode_id, self.supplier_payment_mode)
+
+    def test_invoice_create_out_receipt(self):
+        invoice = self._create_invoice(
+            default_move_type="out_receipt", partner=self.supplier
+        )
+        invoice.action_post()
+        aml = invoice.line_ids.filtered(
+            lambda x: x.account_id.account_type == "asset_receivable"
+        )
+        self.assertEqual(invoice.payment_mode_id, aml[0].payment_mode_id)
+        # Test payment mode change on aml
+        mode = self.supplier_payment_mode.copy()
+        aml.payment_mode_id = mode
+        self.assertEqual(invoice.payment_mode_id, mode)
+        # Test payment mode editability on account move
+        self.assertFalse(invoice.has_reconciled_items)
+        invoice.payment_mode_id = self.supplier_payment_mode
+        self.assertEqual(aml.payment_mode_id, self.supplier_payment_mode)
+
     def test_invoice_constrains(self):
         with self.assertRaises(UserError):
             self.move_model.create(
@@ -446,6 +482,12 @@ class TestAccountPaymentPartner(BaseCommon):
         vals = {"partner_id": self.supplier.id, "move_type": "in_refund"}
         invoice = self.move_model.new(vals)
         self.assertEqual(invoice.payment_mode_id, self.customer_payment_mode)
+        vals = {"partner_id": self.supplier.id, "move_type": "in_receipt"}
+        invoice = self.move_model.new(vals)
+        self.assertEqual(invoice.payment_mode_id, self.supplier_payment_mode)
+        vals = {"partner_id": self.customer.id, "move_type": "out_receipt"}
+        invoice = self.move_model.new(vals)
+        self.assertEqual(invoice.payment_mode_id, self.customer_payment_mode)
         vals = {"partner_id": False, "move_type": "out_invoice"}
         invoice = self.move_model.new(vals)
         self.assertFalse(invoice.payment_mode_id)
@@ -531,6 +573,28 @@ class TestAccountPaymentPartner(BaseCommon):
         self.assertEqual(out_invoice.payment_mode_filter_type_domain, "inbound")
         self.assertEqual(
             out_invoice.partner_bank_filter_type_domain, out_invoice.bank_partner_id
+        )
+        in_receipt = self.move_model.create(
+            {
+                "partner_id": self.supplier.id,
+                "move_type": "in_receipt",
+                "journal_id": self.journal_purchase.id,
+            }
+        )
+        self.assertEqual(in_receipt.payment_mode_filter_type_domain, "outbound")
+        self.assertEqual(
+            in_receipt.partner_bank_filter_type_domain, in_receipt.bank_partner_id
+        )
+        out_receipt = self.move_model.create(
+            {
+                "partner_id": self.customer.id,
+                "move_type": "out_receipt",
+                "journal_id": self.journal_sale.id,
+            }
+        )
+        self.assertEqual(out_receipt.payment_mode_filter_type_domain, "inbound")
+        self.assertEqual(
+            out_receipt.partner_bank_filter_type_domain, out_receipt.bank_partner_id
         )
 
     def test_account_move_payment_mode_id_default(self):

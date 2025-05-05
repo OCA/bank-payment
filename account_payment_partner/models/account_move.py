@@ -36,9 +36,9 @@ class AccountMove(models.Model):
     @api.depends("move_type")
     def _compute_payment_mode_filter_type_domain(self):
         for move in self:
-            if move.move_type in ("out_invoice", "in_refund"):
+            if move.move_type in ("out_invoice", "out_receipt", "in_refund"):
                 move.payment_mode_filter_type_domain = "inbound"
-            elif move.move_type in ("in_invoice", "out_refund"):
+            elif move.move_type in ("in_invoice", "in_receipt", "out_refund"):
                 move.payment_mode_filter_type_domain = "outbound"
             else:
                 move.payment_mode_filter_type_domain = False
@@ -46,9 +46,9 @@ class AccountMove(models.Model):
     @api.depends("partner_id", "move_type")
     def _compute_partner_bank_filter_type_domain(self):
         for move in self:
-            if move.move_type in ("out_invoice", "in_refund"):
+            if move.move_type in ("out_invoice", "out_receipt", "in_refund"):
                 move.partner_bank_filter_type_domain = move.bank_partner_id
-            elif move.move_type in ("in_invoice", "out_refund"):
+            elif move.move_type in ("in_invoice", "in_receipt", "out_refund"):
                 move.partner_bank_filter_type_domain = move.commercial_partner_id
             else:
                 move.partner_bank_filter_type_domain = False
@@ -60,10 +60,14 @@ class AccountMove(models.Model):
                 move.payment_mode_id = False
             if move.partner_id:
                 partner = move.with_company(move.company_id.id).partner_id
-                if move.move_type == "in_invoice" and partner.supplier_payment_mode_id:
+                if (
+                    move.move_type in ["in_invoice", "in_receipt"]
+                    and partner.supplier_payment_mode_id
+                ):
                     move.payment_mode_id = partner.supplier_payment_mode_id
                 elif (
-                    move.move_type == "out_invoice" and partner.customer_payment_mode_id
+                    move.move_type in ["out_invoice", "out_receipt"]
+                    and partner.customer_payment_mode_id
                 ):
                     move.payment_mode_id = partner.customer_payment_mode_id
                 elif (
@@ -97,13 +101,13 @@ class AccountMove(models.Model):
             payment_mode = move.payment_mode_id
             if payment_mode:
                 if (
-                    move.move_type == "in_invoice"
+                    move.move_type in ["in_invoice", "in_receipt"]
                     and payment_mode.payment_type == "outbound"
                     and not payment_mode.payment_method_id.bank_account_required
                 ):
                     move.partner_bank_id = False
                     continue
-                elif move.move_type == "out_invoice":
+                elif move.move_type in ["out_invoice", "out_receipt"]:
                     if payment_mode.payment_method_id.bank_account_required:
                         if (
                             payment_mode.bank_account_link == "fixed"

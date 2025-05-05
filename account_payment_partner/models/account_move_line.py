@@ -19,7 +19,7 @@ class AccountMoveLine(models.Model):
     @api.depends("move_id", "move_id.payment_mode_id")
     def _compute_payment_mode(self):
         for line in self:
-            if line.move_id.is_invoice() and line.account_type in (
+            if line.move_id.is_invoice(include_receipts=True) and line.account_type in (
                 "asset_receivable",
                 "liability_payable",
             ):
@@ -35,9 +35,8 @@ class AccountMoveLine(models.Model):
                     self.env["account.move"].browse(vals.get("move_id", 0))
                     or record.move_id
                 )
-                if (
-                    move.payment_mode_id.id != vals["payment_mode_id"]
-                    and move.is_invoice()
-                ):
+                if move.payment_mode_id.id != vals[
+                    "payment_mode_id"
+                ] and move.is_invoice(include_receipts=True):
                     move.payment_mode_id = vals["payment_mode_id"]
         return super().write(vals)
