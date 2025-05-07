@@ -1,8 +1,7 @@
 # Copyright (C) 2020 Open Source Integrators
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests import tagged
-from odoo.tests.common import Form
+from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -10,14 +9,12 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("-at_install", "post_install")
 class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        super().setUpClass()
         cls.company = cls.company_data["company"]
         cls.env.user.company_id = cls.company.id
-        cls.partner = cls.env["res.partner"].create(
-            {
-                "name": "Test Partner",
-            }
+        cls.env.user.groups_id |= cls.env.ref(
+            "account_payment_order.group_account_payment"
         )
         cls.inbound_mode = cls.env["account.payment.mode"].create(
             {
@@ -48,7 +45,7 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
         cls.domain = [
             ("state", "=", "draft"),
             ("payment_type", "=", "inbound"),
-            ("company_id", "=", cls.env.user.company_id.id),
+            ("company_id", "=", cls.env.company.id),
         ]
         cls.payment_order_obj = cls.env["account.payment.order"]
         cls.payment_order_obj.search(cls.domain).unlink()
@@ -61,28 +58,29 @@ class TestPaymentOrderInboundBase(AccountTestInvoicingCommon):
             }
         )
         # Open invoice
-        cls.invoice = cls._create_customer_invoice(cls)
+        cls.invoice = cls._create_customer_invoice()
         cls.invoice.action_post()
         # Add to payment order using the wizard
         cls.env["account.invoice.payment.line.multi"].with_context(
             active_model="account.move", active_ids=cls.invoice.ids
         ).create({}).run()
 
-    def _create_customer_invoice(self):
+    @classmethod
+    def _create_customer_invoice(cls):
         with Form(
-            self.env["account.move"].with_context(default_move_type="out_invoice")
+            cls.env["account.move"].with_context(default_move_type="out_invoice")
         ) as invoice_form:
-            invoice_form.partner_id = self.partner
+            invoice_form.partner_id = cls.partner_a
             with invoice_form.invoice_line_ids.new() as invoice_line_form:
-                invoice_line_form.product_id = self.env.ref("product.product_product_4")
+                invoice_line_form.product_id = cls.env.ref("product.product_product_4")
                 invoice_line_form.name = "product that cost 100"
                 invoice_line_form.quantity = 1
                 invoice_line_form.price_unit = 100.0
-                invoice_line_form.account_id = self.invoice_line_account
+                invoice_line_form.account_id = cls.invoice_line_account
                 invoice_line_form.tax_ids.clear()
         invoice = invoice_form.save()
         invoice_form = Form(invoice)
-        invoice_form.payment_mode_id = self.inbound_mode
+        invoice_form.payment_mode_id = cls.inbound_mode
         return invoice_form.save()
 
     def test_bank_methods(self):

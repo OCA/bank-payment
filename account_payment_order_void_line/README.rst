@@ -28,7 +28,9 @@ Account Payment Order Void Lines
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module is used to cancel the payment line.
+This module introduces a structured and trackable "Voided Payment Line"
+mechanism, allowing users to cancel individual account.payment.line
+entries with a clear reversal process and reason.
 
 **Table of contents**
 
@@ -64,6 +66,7 @@ Contributors
 -  Murtaza Mithaiwala <mmithaiwala@opensourceintegrators.com>
 -  Daniel Reis <dreis@opensourceintegrators.com>
 -  Urvisha Desai <udesai@opensourceintegrators.com>
+-  Do Anh Duy <duyda@trobz.com>
 
 Maintainers
 -----------

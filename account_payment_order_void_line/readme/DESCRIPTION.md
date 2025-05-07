@@ -1,1 +1,1 @@
-This module is used to cancel the payment line.
+This module introduces a structured and trackable "Voided Payment Line" mechanism, allowing users to cancel individual account.payment.line entries with a clear reversal process and reason.

@@ -13,7 +13,7 @@ class AccountPaymentLine(models.Model):
 
     def call_payment_void_wizard(self):
         return {
-            "name": ("Add a reason for cancel"),
+            "name": self.env._("Add a reason for cancel"),
             "view_mode": "form",
             "res_model": "cancel.void.payment.line",
             "view_id": False,
