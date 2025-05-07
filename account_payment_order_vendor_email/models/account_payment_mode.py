@@ -87,7 +87,7 @@ class PaymentOrder(models.Model):
                             rec.id, force_send=True
                         )
                         rec.message_post(
-                            body=_("An email is not able to send to %s vendor.")
+                            body=_("An email is sent successfully to %s vendor.")
                             % partner_name
                         )
                     else:
