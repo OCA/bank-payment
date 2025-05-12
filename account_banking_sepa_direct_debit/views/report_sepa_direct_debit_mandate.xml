@@ -43,11 +43,11 @@
                         <div class="col-12 text-right" style="font-size:8px;">
                             To be completed by the creditor
                             <t t-if="is_not_english">
-                                <span
-                                    class="native_lang"
-                                    t-esc="'(To be completed by the creditor)'"
-                                />
-                            </t>
+                            <span
+                                class="native_lang"
+                                t-esc="'(To be completed by the creditor)'"
+                            />
+                        </t>
                         </div>
                         <div class="card-body">
                             <div class="col-12">
@@ -133,38 +133,32 @@
             <div class="row mt0">
                 <div class="col-12">
                     <p>By signing this mandate form, you authorise (A) <strong
-                            t-if="doc.scheme == 'B2B'"
-                        >
-                            <span t-field="doc.company_id.name" />
-                        </strong>
+                        t-if="doc.scheme == 'B2B'"
+                    >
+                        <span t-field="doc.company_id.name" />
+                    </strong>
                        to send instructions to your bank to debit your account and (B) your bank to
                        debit your account in accordance with the instructions from <strong
-                            t-if="doc.scheme == 'B2B'"
-                        >
-                            <span t-field="doc.company_id.name" />
-                        </strong>.
+                        t-if="doc.scheme == 'B2B'"
+                    >
+                        <span t-field="doc.company_id.name" />
+                    </strong>.
                        <t t-if="is_not_english">
                            <br />
                            <span
-                                class="native_lang"
-                                t-esc="'(By signing this mandate form, you authorise (A) '"
-                            />
+                        class="native_lang"
+                        t-esc="'(By signing this mandate form, you authorise (A) '"
+                    />
                            <t t-if="doc.scheme == 'B2B'">
-                                <span
-                                    class="native_lang"
-                                    t-field="doc.company_id.name"
-                                />
-                            </t>
+                        <span class="native_lang" t-field="doc.company_id.name" />
+                    </t>
                            <span
-                                class="native_lang"
-                                t-esc="' to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from '"
-                            />
+                        class="native_lang"
+                        t-esc="' to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from '"
+                    />
                            <t t-if="doc.scheme == 'B2B'">
-                                <span
-                                    class="native_lang"
-                                    t-field="doc.company_id.name"
-                                />
-                            </t>.)
+                        <span class="native_lang" t-field="doc.company_id.name" />
+                    </t>.)
                        </t>
                     </p>
                 </div>
@@ -177,12 +171,12 @@
                         been debited, but you are entitled to request your bank
                         not to debit your account up until the day on which the payment is due.
                         <t t-if="is_not_english">
-                            <br />
-                            <span
-                                class="native_lang"
-                                t-esc="'(This mandate is only intended for business-to-business transactions. You are not entitled to a refund from your bank after your account has been debited, but you are entitled to request your bank not to debit your account up until the day on which the payment is due.)'"
-                            />
-                        </t>
+                        <br />
+                        <span
+                            class="native_lang"
+                            t-esc="'(This mandate is only intended for business-to-business transactions. You are not entitled to a refund from your bank after your account has been debited, but you are entitled to request your bank not to debit your account up until the day on which the payment is due.)'"
+                        />
+                    </t>
                     </p>
                     <p t-if="doc.scheme != 'B2B'">
                         As part of your rights, you are entitled to a refund from
@@ -190,12 +184,12 @@
                         with your bank.
                         A refund must be claimed within 8 weeks starting from the date on which your account was debited.
                         <t t-if="is_not_english">
-                            <br />
-                            <span
-                                class="native_lang"
-                                t-esc="'(As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimed within 8 weeks starting from the date on which your account was debited.)'"
-                            />
-                        </t>
+                        <br />
+                        <span
+                            class="native_lang"
+                            t-esc="'(As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimed within 8 weeks starting from the date on which your account was debited.)'"
+                        />
+                    </t>
                     </p>
                 </div>
             </div>
@@ -205,11 +199,11 @@
                         <div class="col-12 text-right" style="font-size:8px;">
                             To be completed by the debtor
                             <t t-if="is_not_english">
-                                <span
-                                    class="native_lang"
-                                    t-esc="'(To be completed by the debtor)'"
-                                />
-                            </t>
+                            <span
+                                class="native_lang"
+                                t-esc="'(To be completed by the debtor)'"
+                            />
+                        </t>
                         </div>
                         <div class="card-body">
                             <div class="col-12">
@@ -297,29 +291,29 @@
                             </div>
                             <div class="col-10 offset-2 mt4">
                                 <input
-                                    type="checkbox"
-                                    t-att-checked="doc.type=='recurrent' or None"
-                                >
+                                type="checkbox"
+                                t-att-checked="doc.type=='recurrent' or None"
+                            >
                                     Recurrent
                                     <t t-if="is_not_english">
-                                        <span
-                                            class="native_lang native_lang_small"
-                                            t-esc="'(Recurrent)'"
-                                        />
-                                    </t>
+                                <span
+                                    class="native_lang native_lang_small"
+                                    t-esc="'(Recurrent)'"
+                                />
+                            </t>
                                 </input>
                                 -
                                 <input
-                                    type="checkbox"
-                                    t-att-checked="doc.type=='oneoff' or None"
-                                >
+                                type="checkbox"
+                                t-att-checked="doc.type=='oneoff' or None"
+                            >
                                     One-Off
                                     <t t-if="is_not_english">
-                                        <span
-                                            class="native_lang native_lang_small"
-                                            t-esc="'(One-Off)'"
-                                        />
-                                    </t>
+                                <span
+                                    class="native_lang native_lang_small"
+                                    t-esc="'(One-Off)'"
+                                />
+                            </t>
                                 </input>
                             </div>
                             <div class="col-12">
@@ -351,24 +345,24 @@
                     <p t-if="doc.scheme != 'B2B'">
                         ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.
                         <t t-if="is_not_english">
-                            <br />
-                            <span
-                                class="native_lang"
-                                t-esc="'(ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.)'"
-                            />
-                        </t>
+                        <br />
+                        <span
+                            class="native_lang"
+                            t-esc="'(ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.)'"
+                        />
+                    </t>
                     </p>
                     <p t-if="doc.scheme == 'B2B'">
                         ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.
                         NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT.
                         THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK.
                         <t t-if="is_not_english">
-                            <br />
-                            <span
-                                class="native_lang"
-                                t-esc="'(ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE. NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT. THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK.)'"
-                            />
-                        </t>
+                        <br />
+                        <span
+                            class="native_lang"
+                            t-esc="'(ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE. NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT. THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK.)'"
+                        />
+                    </t>
                     </p>
                 </div>
             </div>
