@@ -37,7 +37,6 @@
             <field name="type" position="attributes">
                 <attribute name="required">format == 'sepa'</attribute>
             </field>
-
         </field>
     </record>
     <record id="view_mandate_tree" model="ir.ui.view">
@@ -68,7 +67,6 @@
             <field name="format" position="attributes">
                 <attribute name="decoration-success">format == 'sepa'</attribute>
             </field>
-
         </field>
     </record>
     <record id="view_mandate_search" model="ir.ui.view">
