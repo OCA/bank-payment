@@ -288,7 +288,7 @@ class AccountPaymentOrder(models.Model):
             xml_root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
         logger.debug(
-            "Generated SEPA XML file in format %s below" % gen_args["pain_flavor"]
+            f"Generated SEPA XML file in format {gen_args['pain_flavor']} below"
         )
         logger.debug(xml_string)
         self._validate_xml(xml_string, gen_args)
@@ -301,7 +301,7 @@ class AccountPaymentOrder(models.Model):
         pain_flavor = self.payment_mode_id.payment_method_id.pain_version
         nsmap = {
             "xsi": "http://www.w3.org/2001/XMLSchema-instance",
-            None: "urn:iso:std:iso:20022:tech:xsd:%s" % pain_flavor,
+            None: f"urn:iso:std:iso:20022:tech:xsd:{pain_flavor}",
         }
         return nsmap
 
@@ -473,7 +473,7 @@ class AccountPaymentOrder(models.Model):
         bank_line argument"""
         assert order in ("B", "C"), "Order can be 'B' or 'C'"
         if partner_bank.bank_bic:
-            party_agent = etree.SubElement(parent_node, "%sAgt" % party_type)
+            party_agent = etree.SubElement(parent_node, f"{party_type}Agt")
             party_agent_institution = etree.SubElement(party_agent, "FinInstnId")
             party_agent_bic = etree.SubElement(
                 party_agent_institution, gen_args.get("bic_xml_tag")
@@ -481,7 +481,7 @@ class AccountPaymentOrder(models.Model):
             party_agent_bic.text = partner_bank.bank_bic
         else:
             if order == "B" or (order == "C" and gen_args["payment_method"] == "DD"):
-                party_agent = etree.SubElement(parent_node, "%sAgt" % party_type)
+                party_agent = etree.SubElement(parent_node, f"{party_type}Agt")
                 party_agent_institution = etree.SubElement(party_agent, "FinInstnId")
                 party_agent_other = etree.SubElement(party_agent_institution, "Othr")
                 party_agent_other_identification = etree.SubElement(
@@ -506,7 +506,7 @@ class AccountPaymentOrder(models.Model):
     def generate_party_acc_number(
         self, parent_node, party_type, order, partner_bank, gen_args, bank_line=None
     ):
-        party_account = etree.SubElement(parent_node, "%sAcct" % party_type)
+        party_account = etree.SubElement(parent_node, f"{party_type}Acct")
         party_account_id = etree.SubElement(party_account, "Id")
         if partner_bank.acc_type == "iban":
             party_account_iban = etree.SubElement(party_account_id, "IBAN")
