@@ -25,7 +25,7 @@ class TestSDDBase(TransactionCase):
                 "name": "Test Payable Account Company B",
                 "account_type": "liability_payable",
                 "reconcile": True,
-                "company_id": cls.company_B.id,
+                "company_ids": cls.company_B,
             }
         )
         cls.account_receivable_company_B = cls.env["account.account"].create(
@@ -34,7 +34,7 @@ class TestSDDBase(TransactionCase):
                 "name": "Test Receivable Account Company B",
                 "account_type": "asset_receivable",
                 "reconcile": True,
-                "company_id": cls.company_B.id,
+                "company_ids": cls.company_B,
             }
         )
         cls.company = cls.env["res.company"]
@@ -211,7 +211,7 @@ class TestSDDBase(TransactionCase):
                 "code": "NC1112",
                 "name": "Sale - Test Account Company B",
                 "account_type": "expense_direct_cost",
-                "company_id": cls.company_B.id,
+                "company_ids": [(6, 0, [cls.company_B.id])],
             }
         )
         cls.account_expense_company_B = cls.env["account.account"].create(
@@ -219,7 +219,7 @@ class TestSDDBase(TransactionCase):
                 "code": "NC1113",
                 "name": "HR Expense - Test Purchase Account Company B",
                 "account_type": "expense",
-                "company_id": cls.company_B.id,
+                "company_ids": [(6, 0, [cls.company_B.id])],
             }
         )
         cls.account_revenue_company_B = cls.env["account.account"].create(
@@ -228,7 +228,7 @@ class TestSDDBase(TransactionCase):
                 "name": "Sales - Test Sales Account Company B",
                 "account_type": "expense_direct_cost",
                 "reconcile": True,
-                "company_id": cls.company_B.id,
+                "company_ids": [(6, 0, [cls.company_B.id])],
             }
         )
 

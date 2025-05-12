@@ -61,7 +61,10 @@ class AccountBankingMandate(models.Model):
     def _compute_display_name2(self):
         for mandate in self:
             if mandate.format == "sepa":
-                mandate.display_name = f"{mandate.unique_mandate_reference} ({mandate.recurrent_sequence_type})"
+                mandate.display_name = (
+                    f"{mandate.unique_mandate_reference} "
+                    f"({mandate.recurrent_sequence_type})"
+                )
             else:
                 mandate.display_name = mandate.unique_mandate_reference
 

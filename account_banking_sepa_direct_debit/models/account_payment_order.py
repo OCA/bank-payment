@@ -189,7 +189,7 @@ class AccountPaymentOrder(models.Model):
                 instructed_amount = etree.SubElement(
                     dd_transaction_info, "InstdAmt", Ccy=currency_name
                 )
-                instructed_amount.text = "%.2f" % line.amount
+                instructed_amount.text = f"{line.amount:.2f}"
                 amount_control_sum_a += line.amount
                 amount_control_sum_b += line.amount
                 dd_transaction = etree.SubElement(dd_transaction_info, "DrctDbtTx")
@@ -258,9 +258,9 @@ class AccountPaymentOrder(models.Model):
                 self.generate_remittance_info_block(dd_transaction_info, line, gen_args)
 
             nb_of_transactions_b.text = str(transactions_count_b)
-            control_sum_b.text = "%.2f" % amount_control_sum_b
+            control_sum_b.text = f"{amount_control_sum_b:.2f}"
         nb_of_transactions_a.text = str(transactions_count_a)
-        control_sum_a.text = "%.2f" % amount_control_sum_a
+        control_sum_a.text = f"{amount_control_sum_a:.2f}"
 
         return self.finalize_sepa_file_creation(xml_root, gen_args)
 
