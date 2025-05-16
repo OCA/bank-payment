@@ -1,11 +1,12 @@
 # Copyright 2018 Camptocamp SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests import Form
+from odoo.tests import Form, tagged
 
 from .common import CommonTestCase
 
 
+@tagged("post_install", "-at_install")
 class TestSaleOrder(CommonTestCase):
     @classmethod
     def setUpClass(cls):
