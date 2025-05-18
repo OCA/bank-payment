@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
@@ -7,21 +6,14 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="account.res_config_settings_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//div[@id='analytic']" position="after">
-                <h2>Payment Orders</h2>
-                <div class="row mt16 o_settings_container" id="allow_out_payment_order">
-                    <div class="col-12 col-lg-6 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="use_allow_out_payment" />
-                        </div>
-                        <div class="o_setting_right_pane">
-                            <label for="use_allow_out_payment" />
-                            <div class="text-muted">
-                                If checked, we will check that the account on payment order can be used for out payments
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <xpath expr="//block[@id='analytic']" position="after">
+                <block id="payment_orders" title="Payment Orders">
+                    <setting id="allow_out_payment_order"
+                             title="Use allow out payment on partner bank"
+                             help="If checked, we will check that the account on payment order can be used for out payments">
+                        <field name="use_allow_out_payment"/>
+                    </setting>
+                </block>
             </xpath>
         </field>
     </record>
