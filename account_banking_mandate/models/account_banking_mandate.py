@@ -19,6 +19,7 @@ class AccountBankingMandate(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "signature_date desc"
     _check_company_auto = True
+    _rec_names_search = ["unique_mandate_reference", "partner_bank_id.acc_number"]
 
     def _get_default_partner_bank_id_domain(self):
         if "default_partner_id" in self.env.context:
