@@ -300,6 +300,11 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_id
+msgid "Mandate"
+msgstr ""
+
+#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
 msgid "Mandate Format"
 msgstr ""
@@ -435,6 +440,11 @@ msgstr ""
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.views_mandate_form_buttons
 msgid "Payment lines"
+msgstr ""
+
+#. module: account_banking_mandate
+#: model:ir.model,name:account_banking_mandate.model_account_payment
+msgid "Payments"
 msgstr ""
 
 #. module: account_banking_mandate
