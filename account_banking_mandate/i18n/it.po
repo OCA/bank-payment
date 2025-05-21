@@ -47,7 +47,6 @@ msgstr "Azione richiesta"
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_bank_statement_line__mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_move__mandate_required
-#: model:ir.model.fields,help:account_banking_mandate.field_account_payment__mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line__mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method__mandate_required
 msgid ""
@@ -142,7 +141,6 @@ msgstr "Annullato"
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
@@ -153,7 +151,6 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
 msgstr "Non si può validare il mandato '%s' senza una data di firma."
 
@@ -195,7 +192,6 @@ msgstr "Data dell'ultimo addebito"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_bank_statement_line__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_id
 msgid "Direct Debit Mandate"
 msgstr "Mandato addebito diretto"
@@ -289,6 +285,7 @@ msgstr "Se selezionata, nuovi messaggi richiedono attenzione."
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error
+#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Se selezionata, alcuni messaggi hanno un errore di consegna."
 
@@ -318,6 +315,11 @@ msgid "Last Updated on"
 msgstr "Ultimo aggiornamento il"
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_id
+msgid "Mandate"
+msgstr "Mandato"
+
+#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
 msgid "Mandate Format"
 msgstr "Formato del mandato"
@@ -325,7 +327,6 @@ msgstr "Formato del mandato"
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_bank_statement_line__mandate_required
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_required
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_required
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_required
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__mandate_required
 msgid "Mandate Required"
@@ -334,21 +335,18 @@ msgstr "Mandato richiesto"
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid "Mandate should be in cancel state."
 msgstr "Il mandato dovrebbe essere in stato cancellato."
 
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr "Il mandato dovrebbe essere in stato bozza o valido."
 
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid "Mandate should be in draft state."
 msgstr "Il mandato dovrebbe essere in stato bozza."
 
@@ -375,7 +373,6 @@ msgstr "Messaggi"
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
-#, python-format
 msgid "Missing Mandate on payment line %s"
 msgstr "Manca il mandato sulla riga del pagamento %s"
 
@@ -459,9 +456,13 @@ msgstr "Metodi di pagamento"
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.views_mandate_form_buttons
-#, python-format
 msgid "Payment lines"
 msgstr "Righe di pagamento"
+
+#. module: account_banking_mandate
+#: model:ir.model,name:account_banking_mandate.model_account_payment
+msgid "Payments"
+msgstr ""
 
 #. module: account_banking_mandate
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_tree
@@ -482,6 +483,11 @@ msgstr "Righe di pagamento collegate"
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_user_id
 msgid "Responsible User"
 msgstr "Utente responsabile"
+
+#. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Errore consegna SMS"
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__scan
@@ -525,14 +531,12 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
 msgstr "La data di firma del mandato '%s' è nel futuro!"
 
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
@@ -543,7 +547,6 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
-#, python-format
 msgid ""
 "The payment line number {line_number} a different company than that of the "
 "linked mandate {mandate})."
@@ -554,7 +557,6 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
-#, python-format
 msgid ""
 "The payment line number {line_number} has the bank account  "
 "'{line_bank_account}' which is not attached to the mandate "
@@ -611,7 +613,6 @@ msgstr "Cronologia comunicazioni sito web"
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/res_partner_bank.py:0
-#, python-format
 msgid ""
 "You cannot change the company of Partner Bank %s, as there exists mandates "
 "referencing it that belong to another company."
@@ -634,17 +635,11 @@ msgstr ""
 #~ msgid "Main Attachment"
 #~ msgstr "Allegato principale"
 
-#~ msgid "SMS Delivery error"
-#~ msgstr "Errore consegna SMS"
-
 #~ msgid "Bank Payment Lines"
 #~ msgstr "Righe di pagamento bancario"
 
 #~ msgid "Followers (Channels)"
 #~ msgstr "Seguito da (canali)"
-
-#~ msgid "Mandate"
-#~ msgstr "Mandato"
 
 #~ msgid "Number of messages which requires an action"
 #~ msgstr "Numero di messaggi che richiedono un'azione"

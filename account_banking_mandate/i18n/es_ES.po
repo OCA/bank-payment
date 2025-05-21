@@ -44,7 +44,6 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_bank_statement_line__mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_move__mandate_required
-#: model:ir.model.fields,help:account_banking_mandate.field_account_payment__mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_line__mandate_required
 #: model:ir.model.fields,help:account_banking_mandate.field_account_payment_method__mandate_required
 msgid ""
@@ -135,7 +134,6 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid ""
 "Cannot validate the mandate '%s' because it is not attached to a bank "
 "account."
@@ -144,7 +142,6 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid "Cannot validate the mandate '%s' without a date of signature."
 msgstr ""
 
@@ -186,7 +183,6 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_bank_statement_line__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_id
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_id
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_id
 msgid "Direct Debit Mandate"
 msgstr ""
@@ -280,6 +276,7 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error
+#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -309,6 +306,11 @@ msgid "Last Updated on"
 msgstr "Última actualización en"
 
 #. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_id
+msgid "Mandate"
+msgstr ""
+
+#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__format
 msgid "Mandate Format"
 msgstr ""
@@ -316,7 +318,6 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_bank_statement_line__mandate_required
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__mandate_required
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__mandate_required
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__mandate_required
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__mandate_required
 msgid "Mandate Required"
@@ -325,21 +326,18 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid "Mandate should be in cancel state."
 msgstr ""
 
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid "Mandate should be in draft or valid state."
 msgstr ""
 
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid "Mandate should be in draft state."
 msgstr ""
 
@@ -366,7 +364,6 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
-#, python-format
 msgid "Missing Mandate on payment line %s"
 msgstr ""
 
@@ -448,8 +445,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
 #: model_terms:ir.ui.view,arch_db:account_banking_mandate.views_mandate_form_buttons
-#, python-format
 msgid "Payment lines"
+msgstr ""
+
+#. module: account_banking_mandate
+#: model:ir.model,name:account_banking_mandate.model_account_payment
+msgid "Payments"
 msgstr ""
 
 #. module: account_banking_mandate
@@ -470,6 +471,11 @@ msgstr ""
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: account_banking_mandate
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
+msgid "SMS Delivery error"
 msgstr ""
 
 #. module: account_banking_mandate
@@ -510,14 +516,12 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid "The date of signature of mandate '%s' is in the future!"
 msgstr ""
 
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
-#, python-format
 msgid ""
 "The mandate '%s' can't have a date of last debit before the date of "
 "signature."
@@ -526,7 +530,6 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
-#, python-format
 msgid ""
 "The payment line number {line_number} a different company than that of the "
 "linked mandate {mandate})."
@@ -535,7 +538,6 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
-#, python-format
 msgid ""
 "The payment line number {line_number} has the bank account  "
 "'{line_bank_account}' which is not attached to the mandate "
@@ -589,7 +591,6 @@ msgstr ""
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/res_partner_bank.py:0
-#, python-format
 msgid ""
 "You cannot change the company of Partner Bank %s, as there exists mandates "
 "referencing it that belong to another company."
