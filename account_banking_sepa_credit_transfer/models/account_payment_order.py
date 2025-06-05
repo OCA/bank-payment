@@ -143,7 +143,7 @@ class AccountPaymentOrder(models.Model):
                 )
                 instruction_identification.text = self._prepare_field(
                     "Instruction Identification",
-                    "str(line.move_id.id)",
+                    "str(line.id)",
                     {"line": line},
                     35,
                     gen_args=gen_args,
@@ -153,7 +153,7 @@ class AccountPaymentOrder(models.Model):
                 )
                 end2end_identification.text = self._prepare_field(
                     "End to End Identification",
-                    "str(line.move_id.id)",
+                    "str(line.id)",
                     {"line": line},
                     35,
                     gen_args=gen_args,
@@ -169,7 +169,7 @@ class AccountPaymentOrder(models.Model):
                 instructed_amount = etree.SubElement(
                     amount, "InstdAmt", Ccy=currency_name
                 )
-                instructed_amount.text = "%.2f" % line.amount
+                instructed_amount.text = f"{line.amount:.2f}"
                 amount_control_sum_a += line.amount
                 amount_control_sum_b += line.amount
                 if not line.partner_bank_id:
@@ -197,11 +197,11 @@ class AccountPaymentOrder(models.Model):
                 )
             if not pain_flavor.startswith("pain.001.001.02"):
                 nb_of_transactions_b.text = str(transactions_count_b)
-                control_sum_b.text = "%.2f" % amount_control_sum_b
+                control_sum_b.text = f"{amount_control_sum_b:.2f}"
         if not pain_flavor.startswith("pain.001.001.02"):
             nb_of_transactions_a.text = str(transactions_count_a)
-            control_sum_a.text = "%.2f" % amount_control_sum_a
+            control_sum_a.text = f"{amount_control_sum_a:.2f}"
         else:
             nb_of_transactions_a.text = str(transactions_count_a)
-            control_sum_a.text = "%.2f" % amount_control_sum_a
+            control_sum_a.text = f"{amount_control_sum_a:.2f}"
         return self.finalize_sepa_file_creation(xml_root, gen_args)

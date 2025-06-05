@@ -8,17 +8,21 @@ import time
 
 from lxml import etree
 
+from odoo import Command
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
 
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestSCT(TransactionCase):
+@tagged("-at_install", "post_install")
+class TestSCT(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
+        cls.env.user.groups_id += cls.env.ref(
+            "account_payment_order.group_account_payment"
+        )
         cls.account_model = cls.env["account.account"]
         cls.move_model = cls.env["account.move"]
         cls.journal_model = cls.env["account.journal"]
@@ -35,53 +39,17 @@ class TestSCT(TransactionCase):
         cls.eur_currency.active = True
         cls.usd_currency = cls.env.ref("base.USD")
         cls.usd_currency.active = True
-        cls.main_company = cls.env["res.company"].create(
-            {"name": "Test EUR company", "currency_id": cls.eur_currency.id}
-        )
+        cls.main_company = cls.env.company
         cls.partner_agrolait.company_id = cls.main_company.id
         cls.partner_asus.company_id = cls.main_company.id
         cls.partner_c2c.company_id = cls.main_company.id
-        cls.env.user.write(
-            {
-                "company_ids": [(6, 0, cls.main_company.ids)],
-                "company_id": cls.main_company.id,
-            }
-        )
-        cls.account_expense = cls.account_model.create(
-            {
-                "account_type": "expense",
-                "company_id": cls.main_company.id,
-                "name": "Test expense",
-                "code": "TE.1",
-            }
-        )
-        cls.account_payable = cls.account_model.create(
-            {
-                "account_type": "liability_payable",
-                "company_id": cls.main_company.id,
-                "name": "Test payable",
-                "code": "TP.1",
-            }
-        )
+        cls.account_expense = cls.company_data["default_account_expense"]
+        cls.account_payable = cls.company_data["default_account_payable"]
         (cls.partner_asus + cls.partner_c2c + cls.partner_agrolait).with_company(
             cls.main_company.id
         ).write({"property_account_payable_id": cls.account_payable.id})
-        cls.general_journal = cls.journal_model.create(
-            {
-                "name": "General journal",
-                "type": "general",
-                "code": "GEN",
-                "company_id": cls.main_company.id,
-            }
-        )
-        cls.purchase_journal = cls.journal_model.create(
-            {
-                "name": "Purchase journal",
-                "type": "purchase",
-                "code": "PUR",
-                "company_id": cls.main_company.id,
-            }
-        )
+        cls.general_journal = cls.company_data["default_journal_misc"]
+        cls.purchase_journal = cls.company_data["default_journal_purchase"]
         cls.bank = cls.env["res.bank"].create(
             {
                 "name": "La Banque Postale",
@@ -142,23 +110,20 @@ class TestSCT(TransactionCase):
                 "partner_id": cls.partner_2.id,
             }
         )
-        cls.bank_journal = cls.journal_model.create(
+        cls.bank_journal = cls.company_data["default_journal_bank"]
+        cls.bank_journal.write(
             {
-                "name": "Company Bank journal",
-                "type": "bank",
-                "code": "BNKFB",
                 "bank_account_id": cls.partner_bank.id,
                 "bank_id": cls.partner_bank.bank_id.id,
-                "company_id": cls.main_company.id,
                 "outbound_payment_method_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "payment_method_id": cls.env.ref(
                                 "account_banking_sepa_credit_transfer.sepa_credit_transfer"
                             ).id,
-                            "payment_account_id": cls.account_expense.id,
+                            "payment_account_id": cls.env["account.chart.template"]
+                            .ref("account_journal_payment_credit_account_id")
+                            .id,
                         },
                     )
                 ],
