@@ -109,6 +109,7 @@ class AccountBankingMandate(models.Model):
                 "|",
                 ("last_debit_date", "=", False),
                 ("last_debit_date", "<=", expire_limit_date),
+                ("format", "=", "sepa"),
                 ("state", "=", "valid"),
                 ("signature_date", "<=", expire_limit_date),
             ]
