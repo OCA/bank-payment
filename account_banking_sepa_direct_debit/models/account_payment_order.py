@@ -164,7 +164,7 @@ class AccountPaymentOrder(models.Model):
                 )
                 instruction_identification.text = self._prepare_field(
                     "Instruction Identification",
-                    "str(line.move_id.id)",
+                    "str(line.id)",
                     {"line": line},
                     35,
                     gen_args=gen_args,
@@ -174,7 +174,7 @@ class AccountPaymentOrder(models.Model):
                 )
                 end2end_identification.text = self._prepare_field(
                     "End to End Identification",
-                    "str(line.move_id.id)",
+                    "str(line.id)",
                     {"line": line},
                     35,
                     gen_args=gen_args,
