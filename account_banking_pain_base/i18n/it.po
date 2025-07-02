@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-10-15 10:06+0000\n"
+"PO-Revision-Date: 2025-07-02 12:25+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: account_banking_pain_base
 #: model:ir.model.constraint,message:account_banking_pain_base.constraint_account_payment_method_code_payment_type_unique
@@ -560,7 +560,7 @@ msgstr "Strumento locale"
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ltcf
 msgid "Long Term Care Facility"
-msgstr "Sercizio di assistenza a lungo termine"
+msgstr "Servizio di assistenza a lungo termine"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__mdcs
@@ -996,7 +996,7 @@ msgid ""
 msgstr ""
 "Questo verrà utilizzato come 'Nome schema parte promotrice' nel file PAIN "
 "generato da Odoo. Questo valore è definito dall'istituzione finanziaria che "
-"elaborerà il file. Se nondefinito, non verrà utilizzato uno schema.\n"
+"elaborerà il file. Se non definito, non verrà utilizzato uno schema.\n"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__trad
