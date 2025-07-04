@@ -46,7 +46,7 @@ class TestPainBase(BaseCommon):
             {
                 "name": "Test Company",
                 "country_id": cls.env.ref("base.be").id,
-                "vat": "BE0123456789",
+                "vat": "BE0477472701",
             }
         )
 
@@ -103,7 +103,7 @@ class TestPainBase(BaseCommon):
     def test_default_initiating_party(self):
         self.company._default_initiating_party()
         self.assertEqual(self.company.initiating_party_issuer, "KBO-BCE")
-        self.assertEqual(self.company.initiating_party_identifier, "0123456789")
+        self.assertEqual(self.company.initiating_party_identifier, "0477472701")
 
     def test_except_messages_prepare_field(self):
         partner_bank = self.env["res.partner.bank"].create(
