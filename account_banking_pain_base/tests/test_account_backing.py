@@ -109,7 +109,7 @@ class TestPainBase(BaseCommon):
         partner_bank = self.env["res.partner.bank"].create(
             {
                 "partner_id": self.partner.id,
-                "acc_number": "ES12345678901234567890",
+                "acc_number": "ES1299999999509999999999",
             }
         )
         payment_line = self.env["account.payment.line"].create(
