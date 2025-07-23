@@ -32,8 +32,20 @@ class AccountPaymentLineCreate(models.TransientModel):
         string="Type of Date Filter",
         required=True,
     )
+    due_on = fields.Selection(
+        string="Due on",
+        selection=[("<=", "Before or equal"), ("=", "Equal"), ("between", "Between")],
+        default="<=",
+        required=True,
+    )
     due_date = fields.Date()
+    due_date_end = fields.Date(
+        help="For 'Due on' 'Between', date between 'Due Date' and 'Due Date End'",
+    )
     move_date = fields.Date(default=fields.Date.context_today)
+    move_date_end = fields.Date(
+        help="For 'Due on' 'Between', date between 'Move Date' and 'Move Date End'",
+    )
     payment_mode = fields.Selection(
         selection=[("same", "Same"), ("same_or_null", "Same or Empty"), ("any", "Any")],
     )
@@ -68,8 +80,11 @@ class AccountPaymentLineCreate(models.TransientModel):
 
     @api.depends(
         "date_type",
+        "due_on",
         "move_date",
+        "move_date_end",
         "due_date",
+        "due_date_end",
         "journal_ids",
         "invoice",
         "target_move",
@@ -91,13 +106,27 @@ class AccountPaymentLineCreate(models.TransientModel):
         else:
             domain += [("move_id.state", "in", ("draft", "posted"))]
         if self.date_type == "due":
-            domain += [
-                "|",
-                ("date_maturity", "<=", fields.Date.to_string(self.due_date)),
-                ("date_maturity", "=", False),
-            ]
+            if self.due_on == "between":
+                domain += [
+                    "&",
+                    ("date_maturity", ">=", self.due_date),
+                    ("date_maturity", "<=", self.due_date_end),
+                ]
+            else:
+                domain += [
+                    "|",
+                    ("date_maturity", self.due_on, self.due_date),
+                    ("date_maturity", "=", False),
+                ]
         elif self.date_type == "move":
-            domain.append(("date", "<=", fields.Date.to_string(self.move_date)))
+            if self.due_on == "between":
+                domain += [
+                    "&",
+                    ("date", ">=", self.move_date),
+                    ("date", "<=", self.move_date_end),
+                ]
+            else:
+                domain.append(("date", self.due_on, self.move_date))
         if self.invoice:
             domain.append(
                 (
