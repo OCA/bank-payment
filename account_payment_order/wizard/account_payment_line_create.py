@@ -38,13 +38,9 @@ class AccountPaymentLineCreate(models.TransientModel):
         default="<=",
         required=True,
     )
-    due_date = fields.Date()
-    due_date_end = fields.Date(
-        help="For 'Due on' 'Between', date between 'Due Date' and 'Due Date End'",
-    )
-    move_date = fields.Date(default=fields.Date.context_today)
-    move_date_end = fields.Date(
-        help="For 'Due on' 'Between', date between 'Move Date' and 'Move Date End'",
+    filter_date = fields.Date(default=fields.Date.context_today)
+    filter_date_end = fields.Date(
+        help="For 'Due on' 'Between', date between 'Filter Date' and 'Filter Date End'",
     )
     payment_mode = fields.Selection(
         selection=[("same", "Same"), ("same_or_null", "Same or Empty"), ("any", "Any")],
@@ -81,10 +77,8 @@ class AccountPaymentLineCreate(models.TransientModel):
     @api.depends(
         "date_type",
         "due_on",
-        "move_date",
-        "move_date_end",
-        "due_date",
-        "due_date_end",
+        "filter_date",
+        "filter_date_end",
         "journal_ids",
         "invoice",
         "target_move",
@@ -109,24 +103,24 @@ class AccountPaymentLineCreate(models.TransientModel):
             if self.due_on == "between":
                 domain += [
                     "&",
-                    ("date_maturity", ">=", self.due_date),
-                    ("date_maturity", "<=", self.due_date_end),
+                    ("date_maturity", ">=", self.filter_date),
+                    ("date_maturity", "<=", self.filter_date_end),
                 ]
             else:
                 domain += [
                     "|",
-                    ("date_maturity", self.due_on, self.due_date),
+                    ("date_maturity", self.due_on, self.filter_date),
                     ("date_maturity", "=", False),
                 ]
         elif self.date_type == "move":
             if self.due_on == "between":
                 domain += [
                     "&",
-                    ("date", ">=", self.move_date),
-                    ("date", "<=", self.move_date_end),
+                    ("date", ">=", self.filter_date),
+                    ("date", "<=", self.filter_date_end),
                 ]
             else:
-                domain.append(("date", self.due_on, self.move_date))
+                domain.append(("date", self.due_on, self.filter_date))
         if self.invoice:
             domain.append(
                 (

@@ -185,7 +185,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             self.env["account.payment.line.create"]
             .with_context(active_model="account.payment.order", active_id=order.id)
             .create(
-                {"date_type": "move", "move_date": datetime.now() + timedelta(days=1)}
+                {"date_type": "move", "filter_date": datetime.now() + timedelta(days=1)}
             )
         )
         line_create.payment_mode = "any"
@@ -195,7 +195,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             self.env["account.payment.line.create"]
             .with_context(active_model="account.payment.order", active_id=order.id)
             .create(
-                {"date_type": "due", "due_date": datetime.now() + timedelta(days=1)}
+                {"date_type": "due", "filter_date": datetime.now() + timedelta(days=1)}
             )
         )
         line_created_due.populate()

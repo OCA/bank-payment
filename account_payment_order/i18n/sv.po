@@ -232,6 +232,16 @@ msgid ""
 msgstr "Typ av bankkonto: Normal eller IBAN. Härleds från bankkontonumret."
 
 #. module: account_payment_order
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__due_on__<=
+msgid "Before or equal"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__due_on__between
+msgid "Between"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__cancel
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_invoice_payment_line_multi_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_create_form
@@ -397,12 +407,21 @@ msgstr "Förfallodag"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__ml_maturity_date
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__due_date
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__date_type__due
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_prefered__due
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__date_prefered__due
 msgid "Due Date"
 msgstr "Förfallodag"
+
+#. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__due_on
+msgid "Due on"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__due_on__=
+msgid "Equal"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__generated
@@ -434,6 +453,16 @@ msgid "File Uploaded"
 msgstr "Fil uppladdad"
 
 #. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__filter_date
+msgid "Filter Date"
+msgstr ""
+
+#. module: account_payment_order
+#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__filter_date_end
+msgid "Filter Date End"
+msgstr ""
+
+#. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_prefered__fixed
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__date_prefered__fixed
 msgid "Fixed Date"
@@ -453,6 +482,12 @@ msgstr "Följare (Partners)"
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Font awesome-ikon, t.ex. fa-tasks"
+
+#. module: account_payment_order
+#: model:ir.model.fields,help:account_payment_order.field_account_payment_line_create__filter_date_end
+msgid ""
+"For 'Due on' 'Between', date between 'Filter Date' and 'Filter Date End'"
+msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_account_link
@@ -698,7 +733,6 @@ msgid "Move"
 msgstr "Flytta"
 
 #. module: account_payment_order
-#: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__move_date
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__date_type__move
 msgid "Move Date"
 msgstr "Datum för flytt"
