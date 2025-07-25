@@ -9,20 +9,16 @@ class TestAccountPaymentModeDefaultAccount(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        chart_template = cls.env.company.chart_template_id
-        chart_template.try_loading(company=cls.env.company)
-        receivable_code = chart_template["property_account_receivable_id"].code
         cls.receivable_account = cls.env["account.account"].search(
             [
-                ("company_id", "=", cls.env.company.id),
+                ("company_ids", "in", cls.env.company.id),
                 ("account_type", "=", "asset_receivable"),
-                ("code", "=like", receivable_code + "%"),
             ],
             limit=1,
         )
         cls.payable_account = cls.env["account.account"].search(
             [
-                ("company_id", "=", cls.env.company.id),
+                ("company_ids", "in", cls.env.company.id),
                 ("account_type", "=", "liability_payable"),
             ],
             limit=1,
@@ -34,6 +30,8 @@ class TestAccountPaymentModeDefaultAccount(TransactionCase):
             {"code": cls.payable_account.code + "2"}
         )
         cls.partner_1 = cls.env.ref("base.res_partner_1")
+        cls.partner_1.property_account_receivable_id = cls.receivable_account
+        cls.partner_1.property_account_payable_id = cls.payable_account
 
         cls.payment_mode = cls.env.ref("account_payment_mode.payment_mode_inbound_dd1")
         cls.payment_mode.write(

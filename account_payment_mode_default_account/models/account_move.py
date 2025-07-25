@@ -24,9 +24,11 @@ class AccountMove(models.Model):
             _partner_property_account_payment_mode=payment_mode_id
         )
         if self.is_sale_document(include_receipts=True):
-            payment_term_lines.account_id = partner.property_account_receivable_id
+            new_account = partner.property_account_receivable_id
         else:
-            payment_term_lines.account_id = partner.property_account_payable_id
+            new_account = partner.property_account_payable_id
+        if new_account:
+            payment_term_lines.account_id = new_account
 
     @contextmanager
     def _sync_dynamic_line(

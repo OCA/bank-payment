@@ -3,7 +3,7 @@
 {
     "name": "Account Payment Mode Default Account",
     "summary": "Set Receivable or Payable account according to payment mode",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Accounting/Accounting",
     "website": "https://github.com/OCA/bank-payment",
     "author": "Camptocamp, Odoo Community Association (OCA)",

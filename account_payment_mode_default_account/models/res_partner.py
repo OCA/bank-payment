@@ -8,7 +8,7 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     property_account_receivable_id = fields.Many2one(
-        company_dependent=False,
+        company_dependent=True,
         compute="_compute_property_account_receivable_id",
         inverse="_inverse_property_account_receivable_id",
     )
@@ -17,11 +17,14 @@ class ResPartner(models.Model):
         "account.account",
         company_dependent=True,
         string="Account Receivable Stored",
-        domain="[('internal_type', '=', 'receivable'), ('deprecated', '=', False), ('company_id', '=', current_company_id)]",  # noqa
+        domain="["
+        "('account_type', '=', 'asset_receivable'),"
+        "('deprecated', '=', False)"
+        "]",
     )
 
     property_account_payable_id = fields.Many2one(
-        company_dependent=False,
+        company_dependent=True,
         compute="_compute_property_account_payable_id",
         inverse="_inverse_property_account_payable_id",
     )
@@ -30,7 +33,10 @@ class ResPartner(models.Model):
         "account.account",
         company_dependent=True,
         string="Account Payable Stored",
-        domain="[('internal_type', '=', 'payable'), ('deprecated', '=', False), ('company_id', '=', current_company_id)]",  # noqa
+        domain="["
+        "('account_type', '=', 'liability_payable'),"
+        "('deprecated', '=', False)"
+        "]",
     )
 
     @api.depends("property_stored_account_receivable_id")
