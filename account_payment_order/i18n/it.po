@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2025-07-01 13:25+0000\n"
+"PO-Revision-Date: 2025-07-30 11:25+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
@@ -239,12 +239,12 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__due_on__<=
 msgid "Before or equal"
-msgstr ""
+msgstr "Prima o uguale"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__due_on__between
 msgid "Between"
-msgstr ""
+msgstr "Tra"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__cancel
@@ -422,12 +422,12 @@ msgstr "Scadenza"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__due_on
 msgid "Due on"
-msgstr ""
+msgstr "Scadenza"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__due_on__=
 msgid "Equal"
-msgstr ""
+msgstr "Uguale"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__generated
@@ -461,12 +461,12 @@ msgstr "File caricato"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__filter_date
 msgid "Filter Date"
-msgstr ""
+msgstr "Data filtro"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__filter_date_end
 msgid "Filter Date End"
-msgstr ""
+msgstr "Data fine filtro"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_prefered__fixed
@@ -493,7 +493,7 @@ msgstr "Icona Font Awesome es. fa-tasks"
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_line_create__filter_date_end
 msgid ""
 "For 'Due on' 'Between', date between 'Filter Date' and 'Filter Date End'"
-msgstr ""
+msgstr "Per 'Scadenza' 'Tra', data tra 'Data filtro' e 'Data fine filtro'"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_account_link
