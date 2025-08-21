@@ -36,3 +36,7 @@ class AccountPaymentMode(models.Model):
         "financial institution that will process the file. If not defined, "
         "no scheme will be used.\n",
     )
+    default_batch_booking = fields.Boolean(
+        help="Default value for payment order batch booking related "
+        "to this payment mode",
+    )
