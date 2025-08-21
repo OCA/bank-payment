@@ -14,6 +14,7 @@
         />
         <field name="arch" type="xml">
             <group name="main" position="inside">
+                <field name="default_batch_booking" />
                 <field
                     name="initiating_party_identifier"
                     groups="account_banking_pain_base.group_pain_multiple_identifier"
