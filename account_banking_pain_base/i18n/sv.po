@@ -112,7 +112,6 @@ msgstr "Avbokningsavgift"
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid "Cannot compute the field '{field_name}'."
 msgstr "Det går inte att beräkna fältet '{field_name}'."
 
@@ -230,14 +229,12 @@ msgstr "Betalning med kreditkort "
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid "Creditor name"
 msgstr "Borgenärens namn"
 
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "Data for evaluation:\n"
 "\tcontext: {eval_ctx}\n"
@@ -260,9 +257,19 @@ msgstr "Betalning med betalkort"
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid "Debtor name"
 msgstr "Gäldenärens namn"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__default_batch_booking
+msgid "Default Batch Booking"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__default_batch_booking
+msgid ""
+"Default value for payment order batch booking related to this payment mode"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__dvpm
@@ -568,7 +575,6 @@ msgstr "Medicinsk service"
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
 "the company '%s'. Both fields must have a value."
@@ -604,7 +610,6 @@ msgstr "Nätverkskommunikation"
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_method.py:0
-#, python-format
 msgid "No XSD file path found for payment method '%s'"
 msgstr "Ingen XSD-filsökväg hittades för betalningsmetod '%s'"
 
@@ -646,21 +651,18 @@ msgstr "Smärta version"
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid "Partner name"
 msgstr "Partnerns namn"
 
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid "Partner's bank account is '%s'."
 msgstr "Partnerns bankkonto är \"%s\"."
 
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid "Payment Line has reference '%s'."
 msgstr "Betalningsrad har referens \"%s\"."
 
@@ -853,22 +855,20 @@ msgstr "Telefonräkning"
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid "The '%s' is empty or 0. It should have a non-null value."
 msgstr "'%s' är tomt eller 0. Det bör ha ett värde som inte är tomt."
 
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/res_bank.py:0
-#, python-format
 msgid ""
 "The following Bank Identifier Codes (BIC) do not respect the SEPA pattern:\n"
 "{bic_list}\n"
 "\n"
 "SEPA pattern: {sepa_pattern}"
 msgstr ""
-"Följande bankidentifieringskoder (BIC) överensstämmer inte med SEPA-mönstret:"
-"\n"
+"Följande bankidentifieringskoder (BIC) överensstämmer inte med SEPA-"
+"mönstret:\n"
 "{bic_list}\n"
 "\n"
 "SEPA-mönster: {sepa_pattern}"
@@ -876,7 +876,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "The generated XML file is not valid against the official XML Schema "
 "Definition. The generated XML file and the full error have been written in "
@@ -891,7 +890,6 @@ msgstr ""
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "The type of the field '%(field)s' is %(value)s. It should be a string or "
 "unicode."

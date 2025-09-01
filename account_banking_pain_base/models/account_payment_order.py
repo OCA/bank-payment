@@ -713,5 +713,6 @@ class AccountPaymentOrder(models.Model):
     @api.depends("payment_mode_id")
     def _compute_batch_booking(self):
         self.batch_booking = False
-        if self.payment_mode_id:
-            self.batch_booking = self.payment_mode_id.default_batch_booking
+        for order in self:
+            if order.payment_mode_id:
+                order.batch_booking = order.payment_mode_id.default_batch_booking
