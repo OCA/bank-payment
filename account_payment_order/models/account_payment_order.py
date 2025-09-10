@@ -415,7 +415,7 @@ class AccountPaymentOrder(models.Model):
         )
         return action
 
-    def generated2uploaded(self):
+    def post_and_reconcile(self):
         self.payment_ids.action_post()
         # Perform the reconciliation of payments and source journal items
         for payment in self.payment_ids:
@@ -425,6 +425,9 @@ class AccountPaymentOrder(models.Model):
                     lambda x, p=payment: x.account_id == p.destination_account_id
                 )
             ).reconcile()
+
+    def generated2uploaded(self):
+        self.post_and_reconcile()
         self.write(
             {"state": "uploaded", "date_uploaded": fields.Date.context_today(self)}
         )
