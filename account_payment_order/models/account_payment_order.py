@@ -312,22 +312,7 @@ class AccountPaymentOrder(models.Model):
         """
         today = fields.Date.context_today(self)
         for order in self:
-            if not order.journal_id:
-                raise UserError(
-                    _("Missing Bank Journal on payment order %s.") % order.name
-                )
-            if (
-                order.payment_method_id.bank_account_required
-                and not order.journal_id.bank_account_id
-            ):
-                raise UserError(
-                    _("Missing bank account on bank journal '%s'.")
-                    % order.journal_id.display_name
-                )
-            if not order.payment_line_ids:
-                raise UserError(
-                    _("There are no transactions on payment order %s.") % order.name
-                )
+            self._validation_order_fields(order)
             # Unreconcile, cancel and delete existing account payments
             order.payment_ids.action_draft()
             order.payment_ids.action_cancel()
@@ -338,17 +323,11 @@ class AccountPaymentOrder(models.Model):
             for payline in order.payment_line_ids:
                 try:
                     payline.draft2open_payment_line_check()
+                    if order.payment_type == "outbound":
+                        payline._check_bank_allows_out_payments()
                 except UserError as e:
                     payline_err_text.append(e.args[0])
-                # Compute requested payment date
-                if order.date_prefered == "due":
-                    requested_date = payline.ml_maturity_date or payline.date or today
-                elif order.date_prefered == "fixed":
-                    requested_date = order.date_scheduled or today
-                else:
-                    requested_date = today
-                # No payment date in the past
-                requested_date = max(today, requested_date)
+                requested_date = self._get_request_date(order, payline, today)
                 # inbound: check option no_debit_before_maturity
                 if (
                     order.payment_type == "inbound"
@@ -395,9 +374,7 @@ class AccountPaymentOrder(models.Model):
                     _("There's at least one validation error:\n")
                     + "\n".join(payline_err_text)
                 )
-
             order.env.flush_all()
-
             # Create account payments
             payment_vals = []
             for paydict in list(group_paylines.values()):
@@ -492,3 +469,29 @@ class AccountPaymentOrder(models.Model):
         ctx.update({"search_default_misc_filter": 0})
         action["context"] = ctx
         return action
+
+    @api.model
+    def _get_request_date(self, order, payline, today):
+        requested_date = today
+        if order.date_prefered == "due":
+            requested_date = payline.ml_maturity_date or payline.date or today
+        elif order.date_prefered == "fixed":
+            requested_date = order.date_scheduled or today
+        return max(today, requested_date)
+
+    @api.model
+    def _validation_order_fields(self, order):
+        if not order.journal_id:
+            raise UserError(_("Missing Bank Journal on payment order %s.") % order.name)
+        if (
+            order.payment_method_id.bank_account_required
+            and not order.journal_id.bank_account_id
+        ):
+            raise UserError(
+                _("Missing bank account on bank journal '%s'.")
+                % order.journal_id.display_name
+            )
+        if not order.payment_line_ids:
+            raise UserError(
+                _("There are no transactions on payment order %s.") % order.name
+            )
