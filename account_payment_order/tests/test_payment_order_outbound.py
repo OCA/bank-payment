@@ -29,9 +29,7 @@ class TestPaymentOrderOutboundBase(AccountTestInvoicingCommon):
                     (
                         0,
                         0,
-                        {
-                            "acc_number": "TEST-NUMBER",
-                        },
+                        {"acc_number": "TEST-NUMBER", "allow_out_payment": True},
                     )
                 ],
             }
@@ -234,7 +232,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         order.payment_line_ids.partner_bank_id.action_unarchive()
         self.assertFalse(order.partner_banks_archive_msg)
         order.draft2open()
-        self.assertEqual(order.payment_ids[0].partner_bank_id, self.partner.bank_ids)
+        self.assertEqual(order.payment_ids[0].partner_bank_id, self.partner.bank_ids[0])
         order.open2generated()
         order.generated2uploaded()
         self.assertEqual(order.move_ids[0].date, order.payment_ids[0].date)
@@ -247,6 +245,8 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
             "amount_currency": 200.38,
             "move_line_id": self.invoice.invoice_line_ids[0].id,
+            "communication": "TEST-COMM",
+            "partner_bank_id": self.partner_bank.id,
         }
         return self.env["account.payment.line"].create(vals)
 
@@ -265,26 +265,20 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.env["account.invoice.payment.line.multi"].with_context(
             active_model="account.move", active_ids=self.invoice.ids
         ).create({}).run()
-
         payment_order = self.env["account.payment.order"].search(self.domain)
         self.assertEqual(len(payment_order), 1)
-
         payment_order.write({"journal_id": self.bank_journal.id})
-
         self.assertEqual(len(payment_order.payment_line_ids), 1)
         self.assertFalse(payment_order.payment_ids)
-
         # Open payment order
         payment_order.draft2open()
         self.assertEqual(payment_order.payment_count, 1)
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-
         self.assertEqual(payment_order.state, "uploaded")
         with self.assertRaises(UserError):
             payment_order.unlink()
-
         payment_order.action_uploaded_cancel()
         self.assertEqual(payment_order.state, "cancel")
         payment_order.cancel2draft()
@@ -428,21 +422,15 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             refund_form.ref = "R1234"
             with refund_form.invoice_line_ids.edit(0) as line_form:
                 line_form.price_unit = 75.0
-
         self.refund.action_post()
         self.assertEqual("R1234", self.refund._get_payment_order_communication_direct())
-
         self.env["account.invoice.payment.line.multi"].with_context(
             active_model="account.move", active_ids=self.invoice.ids
         ).create({}).run()
-
         payment_order = self.env["account.payment.order"].search(self.domain)
         self.assertEqual(len(payment_order), 1)
-
         payment_order.write({"journal_id": self.bank_journal.id})
-
         self.assertEqual(len(payment_order.payment_line_ids), 1)
-
         self.assertEqual("F1242 R1234", payment_order.payment_line_ids.communication)
 
     def test_supplier_refund_reference(self):
@@ -466,12 +454,10 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             refund_form.payment_reference = "FR/1234"
             with refund_form.invoice_line_ids.edit(0) as line_form:
                 line_form.price_unit = 75.0
-
         self.refund.action_post()
         self.assertEqual(
             "FR/1234", self.refund._get_payment_order_communication_direct()
         )
-
         # The user add the outstanding payment to the invoice
         invoice_line = self.invoice.line_ids.filtered(
             lambda line: line.account_type == "liability_payable"
@@ -480,18 +466,13 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             lambda line: line.account_type == "liability_payable"
         )
         (invoice_line | refund_line).reconcile()
-
         self.env["account.invoice.payment.line.multi"].with_context(
             active_model="account.move", active_ids=self.invoice.ids
         ).create({}).run()
-
         payment_order = self.env["account.payment.order"].search(self.domain)
         self.assertEqual(len(payment_order), 1)
-
         payment_order.write({"journal_id": self.bank_journal.id})
-
         self.assertEqual(len(payment_order.payment_line_ids), 1)
-
         self.assertEqual("F/1234 FR/1234", payment_order.payment_line_ids.communication)
 
     def test_multiple_lines_without_move_line(self):
@@ -538,25 +519,18 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.refund = self._create_supplier_refund(self.invoice, manual=True)
         with Form(self.refund) as refund_form:
             refund_form.ref = "R1234"
-
         self.refund.action_post()
         self.assertEqual("R1234", self.refund._get_payment_order_communication_direct())
-
         (self.invoice.line_ids + self.refund.line_ids).filtered(
             lambda line: line.account_type == "liability_payable"
         ).reconcile()
-
         self.env["account.invoice.payment.line.multi"].with_context(
             active_model="account.move", active_ids=self.invoice.ids
         ).create({}).run()
-
         payment_order = self.env["account.payment.order"].search(self.domain)
         self.assertEqual(len(payment_order), 1)
-
         payment_order.write({"journal_id": self.bank_journal.id})
-
         self.assertEqual(len(payment_order.payment_line_ids), 1)
-
         self.assertEqual("F1242 R1234", payment_order.payment_line_ids.communication)
 
     def test_action_open_business_document(self):
@@ -580,18 +554,43 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.assertEqual(invoice_action["res_id"], self.invoice.id)
         manual_line_action = order.payment_line_ids[1].action_open_business_doc()
         self.assertFalse(manual_line_action)
+
     def test_check_allow_out_payment(self):
         """Check that, in case option "Send Money" is not enabled on
         the bank, out payments are not allowed.
         """
-        # Open invoice
         self.invoice.action_post()
-
-        # Do not allow out payments
         self.partner_bank.allow_out_payment = False
+        for bank in self.partner.bank_ids:
+            bank.allow_out_payment = False
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({}).run()
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        payment_order.write({"journal_id": self.bank_journal.id})
+        payment_order.payment_line_ids.partner_bank_id = self.partner_bank.id
+        with self.assertRaisesRegex(UserError, "Send Money"):
+            payment_order.draft2open()
+        self.partner_bank.allow_out_payment = True
+        payment_order.draft2open()
+        self.assertEqual(payment_order.state, "open")
 
+    def test_check_allow_out_payment_from_payment_order(self):
+        """Check that, in case option "Send Money" is not enabled on
+        the bank, out payments are not allowed.
+        """
+        self.partner_bank.allow_out_payment = False
+        outbound_order = self.env["account.payment.order"].create(
+            {
+                "date_prefered": "due",
+                "payment_type": "outbound",
+                "payment_mode_id": self.mode.id,
+                "journal_id": self.bank_journal.id,
+                "description": "order with manual line",
+            }
+        )
+        payment_line_1 = self._line_creation(outbound_order)
+        payment_line_1.partner_bank_id = self.partner_bank.id
         # Add to payment order using the wizard: error raised
-        with self.assertRaises(UserError):
-            self.env["account.invoice.payment.line.multi"].with_context(
-                active_model="account.move", active_ids=self.invoice.ids
-            ).create({}).run()
+        with self.assertRaisesRegex(UserError, "Send Money"):
+            outbound_order.draft2open()
