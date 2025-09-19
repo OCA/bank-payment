@@ -453,3 +453,16 @@ class AccountPaymentOrder(models.Model):
         ctx.update({"search_default_misc_filter": 0})
         action["context"] = ctx
         return action
+
+    def action_view_payments(self):
+        self.ensure_one()
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "account.action_account_payments"
+        )
+        action.update(
+            {
+                "domain": [("payment_order_id", "=", self.id)],
+                "context": {"default_payment_order_id": self.id},
+            }
+        )
+        return action
