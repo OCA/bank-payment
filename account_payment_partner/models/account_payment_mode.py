@@ -3,7 +3,7 @@
 # Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -47,7 +47,7 @@ class AccountPaymentMode(models.Model):
                 )
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "You cannot change the Company. There exists "
                         "at least one Journal Entry with this Payment Mode, "
                         "already assigned to another Company."
@@ -69,7 +69,7 @@ class AccountPaymentMode(models.Model):
                 )
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "You cannot change the Company. There exists "
                         "at least one Journal Item with this Payment Mode, "
                         "already assigned to another Company."

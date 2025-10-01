@@ -2,7 +2,7 @@
 # Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import Command, _, fields
+from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import Form, tagged
 
@@ -26,7 +26,9 @@ class TestAccountPaymentPartner(BaseCommon):
             cls.company.country_id
         )
         if not chart:
-            raise ValidationError(_("No Chart of Account Template has been defined !"))
+            raise ValidationError(
+                cls.env._("No Chart of Account Template has been defined !")
+            )
         cls.env.user.company_ids = [(4, cls.company_2.id)]
         cls.env.ref("base.user_admin").company_ids = [(4, cls.company_2.id)]
         cls.env["account.chart.template"].try_loading(
