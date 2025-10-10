@@ -1,3 +1,7 @@
+.. image:: https://odoo-community.org/readme-banner-image
+   :target: https://odoo-community.org/get-involved?utm_source=readme
+   :alt: Odoo Community Association
+
 ====================
 Account Payment Mode
 ====================
@@ -13,24 +17,40 @@ Account Payment Mode
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github
-    :target: https://github.com/OCA/bank-payment/tree/18.0/account_payment_mode
+    :target: https://github.com/OCA/bank-payment/tree/19.0/account_payment_mode
     :alt: OCA/bank-payment
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/bank-payment-18-0/bank-payment-18-0-account_payment_mode
+    :target: https://translation.odoo-community.org/projects/bank-payment-19-0/bank-payment-19-0-account_payment_mode
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
 This module adds a new object *account.payment.mode*, that is used to
 better classify and route incoming/outgoing payment orders with the
-banks.
+banks. This module adds several fields:
+
+- the *Supplier Payment Mode* and *Customer Payment Mode* on Partners,
+- the *Payment Mode* on Invoices.
+- the *Show bank account* on Payment Mode.
+- the *# of digits for customer bank account* on Payment Mode.
+- the *Bank account from journals* on Payment Mode.
+- the *Payment mode* on Invoices Analysis.
+
+On a Payment Order, in the wizard *Select Invoices to Pay*, the invoices
+will be filtered per Payment Mode.
+
+Allows to print in the invoice to which account number the payment (via
+SEPA direct debit) is going to be charged so the customer knows that
+information, but there are some customers that don't want that everyone
+looking at the invoice sees the full account number (and even GDPR can
+say a word about that), so that's the reason behind the several options.
 
 **Table of contents**
 
@@ -46,8 +66,27 @@ To configure this module, you need to go to the menu
 Usage
 =====
 
-This module doesn't add any feature, but it is used by several other
-modules.
+This module provides the foundation for managing payment modes and
+integrates them directly with partners and invoices.
+
+You are able to add a payment mode directly on a partner.
+
+This payment mode is automatically associated to the invoice related to
+the partner. This default value could be changed in a draft invoice.
+
+When you create a payment order, only invoices related to chosen payment
+mode are displayed.
+
+Invoices without any payment mode are displayed too.
+
+Changelog
+=========
+
+10.0.1.2.0 (2018-05-24)
+-----------------------
+
+- [IMP] Add options to show partner bank account in invoice report
+  (`#458 <https://github.com/OCA/bank-payment/issues/458>`__)
 
 Bug Tracker
 ===========
@@ -55,7 +94,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/bank-payment/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_payment_mode%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_payment_mode%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -66,6 +105,7 @@ Authors
 -------
 
 * Akretion
+* Tecnativa
 
 Contributors
 ------------
@@ -73,9 +113,25 @@ Contributors
 - Alexis de Lattre <alexis.delattre@akretion.com>
 - Eric Lembregts <eric@lembregts.eu>
 - Andrea Stirpe <a.stirpe@onestein.nl>
+- Bert Van Groenendael <bert.vangroenendael@dynapps.eu>
+- Raphaël Valyi
+- Stefan Rijnhart (Therp)
+- Alexandre Fayolle
+- Stéphane Bidoul <stephane.bidoul@acsone.eu>
+- Danimar Ribeiro
+- Angel Moya <angel.moya@domatix.com>
+- `Tecnativa <https://www.tecnativa.com>`__:
+
+  - Pedro M. Baeza
+  - Carlos Dauden
+  - Víctor Martínez
+
+- `DynApps <https://www.dynapps.be>`__:
+
+  - Raf Ven <raf.ven@dynapps.be>
+
 - Marçal Isern <marsal.isern@qubiq.es>
 - Miquel Alzanillas <malzanillas@apsl.net>
-- Bert Van Groenendael <bert.vangroenendael@dynapps.eu>
 
 Maintainers
 -----------
@@ -90,6 +146,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/18.0/account_payment_mode>`_ project on GitHub.
+This module is part of the `OCA/bank-payment <https://github.com/OCA/bank-payment/tree/19.0/account_payment_mode>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

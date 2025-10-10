@@ -27,11 +27,24 @@
                             invisible="bank_account_link != 'fixed'"
                             required="bank_account_link == 'fixed'"
                         />
+                        <field name="refund_payment_mode_id" />
                         <field
                             name="variable_journal_ids"
                             invisible="bank_account_link != 'variable'"
                             required="bank_account_link == 'variable'"
                             widget="many2many_tags"
+                        />
+                    </group>
+                    <group string="Show bank account in invoice report">
+                        <field name="show_bank_account" />
+                        <field
+                            name="show_bank_account_from_journal"
+                            invisible="show_bank_account == 'no'"
+                        />
+                        <field
+                            name="show_bank_account_chars"
+                            string="# of chars"
+                            invisible="show_bank_account not in ['first', 'last']"
                         />
                     </group>
                     <group string="Note" name="note">
@@ -71,7 +84,7 @@
                     string="Outbound"
                     domain="[('payment_type', '=', 'outbound')]"
                 />
-                <group string="Group By" name="groupby">
+                <group name="groupby">
                     <filter
                         string="Payment Method"
                         name="payment_method_groupby"
@@ -89,7 +102,7 @@
     <menuitem
         id="account_payment_mode_menu"
         action="account_payment_mode_action"
-        parent="account.account_management_menu"
+        parent="account.account_account_menu"
         sequence="25"
     />
 </odoo>

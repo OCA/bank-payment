@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -69,6 +69,27 @@ class AccountPaymentMode(models.Model):
     active = fields.Boolean(default=True)
     note = fields.Html(translate=True)
     sequence = fields.Integer(default=10)
+    show_bank_account = fields.Selection(
+        selection=[
+            ("full", "Full"),
+            ("first", "First n chars"),
+            ("last", "Last n chars"),
+            ("no", "No"),
+        ],
+        default="full",
+        help="Show in invoices partial or full bank account number",
+    )
+    show_bank_account_from_journal = fields.Boolean(string="Bank account from journals")
+    show_bank_account_chars = fields.Integer(
+        string="# of digits for customer bank account"
+    )
+    refund_payment_mode_id = fields.Many2one(
+        comodel_name="account.payment.mode",
+        domain="[('payment_type', '!=', payment_type)]",
+        string="Payment mode for refunds",
+        help="This payment mode will be used when doing "
+        "refunds coming from the current payment mode.",
+    )
 
     @api.onchange("company_id")
     def _onchange_company_id(self):
@@ -80,7 +101,7 @@ class AccountPaymentMode(models.Model):
         for mode in self.filtered(lambda x: x.bank_account_link == "fixed"):
             if not mode.fixed_journal_id:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "On the payment mode %(name)s, the bank account link is "
                         "'Fixed' but the fixed bank journal is not set",
                         name=mode.name,
@@ -94,7 +115,7 @@ class AccountPaymentMode(models.Model):
                     )
                     if mode.payment_method_id.id not in p_modes:
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "On the payment mode %(paymode)s, the payment method "
                                 "is %(paymethod)s, but this payment method is not part "
                                 "of the payment methods of the fixed bank "
@@ -110,7 +131,7 @@ class AccountPaymentMode(models.Model):
                     )
                     if mode.payment_method_id.id not in p_modes:
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "On the payment mode %(paymode)s, the payment method "
                                 "is %(paymethod)s (it is in fact a debit method), "
                                 "but this debit method is not part "
@@ -127,9 +148,53 @@ class AccountPaymentMode(models.Model):
         for mode in self:
             if any(mode.company_id != j.company_id for j in mode.variable_journal_ids):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The company of the payment mode %(paymode)s, does not match "
                         "with one of the Allowed Bank Journals.",
                         paymode=mode.name,
+                    )
+                )
+
+    @api.constrains("company_id")
+    def account_invoice_company_constrains(self):
+        for mode in self:
+            if (
+                self.env["account.move"]
+                .sudo()
+                .search(
+                    [
+                        ("payment_mode_id", "=", mode.id),
+                        ("company_id", "!=", mode.company_id.id),
+                    ],
+                    limit=1,
+                )
+            ):
+                raise ValidationError(
+                    self.env._(
+                        "You cannot change the Company. There exists "
+                        "at least one Journal Entry with this Payment Mode, "
+                        "already assigned to another Company."
+                    )
+                )
+
+    @api.constrains("company_id")
+    def account_move_line_company_constrains(self):
+        for mode in self:
+            if (
+                self.env["account.move.line"]
+                .sudo()
+                .search(
+                    [
+                        ("payment_mode_id", "=", mode.id),
+                        ("company_id", "!=", mode.company_id.id),
+                    ],
+                    limit=1,
+                )
+            ):
+                raise ValidationError(
+                    self.env._(
+                        "You cannot change the Company. There exists "
+                        "at least one Journal Item with this Payment Mode, "
+                        "already assigned to another Company."
                     )
                 )
