@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.exceptions import ValidationError
 
 
@@ -47,7 +47,7 @@ class AccountJournal(models.Model):
             )
             if mode:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The company of the journal %(journal)s does not match "
                         "with the company of the payment mode %(paymode)s where it is "
                         "being used as Fixed Bank Journal.",
@@ -64,7 +64,7 @@ class AccountJournal(models.Model):
             )
             if mode:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The company of the journal  %(journal)s does not match "
                         "with the company of the payment mode  %(paymode)s where it is "
                         "being used in the Allowed Bank Journals.",

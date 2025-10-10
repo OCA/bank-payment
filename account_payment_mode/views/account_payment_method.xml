@@ -56,7 +56,7 @@ here. I hate the objects that don't have a view... -->
                     string="Outbound"
                     domain="[('payment_type', '=', 'outbound')]"
                 />
-                <group string="Group By" name="groupby">
+                <group name="groupby">
                     <filter
                         string="Payment Type"
                         name="payment_type_groupby"
@@ -74,7 +74,7 @@ here. I hate the objects that don't have a view... -->
     <menuitem
         id="account_payment_method_menu"
         action="account_payment_method_action"
-        parent="account.account_management_menu"
+        parent="account.account_account_menu"
         sequence="30"
     />
 </odoo>
