@@ -20,7 +20,6 @@ class TestSaleOrder(CommonTestCase):
                     order_line.product_id = p
                     order_line.name = p.name
                     order_line.product_uom_qty = 2
-                    order_line.product_uom = p.uom_id
                     order_line.price_unit = p.list_price
         sale = sale_form.save()
         self.assertEqual(
