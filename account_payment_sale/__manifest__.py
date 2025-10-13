@@ -8,7 +8,7 @@
     "category": "Banking addons",
     "license": "AGPL-3",
     "summary": "Adds payment mode on sale orders",
-    "author": "Akretion, " "Tecnativa, " "Odoo Community Association (OCA)",
+    "author": "Akretion, Tecnativa, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",
     "depends": ["sale", "account_payment_partner"],
     "data": ["views/sale_order_view.xml", "views/sale_report_templates.xml"],
