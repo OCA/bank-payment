@@ -149,7 +149,8 @@ class AccountPaymentOrder(models.Model):
             else:
                 record.allowed_journal_ids = False
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_order_uploaded(self):
         for order in self:
             if order.state == "uploaded":
                 raise UserError(
@@ -158,7 +159,6 @@ class AccountPaymentOrder(models.Model):
                         "cancel it in order to do so."
                     )
                 )
-        return super().unlink()
 
     @api.constrains("payment_type", "payment_mode_id")
     def payment_order_constraints(self):
@@ -410,7 +410,7 @@ class AccountPaymentOrder(models.Model):
             {
                 "date_generated": fields.Date.context_today(self),
                 "state": "generated",
-                "generated_user_id": self._uid,
+                "generated_user_id": self.env.uid,
             }
         )
         return action

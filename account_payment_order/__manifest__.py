@@ -9,7 +9,7 @@
 
 {
     "name": "Account Payment Order",
-    "version": "18.0.1.1.1",
+    "version": "19.0.1.0.0",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV, "
     "Therp BV, "
@@ -19,7 +19,7 @@
     "website": "https://github.com/OCA/bank-payment",
     "development_status": "Mature",
     "category": "Banking addons",
-    "depends": ["account_payment_partner", "base_iban"],  # for manual_bank_tranfer
+    "depends": ["account_payment_mode", "base_iban"],  # for manual_bank_tranfer
     "data": [
         "views/account_payment_method.xml",
         "security/payment_security.xml",
