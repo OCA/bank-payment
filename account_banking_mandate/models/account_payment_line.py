@@ -3,7 +3,7 @@
 # Copyright 2015-16 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -28,18 +28,21 @@ class AccountPaymentLine(models.Model):
                 and pline.partner_bank_id
                 and pline.mandate_id.partner_bank_id != pline.partner_bank_id
             ):
+                acc_number = pline.partner_bank_id.acc_number or ""
                 raise ValidationError(
-                    _(
-                        "The payment line number {line_number} has "
-                        "the bank account  '{line_bank_account}' which "
-                        "is not attached to the mandate '{mandate_ref}' "
+                    self.env._(
+                        "The payment line number %(line_number)s has "
+                        "the bank account '%(line_bank_account)s' which "
+                        "is not attached to the mandate '%(mandate_ref)s' "
                         "(this mandate is attached to the bank account "
-                        "'{mandate_bank_account}')."
-                    ).format(
-                        line_number=pline.name,
-                        line_bank_account=pline.partner_bank_id.acc_number,
-                        mandate_ref=pline.mandate_id.unique_mandate_reference,
-                        mandate_bank_account=pline.mandate_id.partner_bank_id.acc_number,
+                        "'%(mandate_bank_account)s').",
+                        {
+                            "line_number": pline.name,
+                            "line_bank_account": pline.partner_bank_id.acc_number or "",
+                            "mandate_ref": pline.mandate_id.unique_mandate_reference
+                            or "",
+                            "mandate_bank_account": acc_number or "",
+                        },
                     )
                 )
 
@@ -51,18 +54,18 @@ class AccountPaymentLine(models.Model):
                 and pline.mandate_id.company_id != pline.company_id
             ):
                 raise ValidationError(
-                    _(
-                        "The payment line number {line_number} a different "
-                        "company than that of the linked mandate {mandate})."
-                    ).format(
-                        line_number=pline.name, mandate=pline.mandate_id.display_name
+                    self.env._(
+                        "The payment line number %(line_number)s has a different "
+                        "company than that of the linked mandate %(mandate)s.",
+                        {
+                            "line_number": pline.name,
+                            "mandate": pline.mandate_id.display_name or "",
+                        },
                     )
                 )
 
     def draft2open_payment_line_check(self):
         res = super().draft2open_payment_line_check()
         if self.mandate_required and not self.mandate_id:
-            raise UserError(
-                self.env._("Missing Mandate on payment line %s") % self.name
-            )
+            raise UserError(self.env._("Missing Mandate on payment line %s", self.name))
         return res

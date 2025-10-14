@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -190,6 +190,13 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__display_name
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__display_name
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__display_name
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__display_name
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__display_name
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -239,17 +246,19 @@ msgid "Generic Mandate"
 msgstr ""
 
 #. module: account_banking_mandate
-#: model_terms:ir.ui.view,arch_db:account_banking_mandate.view_mandate_search
-msgid "Group By"
-msgstr ""
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__has_message
 msgid "Has Message"
 msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move__id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_move_line__id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment__id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_line__id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_account_payment_method__id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner__id
+#: model:ir.model.fields,field_description:account_banking_mandate.field_res_partner_bank__id
 msgid "ID"
 msgstr ""
 
@@ -270,7 +279,6 @@ msgstr ""
 
 #. module: account_banking_mandate
 #: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_error
-#: model:ir.model.fields,help:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -468,11 +476,6 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: account_banking_mandate
-#: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr ""
-
-#. module: account_banking_mandate
 #: model:ir.model.fields,field_description:account_banking_mandate.field_account_banking_mandate__scan
 msgid "Scan of the Mandate"
 msgstr ""
@@ -525,17 +528,18 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
 msgid ""
-"The payment line number {line_number} a different company than that of the "
-"linked mandate {mandate})."
+"The payment line number %(line_number)s has a different company than that of"
+" the linked mandate %(mandate)s."
 msgstr ""
 
 #. module: account_banking_mandate
 #. odoo-python
 #: code:addons/account_banking_mandate/models/account_payment_line.py:0
 msgid ""
-"The payment line number {line_number} has the bank account  "
-"'{line_bank_account}' which is not attached to the mandate '{mandate_ref}' "
-"(this mandate is attached to the bank account '{mandate_bank_account}')."
+"The payment line number %(line_number)s has the bank account "
+"'%(line_bank_account)s' which is not attached to the mandate "
+"'%(mandate_ref)s' (this mandate is attached to the bank account "
+"'%(mandate_bank_account)s')."
 msgstr ""
 
 #. module: account_banking_mandate
@@ -594,4 +598,10 @@ msgstr ""
 msgid ""
 "You should set a mandate back to draft only if you cancelled it by mistake. "
 "Do you want to continue?"
+msgstr ""
+
+#. module: account_banking_mandate
+#. odoo-python
+#: code:addons/account_banking_mandate/models/account_banking_mandate.py:0
+msgid "mandate_id"
 msgstr ""

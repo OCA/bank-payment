@@ -2,7 +2,7 @@
 # Copyright 2014 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -32,10 +32,10 @@ class ResPartnerBank(models.Model):
                 )
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "You cannot change the company of Partner Bank %s, "
                         "as there exists mandates referencing it that "
-                        "belong to another company."
+                        "belong to another company.",
+                        rpb.display_name,
                     )
-                    % (rpb.display_name,)
                 )

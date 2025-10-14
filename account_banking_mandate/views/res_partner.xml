@@ -9,7 +9,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="account.view_partner_property_form" />
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='banks']" position="inside">
+            <xpath expr="//field[@name='bank_ids']" position="after">
                 <button
                     type="action"
                     class="btn-link"

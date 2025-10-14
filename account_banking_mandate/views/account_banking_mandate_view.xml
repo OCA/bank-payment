@@ -186,7 +186,7 @@
                     string="Cancelled"
                     domain="[('state', '=', 'cancel')]"
                 />
-                <group string="Group By" name="groupby">
+                <group name="groupby">
                     <filter
                         name="state_groupby"
                         string="State"

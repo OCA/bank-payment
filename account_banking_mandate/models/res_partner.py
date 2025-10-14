@@ -18,13 +18,12 @@ class ResPartner(models.Model):
     )
 
     def _compute_mandate_count(self):
-        mandate_data = self.env["account.banking.mandate"].read_group(
-            [("partner_id", "in", self.ids)], ["partner_id"], ["partner_id"]
+        mandate_model = self.env["account.banking.mandate"]
+        domain = [("partner_id", "in", self.ids)]
+        res = mandate_model._read_group(
+            domain=domain, groupby=["partner_id"], aggregates=["__count"]
         )
-        mapped_data = {
-            mandate["partner_id"][0]: mandate["partner_id_count"]
-            for mandate in mandate_data
-        }
+        mapped_data = {group[0].id: group[1] for group in res if group[0]}
         for partner in self:
             partner.mandate_count = mapped_data.get(partner.id, 0)
 
@@ -33,9 +32,9 @@ class ResPartner(models.Model):
         company_id = self.env.company.id
         mandates_dic = {}
         for partner in self:
-            commercial_partner_id = partner.commercial_partner_id.id
-            if commercial_partner_id in mandates_dic:
-                partner.valid_mandate_id = mandates_dic[commercial_partner_id]
+            commercial_partner = partner.commercial_partner_id
+            if commercial_partner.id in mandates_dic:
+                partner.valid_mandate_id = mandates_dic[commercial_partner.id]
             else:
                 mandates = partner.commercial_partner_id.bank_ids.mapped(
                     "mandate_ids"
@@ -44,4 +43,4 @@ class ResPartner(models.Model):
                 )
                 first_valid_mandate_id = mandates[:1].id
                 partner.valid_mandate_id = first_valid_mandate_id
-                mandates_dic[commercial_partner_id] = first_valid_mandate_id
+                mandates_dic[commercial_partner.id] = first_valid_mandate_id

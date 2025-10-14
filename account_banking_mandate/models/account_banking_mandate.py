@@ -4,7 +4,7 @@
 # Copyright 2020 Tecnativa - Carlos Dauden
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -88,13 +88,10 @@ class AccountBankingMandate(models.Model):
     )
     payment_line_ids_count = fields.Integer(compute="_compute_payment_line_ids_count")
 
-    _sql_constraints = [
-        (
-            "mandate_ref_company_uniq",
-            "unique(unique_mandate_reference, company_id)",
-            "A Mandate with the same reference already exists for this company!",
-        )
-    ]
+    _mandate_ref_company_uniq = models.Constraint(
+        "unique(unique_mandate_reference, company_id)",
+        "A Mandate with the same reference already exists for this company!",
+    )
 
     @api.depends("unique_mandate_reference", "partner_bank_id.acc_number")
     def _compute_display_name(self):
@@ -109,14 +106,10 @@ class AccountBankingMandate(models.Model):
     def _compute_payment_line_ids_count(self):
         payment_line_model = self.env["account.payment.line"]
         domain = [("mandate_id", "in", self.ids)]
-        res = payment_line_model.read_group(
-            domain=domain, fields=["mandate_id"], groupby=["mandate_id"]
+        res = payment_line_model._read_group(
+            domain=domain, groupby=["mandate_id"], aggregates=["__count"]
         )
-        payment_line_dict = {}
-        for dic in res:
-            mandate_id = dic["mandate_id"][0]
-            payment_line_dict.setdefault(mandate_id, 0)
-            payment_line_dict[mandate_id] += dic["mandate_id_count"]
+        payment_line_dict = {group[0].id: group[1] for group in res if group[0]}
         for rec in self:
             rec.payment_line_ids_count = payment_line_dict.get(rec.id, 0)
 
@@ -137,9 +130,9 @@ class AccountBankingMandate(models.Model):
             if mandate.signature_date and mandate.signature_date > today:
                 raise ValidationError(
                     self.env._(
-                        "The date of signature of mandate '%s' is in the future!"
+                        "The date of signature of mandate '%s' is in the future!",
+                        mandate.unique_mandate_reference,
                     )
-                    % mandate.unique_mandate_reference
                 )
             if (
                 mandate.signature_date
@@ -147,11 +140,11 @@ class AccountBankingMandate(models.Model):
                 and mandate.signature_date > mandate.last_debit_date
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The mandate '%s' can't have a date of last debit "
-                        "before the date of signature."
+                        "before the date of signature.",
+                        mandate.unique_mandate_reference,
                     )
-                    % mandate.unique_mandate_reference
                 )
 
     @api.constrains("state", "partner_bank_id", "signature_date")
@@ -160,19 +153,19 @@ class AccountBankingMandate(models.Model):
             if mandate.state == "valid":
                 if not mandate.signature_date:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Cannot validate the mandate '%s' without a date of "
-                            "signature."
+                            "signature.",
+                            mandate.unique_mandate_reference,
                         )
-                        % mandate.unique_mandate_reference
                     )
                 if not mandate.partner_bank_id:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Cannot validate the mandate '%s' because it is not "
-                            "attached to a bank account."
+                            "attached to a bank account.",
+                            mandate.unique_mandate_reference,
                         )
-                        % mandate.unique_mandate_reference
                     )
 
     @api.model_create_multi
