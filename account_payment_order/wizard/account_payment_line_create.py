@@ -54,9 +54,9 @@ class AccountPaymentLineCreate(models.TransientModel):
     def default_get(self, field_list):
         res = super().default_get(field_list)
         context = self.env.context
-        assert (
-            context.get("active_model") == "account.payment.order"
-        ), "active_model should be payment.order"
+        assert context.get("active_model") == "account.payment.order", (
+            "active_model should be payment.order"
+        )
         assert context.get("active_id"), "Missing active_id in context !"
         order = self.env["account.payment.order"].browse(context["active_id"])
         mode = order.payment_mode_id
