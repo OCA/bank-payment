@@ -137,7 +137,7 @@ class AccountBankingMandate(models.Model):
             if mandate.signature_date and mandate.signature_date > today:
                 raise ValidationError(
                     self.env._(
-                        "The date of signature of mandate '%s' " "is in the future!"
+                        "The date of signature of mandate '%s' is in the future!"
                     )
                     % mandate.unique_mandate_reference
                 )
