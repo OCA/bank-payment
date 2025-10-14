@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
-from odoo.fields import first
 
 
 class AccountMoveLine(models.Model):
@@ -71,7 +70,10 @@ class AccountMoveLine(models.Model):
             # in this case
         if payment_order.payment_type == "outbound":
             amount_currency *= -1
-        partner_bank_id = self.partner_bank_id.id or first(self.partner_id.bank_ids).id
+        first_bank = next(iter(self.partner_id.bank_ids), None)
+        partner_bank_id = self.partner_bank_id.id or (
+            first_bank.id if first_bank else False
+        )
         vals = {
             "order_id": payment_order.id,
             "partner_bank_id": partner_bank_id,

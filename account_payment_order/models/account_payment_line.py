@@ -88,13 +88,10 @@ class AccountPaymentLine(models.Model):
         readonly=True,
     )
 
-    _sql_constraints = [
-        (
-            "name_company_unique",
-            "unique(name, company_id)",
-            "A payment line already exists with this reference in the same company!",
-        )
-    ]
+    _name_company_unique = models.Constraint(
+        "unique(name, company_id)",
+        "A payment line already exists with this reference in the same company!",
+    )
 
     @api.model_create_multi
     def create(self, vals_list):

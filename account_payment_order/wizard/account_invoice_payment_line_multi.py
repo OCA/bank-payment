@@ -10,9 +10,9 @@ class AccountInvoicePaymentLineMulti(models.TransientModel):
 
     def run(self):
         self.ensure_one()
-        assert self._context["active_model"] == "account.move", (
+        assert self.env.context["active_model"] == "account.move", (
             "Active model should be account.move"
         )
-        invoices = self.env["account.move"].browse(self._context["active_ids"])
+        invoices = self.env["account.move"].browse(self.env.context["active_ids"])
         action = invoices.create_account_payment_line()
         return action

@@ -8,7 +8,7 @@
     <record id="view_move_line_form" model="ir.ui.view">
         <field name="name">account_payment_order.move_line_form</field>
         <field name="model">account.move.line</field>
-        <field name="inherit_id" ref="account_payment_partner.view_move_line_form" />
+        <field name="inherit_id" ref="account_payment_mode.view_move_line_form" />
         <field name="arch" type="xml">
             <group name="payments" position="inside">
                 <field
