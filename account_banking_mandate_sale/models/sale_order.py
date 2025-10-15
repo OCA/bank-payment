@@ -39,23 +39,25 @@ class SaleOrder(models.Model):
     @api.depends("partner_invoice_id", "payment_mode_id")
     def _compute_mandate_id(self):
         for order in self:
+            mandate = False
             if (
                 order.partner_invoice_id
                 and order.payment_mode_id
                 and order.payment_mode_id.payment_method_id.mandate_required
             ):
-                mandate = self.env["account.banking.mandate"].search(
-                    [
-                        ("state", "=", "valid"),
-                        (
-                            "partner_id",
-                            "=",
-                            order.partner_invoice_id.commercial_partner_id.id,
-                        ),
-                        ("company_id", "=", order.company_id.id),
-                    ],
-                    limit=1,
+                mandate = (
+                    self.env["account.banking.mandate"].search(
+                        [
+                            ("state", "=", "valid"),
+                            (
+                                "partner_id",
+                                "=",
+                                order.partner_invoice_id.commercial_partner_id.id,
+                            ),
+                            ("company_id", "=", order.company_id.id),
+                        ],
+                        limit=1,
+                    )
+                    or False
                 )
-                order.mandate_id = mandate or False
-            else:
-                order.mandate_id = False
+            order.mandate_id = mandate
