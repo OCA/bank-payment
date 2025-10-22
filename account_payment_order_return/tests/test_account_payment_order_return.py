@@ -7,7 +7,7 @@
 from datetime import timedelta
 
 from odoo import fields
-from odoo.tests.common import Form, tagged
+from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -27,6 +27,10 @@ class TestAccountPaymentOrderReturn(AccountTestInvoicingCommon):
                 tracking_disable=True,
             )
         )
+        # Grant necessary permissions for payment orders
+        cls.env.user.groups_id |= cls.env.ref(
+            "account_payment_order.group_account_payment"
+        )
         cls.bank_journal = cls.env["account.journal"].create(
             {"name": "Test Bank Journal", "type": "bank"}
         )
@@ -36,7 +40,6 @@ class TestAccountPaymentOrderReturn(AccountTestInvoicingCommon):
                 "date": "2024-01-01",
                 "invoice_date": "2024-01-01",
                 "partner_id": cls.partner_a.id,
-                "currency_id": cls.currency_data["currency"].id,
                 "invoice_line_ids": [
                     (
                         0,
@@ -86,9 +89,9 @@ class TestAccountPaymentOrderReturn(AccountTestInvoicingCommon):
                     (4, self.invoice.journal_id.id),
                 ],
                 "partner_ids": [(4, self.partner_a.id)],
-                "allow_blocked": True,
                 "date_type": "move",
-                "move_date": fields.Date.today() + timedelta(days=1),
+                "due_on": "<=",
+                "filter_date": fields.Date.today() + timedelta(days=1),
                 "payment_mode": "any",
                 "invoice": True,
                 "include_returned": True,
