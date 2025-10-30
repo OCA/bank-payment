@@ -18,21 +18,17 @@
                     <h4 t-if="doc.scheme != 'B2B'">
                         <strong>Sepa Direct Debit Mandate</strong>
                         <t t-if="is_not_english">
-                            <br />
                             <span
                                 class="native_lang native_lang_small"
-                                t-esc="'Sepa Direct Debit Mandate'"
-                            />
+                            >(Sepa Direct Debit Mandate)</span>
                         </t>
                     </h4>
                     <h4 t-if="doc.scheme == 'B2B'">
                         <strong>Sepa Business-To-Business Direct debit Mandate</strong>
                         <t t-if="is_not_english">
-                            <br />
                             <span
                                 class="native_lang native_lang_small"
-                                t-esc="'Sepa Business-To-Business Direct debit Mandate'"
-                            />
+                            >(Sepa Business-To-Business Direct debit Mandate)</span>
                         </t>
                     </h4>
                 </div>
