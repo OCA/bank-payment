@@ -196,7 +196,7 @@ class AccountPaymentOrder(models.Model):
         if self.grouped_move_count == 1:
             action.update(
                 {
-                    "view_mode": "form,tree,kanban",
+                    "view_mode": "form,list,kanban",
                     "views": False,
                     "view_id": False,
                     "res_id": self.grouped_move_ids.id,
