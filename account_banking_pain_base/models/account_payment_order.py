@@ -9,7 +9,7 @@ from datetime import datetime
 
 from lxml import etree
 
-from odoo import _, api, fields, models, tools
+from odoo import api, fields, models, tools
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
@@ -208,18 +208,21 @@ class AccountPaymentOrder(models.Model):
                 for unallowed_ascii_char in unallowed_ascii_chars:
                     value = value.replace(unallowed_ascii_char, "-")
         except Exception:
-            error_msg_prefix = _("Cannot compute the field '{field_name}'.").format(
-                field_name=field_name
+            error_msg_prefix = self.env._(
+                "Cannot compute the field '%(field_name)s'.", field_name=field_name
             )
 
             error_msg_details_list = self.except_messages_prepare_field(
                 eval_ctx, field_name
             )
-            error_msg_data = _(
+            error_msg_data = self.env._(
                 "Data for evaluation:\n"
-                "\tcontext: {eval_ctx}\n"
-                "\tfield path: {field_value}"
-            ).format(eval_ctx=eval_ctx, field_value=field_value)
+                "\tcontext: %(eval_ctx)s\n"
+                "\tfield path: %(field_value)s",
+                eval_ctx=eval_ctx,
+                field_value=field_value,
+            )
+
             raise UserError(
                 "\n".join(
                     [error_msg_prefix] + error_msg_details_list + [error_msg_data]
@@ -228,7 +231,7 @@ class AccountPaymentOrder(models.Model):
 
         if not isinstance(value, str):
             raise UserError(
-                _(
+                self.env._(
                     "The type of the field '%(field)s' is %(value)s. It should be a string "  # noqa: E501
                     "or unicode.",
                     field=field_name,
@@ -237,8 +240,10 @@ class AccountPaymentOrder(models.Model):
             )
         if not value:
             raise UserError(
-                _("The '%s' is empty or 0. It should have a non-null value.")
-                % field_name
+                self.env._(
+                    "The '%s' is empty or 0. It should have a non-null value.",
+                    field_name,
+                )
             )
         if max_size and len(value) > max_size:
             value = value[0:max_size]
@@ -254,11 +259,19 @@ class AccountPaymentOrder(models.Model):
         error_messages = list()
         line = eval_ctx.get("line")
         if line:
-            error_messages.append(_("Payment Line has reference '%s'.") % line.name)
+            error_messages.append(
+                self.env._(
+                    "Payment Line has reference '%(ref)s'.",
+                    ref=line.name,
+                )
+            )
         partner_bank = eval_ctx.get("partner_bank")
         if partner_bank:
             error_messages.append(
-                _("Partner's bank account is '%s'.") % partner_bank.display_name
+                self.env._(
+                    "Partner's bank account is '%(bank)s'.",
+                    bank=partner_bank.display_name,
+                )
             )
         return error_messages
 
@@ -275,14 +288,14 @@ class AccountPaymentOrder(models.Model):
             logger.warning(xml_string)
             logger.warning(e)
             raise UserError(
-                _(
+                self.env._(
                     "The generated XML file is not valid against the official "
                     "XML Schema Definition. The generated XML file and the "
                     "full error have been written in the server logs. Here "
                     "is the error, which may give you an idea on the cause "
-                    "of the problem : %s"
+                    "of the problem : %(error)s",
+                    error=str(e),
                 )
-                % str(e)
             ) from None
         return True
 
@@ -453,12 +466,12 @@ class AccountPaymentOrder(models.Model):
                 iniparty_org_other_issuer.text = initiating_party_issuer
         elif self._must_have_initiating_party(gen_args):
             raise UserError(
-                _(
+                self.env._(
                     "Missing 'Initiating Party Issuer' and/or "
-                    "'Initiating Party Identifier' for the company '%s'. "
-                    "Both fields must have a value."
+                    "'Initiating Party Identifier' for the company '%(company)s'. "
+                    "Both fields must have a value.",
+                    company=self.company_id.name,
                 )
-                % self.company_id.name
             )
         return True
 
@@ -577,11 +590,11 @@ class AccountPaymentOrder(models.Model):
         In some localization (l10n_ch_sepa for example), they need the
         bank_line argument"""
         assert order in ("B", "C"), "Order can be 'B' or 'C'"
-        party_type_label = _("Partner name")
+        party_type_label = self.env._("Partner name")
         if party_type == "Cdtr":
-            party_type_label = _("Creditor name")
+            party_type_label = self.env._("Creditor name")
         elif party_type == "Dbtr":
-            party_type_label = _("Debtor name")
+            party_type_label = self.env._("Debtor name")
         name = "partner_bank.acc_holder_name or partner_bank.partner_id.name"
         eval_ctx = {"partner_bank": partner_bank}
         party_name = self._prepare_field(

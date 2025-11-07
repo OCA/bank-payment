@@ -2,6 +2,5 @@
 <odoo>
     <record id="group_pain_multiple_identifier" model="res.groups">
         <field name="name">SEPA/PAIN Identifiers on Payment Modes</field>
-        <field name="category_id" ref="base.module_category_hidden" />
     </record>
 </odoo>
