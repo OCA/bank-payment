@@ -1,7 +1,7 @@
 # Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -21,14 +21,12 @@ class AccountPaymentMethod(models.Model):
     def get_xsd_file_path(self):
         """This method is designed to be inherited in the SEPA modules"""
         self.ensure_one()
-        raise UserError(_("No XSD file path found for payment method '%s'") % self.name)
-
-    _sql_constraints = [
-        (
-            # Extending this constraint from account_payment_mode
-            "code_payment_type_unique",
-            "unique(code, payment_type, pain_version)",
-            "A payment method of the same type already exists with this code"
-            " and PAIN version",
+        raise UserError(
+            self.env._("No XSD file path found for payment method '%s'", self.name)
         )
-    ]
+
+    _code_payment_type_unique = models.Constraint(
+        "unique(code, payment_type, pain_version)",
+        "A payment method of the same type already exists with this code"
+        " and PAIN version",
+    )
