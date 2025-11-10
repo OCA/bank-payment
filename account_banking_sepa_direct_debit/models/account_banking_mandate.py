@@ -7,7 +7,7 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY = 36
@@ -53,8 +53,8 @@ class AccountBankingMandate(models.Model):
         for mandate in self:
             if mandate.type == "recurrent" and not mandate.recurrent_sequence_type:
                 raise UserError(
-                    _("The recurrent mandate '%s' must have a sequence type.")
-                    % mandate.unique_mandate_reference
+                    self.env._("The recurrent mandate '%s' must have a sequence type."),
+                    mandate.unique_mandate_reference,
                 )
 
     @api.depends("unique_mandate_reference", "recurrent_sequence_type")
@@ -80,8 +80,8 @@ class AccountBankingMandate(models.Model):
         ):
             self.recurrent_sequence_type = "first"
             res["warning"] = {
-                "title": _("Mandate update"),
-                "message": _(
+                "title": self.env._("Mandate update"),
+                "message": self.env._(
                     "As you changed the bank account attached "
                     "to this mandate, the 'Sequence Type' has "
                     "been set back to 'First'."
@@ -107,15 +107,15 @@ class AccountBankingMandate(models.Model):
             expired_mandates.write({"state": "expired"})
             for mandate in expired_mandates:
                 mandate.message_post(
-                    body=_(
+                    body=self.env._(
                         "Mandate automatically set to"
-                        " expired after %d months without use."
+                        " expired after %s months without use.",
+                        NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY,
                     )
-                    % NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY
                 )
             logger.info(
-                "%d SDD Mandate set to expired: IDs %s"
-                % (len(expired_mandates), expired_mandates.ids)
+                f"{len(expired_mandates)} SDD Mandate set to expired: "
+                f"IDs {expired_mandates.ids}"
             )
         else:
             logger.info("0 SDD Mandates had to be set to Expired")
