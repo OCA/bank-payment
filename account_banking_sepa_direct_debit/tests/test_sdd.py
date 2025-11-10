@@ -220,6 +220,7 @@ class TestSDDBase(TransactionCase):
                 "name": "HR Expense - Test Purchase Account Company B",
                 "account_type": "expense",
                 "company_ids": [(6, 0, [cls.company_B.id])],
+                "reconcile": True,
             }
         )
         cls.account_revenue_company_B = cls.env["account.account"].create(
