@@ -20,7 +20,7 @@ class TestSCT(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env.user.groups_id += cls.env.ref(
+        cls.env.user.group_ids += cls.env.ref(
             "account_payment_order.group_account_payment"
         )
         cls.account_model = cls.env["account.account"]
