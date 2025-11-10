@@ -4,7 +4,7 @@
 
 from lxml import etree
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -22,7 +22,9 @@ class AccountPaymentOrder(models.Model):
         # to support country-specific extensions such as
         # pain.001.001.03.ch.02 (cf l10n_ch_sepa)
         if not pain_flavor:
-            raise UserError(_("PAIN version '%s' is not supported.") % pain_flavor)
+            raise UserError(
+                self.env._("PAIN version '%s' is not supported.", pain_flavor)
+            )
         if pain_flavor.startswith("pain.001.001.02"):
             bic_xml_tag = "BIC"
             name_maxsize = 70
@@ -55,7 +57,9 @@ class AccountPaymentOrder(models.Model):
             name_maxsize = 70
             root_xml_tag = "CstmrCdtTrfInitn"
         else:
-            raise UserError(_("PAIN version '%s' is not supported.") % pain_flavor)
+            raise UserError(
+                self.env._("PAIN version '%s' is not supported.", pain_flavor)
+            )
         xsd_file = self.payment_method_id.get_xsd_file_path()
         gen_args = {
             "bic_xml_tag": bic_xml_tag,
@@ -174,10 +178,12 @@ class AccountPaymentOrder(models.Model):
                 amount_control_sum_b += line.amount
                 if not line.partner_bank_id:
                     raise UserError(
-                        _(
+                        self.env._(
                             "Bank account is missing on the bank payment line "
-                            "of partner '{partner}' (reference '{reference}')."
-                        ).format(partner=line.partner_id.name, reference=line.name)
+                            "of partner '{partner}' (reference '{reference}').",
+                            partner=line.partner_id.name,
+                            reference=line.name,
+                        )
                     )
 
                 self.generate_party_block(
