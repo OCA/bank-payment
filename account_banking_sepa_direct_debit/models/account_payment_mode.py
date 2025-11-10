@@ -3,7 +3,7 @@
 
 from stdnum.eu.at_02 import is_valid
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -29,5 +29,5 @@ class AccountPaymentMode(models.Model):
             ics = payment_mode.sepa_creditor_identifier
             if ics and not is_valid(ics):
                 raise ValidationError(
-                    _("The SEPA Creditor Identifier '%s' is invalid.") % ics
+                    self.env._("The SEPA Creditor Identifier '%s' is invalid.", ics)
                 )

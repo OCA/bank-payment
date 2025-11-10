@@ -5,7 +5,7 @@
 from lxml import etree
 from markupsafe import Markup
 
-from odoo import _, exceptions, fields, models
+from odoo import exceptions, fields, models
 from odoo.exceptions import UserError
 
 
@@ -39,13 +39,13 @@ class AccountPaymentOrder(models.Model):
             root_xml_tag = "CstmrDrctDbtInitn"
         else:
             raise UserError(
-                _(
+                self.env._(
                     "Payment Type Code '%s' is not supported. The only "
                     "Payment Type Code supported for SEPA Direct Debit are "
                     "'pain.008.001.02', 'pain.008.001.03' and "
-                    "'pain.008.001.04'."
+                    "'pain.008.001.04'.",
+                    pain_flavor,
                 )
-                % pain_flavor
             )
         pay_method = self.payment_mode_id.payment_method_id
         xsd_file = pay_method.get_xsd_file_path()
@@ -88,11 +88,11 @@ class AccountPaymentOrder(models.Model):
                 seq_type = seq_type_map[seq_type_label]
             else:
                 raise exceptions.UserError(
-                    _(
+                    self.env._(
                         "Invalid mandate type in '%s'. Valid ones are 'Recurrent' "
                         "or 'One-Off'"
-                    )
-                    % payment_line.mandate_id.unique_mandate_reference
+                    ),
+                    payment_line.mandate_id.unique_mandate_reference,
                 )
             # The field line.payment_line_date is the requested payment date
             key = (line.payment_line_date, priority, categ_purpose, seq_type, scheme)
@@ -298,7 +298,7 @@ class AccountPaymentOrder(models.Model):
             for first_mandate in first_mandates:
                 first_mandate.message_post(
                     body=Markup(
-                        _(
+                        self.env._(
                             "Automatically switched from <b>First</b> to "
                             "<b>Recurring</b> when the debit order "
                             "<a href=# data-oe-model=account.payment.order "
