@@ -52,10 +52,11 @@ class AccountBankingMandate(models.Model):
     def _check_recurring_type(self):
         for mandate in self:
             if mandate.type == "recurrent" and not mandate.recurrent_sequence_type:
-                raise UserError(
+                error_message = (
                     self.env._("The recurrent mandate '%s' must have a sequence type."),
                     mandate.unique_mandate_reference,
                 )
+                raise UserError(error_message)
 
     @api.depends("unique_mandate_reference", "recurrent_sequence_type")
     def _compute_display_name2(self):
