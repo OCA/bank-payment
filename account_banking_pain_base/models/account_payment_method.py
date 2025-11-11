@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Copyright 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2026 Therp BV <https://therp.nl>.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
@@ -9,7 +10,7 @@ from odoo.exceptions import UserError
 class AccountPaymentMethod(models.Model):
     _inherit = 'account.payment.method'
 
-    pain_version = fields.Selection([], string='PAIN Version')
+    pain_version = fields.Selection([], string="PAIN Version", copy=False)
     convert_to_ascii = fields.Boolean(
         string='Convert to ASCII', default=True,
         help="If active, Odoo will convert each accented character to "
@@ -23,6 +24,22 @@ class AccountPaymentMethod(models.Model):
         "Some banks reject PAIN XML files that contain the name and "
         "address of the bank, although the ISO 20022 "
         "standard and the EPC guidelines specify this possibility.")
+    # get rid of booleans, add selection
+    sepa_pain09_address_mode = fields.Selection(
+        [
+            ("minimal", "Minimal (City + Country only)"),
+            ("hybrid", "Hybrid (City/Country + AdrLine)"),
+        ],
+        default="minimal",
+        required=True,
+        string="PAIN.001.001.09 Address Mode",
+        help=(
+            "Controls how the <PstlAdr> block is generated for PAIN.001.001.09"
+            "- Minimal: only City (TwnNm) and Country (Ctry)"
+            "- Hybrid: City/Country plus optional AdrLine lines (street/street2) "
+            "and optional Post Code (PstCd) when available."
+        ),
+    )
 
     @api.multi
     def get_xsd_file_path(self):

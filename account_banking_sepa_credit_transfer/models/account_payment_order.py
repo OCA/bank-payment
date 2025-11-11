@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-# © 2010-2016 Akretion (www.akretion.com)
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Copyright 2010-2020 Akretion (www.akretion.com)
+# Copyright 2014-2022 Tecnativa - Pedro M. Baeza
+# Copyright 2026 Therp BV <https://therp.nl>.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, api, _
 from odoo.exceptions import UserError
@@ -62,6 +63,10 @@ class AccountPaymentOrder(models.Model):
             bic_xml_tag = 'BICFI'
             name_maxsize = 140
             root_xml_tag = 'CstmrCdtTrfInitn'
+        elif pain_flavor.startswith("pain.001.001.09"):
+            bic_xml_tag = "BICFI"
+            name_maxsize = 140
+            root_xml_tag = "CstmrCdtTrfInitn"
         # added pain.001.003.03 for German Banks
         # it is not in the offical ISO 20022 documentations, but nearly all
         # german banks are working with this instead 001.001.03
