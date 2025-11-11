@@ -112,8 +112,8 @@ msgstr "Avbokningsavgift"
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-msgid "Cannot compute the field '{field_name}'."
-msgstr "Det går inte att beräkna fältet '{field_name}'."
+msgid "Cannot compute the field '%(field_name)s'."
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__clpr
@@ -197,6 +197,14 @@ msgid "Consumer Third Party Consolidated Payment"
 msgstr "Konsument Tredje part Konsoliderad betalning"
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_method__sepa_pain09_address_mode
+msgid ""
+"Controls how the <PstlAdr> block is generated for PAIN.001.001.09- Minimal: "
+"only City (TwnNm) and Country (Ctry)- Hybrid: City/Country plus optional "
+"AdrLine lines (street/street2) and optional Post Code (PstCd) when available."
+msgstr ""
+
+#. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cvcf
 msgid "Convalescent Care Facility"
 msgstr "Anläggning för konvalescentvård"
@@ -237,12 +245,9 @@ msgstr "Borgenärens namn"
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 msgid ""
 "Data for evaluation:\n"
-"\tcontext: {eval_ctx}\n"
-"\tfield path: {field_value}"
+"\tcontext: %(eval_ctx)s\n"
+"\tfield path: %(field_value)s"
 msgstr ""
-"Data för utvärdering:\n"
-"\tsammanhang: {eval_ctx}\n"
-"\tfält sökväg: {field_value}"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__dcrd
@@ -285,6 +290,17 @@ msgstr "Tandvårdstjänster"
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__deri
 msgid "Derivatives"
 msgstr "Derivatinstrument"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_bank__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__divi
@@ -411,6 +427,22 @@ msgstr "Återbetalning av bostadslån"
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__hstx
 msgid "Housing Tax"
 msgstr "Skatt på bostäder"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_method__sepa_pain09_address_mode__hybrid
+msgid "Hybrid (City/Country + AdrLine)"
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_bank__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__id
+msgid "ID"
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__communication_type__iso
@@ -573,14 +605,17 @@ msgid "Medical Services"
 msgstr "Medicinsk service"
 
 #. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_method__sepa_pain09_address_mode__minimal
+msgid "Minimal (City + Country only)"
+msgstr ""
+
+#. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
-"the company '%s'. Both fields must have a value."
+"the company '%(company)s'. Both fields must have a value."
 msgstr ""
-"Saknar 'Initiating Party Issuer' och/eller 'Initiating Party Identifier' för "
-"företaget '%s'. Båda fälten måste ha ett värde."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__msvc
@@ -651,20 +686,33 @@ msgstr "Smärta version"
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid ""
+"PAIN format %(flavor)s requires City (TwnNm). Partner missing City: %"
+"(partner)s. Please set a City or choose an older PAIN format."
+msgstr ""
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__sepa_pain09_address_mode
+msgid "PAIN.001.001.09 Address Mode"
+msgstr ""
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 msgid "Partner name"
 msgstr "Partnerns namn"
 
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-msgid "Partner's bank account is '%s'."
-msgstr "Partnerns bankkonto är \"%s\"."
+msgid "Partner's bank account is '%(bank)s'."
+msgstr ""
 
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
-msgid "Payment Line has reference '%s'."
-msgstr "Betalningsrad har referens \"%s\"."
+msgid "Payment Line has reference '%(ref)s'."
+msgstr ""
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
@@ -863,15 +911,10 @@ msgstr "'%s' är tomt eller 0. Det bör ha ett värde som inte är tomt."
 #: code:addons/account_banking_pain_base/models/res_bank.py:0
 msgid ""
 "The following Bank Identifier Codes (BIC) do not respect the SEPA pattern:\n"
-"{bic_list}\n"
+"%(bic_list)s\n"
 "\n"
-"SEPA pattern: {sepa_pattern}"
+"SEPA pattern: %(sepa_pattern)s"
 msgstr ""
-"Följande bankidentifieringskoder (BIC) överensstämmer inte med SEPA-"
-"mönstret:\n"
-"{bic_list}\n"
-"\n"
-"SEPA-mönster: {sepa_pattern}"
 
 #. module: account_banking_pain_base
 #. odoo-python
@@ -880,12 +923,8 @@ msgid ""
 "The generated XML file is not valid against the official XML Schema "
 "Definition. The generated XML file and the full error have been written in "
 "the server logs. Here is the error, which may give you an idea on the cause "
-"of the problem : %s"
+"of the problem : %(error)s"
 msgstr ""
-"Den genererade XML-filen är inte giltig mot den officiella XML Schema "
-"Definition. Den genererade XML-filen och det fullständiga felet har skrivits "
-"i serverloggarna. Här är felet, som kan ge dig en uppfattning om orsaken "
-"till problemet : %s"
 
 #. module: account_banking_pain_base
 #. odoo-python
@@ -1061,3 +1100,52 @@ msgstr "MedHållning"
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__epay
 msgid "ePayment"
 msgstr "ePayment"
+
+#~ msgid "Cannot compute the field '{field_name}'."
+#~ msgstr "Det går inte att beräkna fältet '{field_name}'."
+
+#~ msgid ""
+#~ "Data for evaluation:\n"
+#~ "\tcontext: {eval_ctx}\n"
+#~ "\tfield path: {field_value}"
+#~ msgstr ""
+#~ "Data för utvärdering:\n"
+#~ "\tsammanhang: {eval_ctx}\n"
+#~ "\tfält sökväg: {field_value}"
+
+#~ msgid ""
+#~ "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' "
+#~ "for the company '%s'. Both fields must have a value."
+#~ msgstr ""
+#~ "Saknar 'Initiating Party Issuer' och/eller 'Initiating Party Identifier' "
+#~ "för företaget '%s'. Båda fälten måste ha ett värde."
+
+#~ msgid "Partner's bank account is '%s'."
+#~ msgstr "Partnerns bankkonto är \"%s\"."
+
+#~ msgid "Payment Line has reference '%s'."
+#~ msgstr "Betalningsrad har referens \"%s\"."
+
+#~ msgid ""
+#~ "The following Bank Identifier Codes (BIC) do not respect the SEPA "
+#~ "pattern:\n"
+#~ "{bic_list}\n"
+#~ "\n"
+#~ "SEPA pattern: {sepa_pattern}"
+#~ msgstr ""
+#~ "Följande bankidentifieringskoder (BIC) överensstämmer inte med SEPA-"
+#~ "mönstret:\n"
+#~ "{bic_list}\n"
+#~ "\n"
+#~ "SEPA-mönster: {sepa_pattern}"
+
+#~ msgid ""
+#~ "The generated XML file is not valid against the official XML Schema "
+#~ "Definition. The generated XML file and the full error have been written "
+#~ "in the server logs. Here is the error, which may give you an idea on the "
+#~ "cause of the problem : %s"
+#~ msgstr ""
+#~ "Den genererade XML-filen är inte giltig mot den officiella XML Schema "
+#~ "Definition. Den genererade XML-filen och det fullständiga felet har "
+#~ "skrivits i serverloggarna. Här är felet, som kan ge dig en uppfattning om "
+#~ "orsaken till problemet : %s"
