@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_bank_form_sepa_hybrid_mode" model="ir.ui.view">
+        <field name="name">res.bank.form.sepa.hybrid.mode</field>
+        <field name="model">res.bank</field>
+        <field name="inherit_id" ref="base.view_res_bank_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="before">
+                    <field name="enforce_sepa_hybrid_mode" />
+            </xpath>
+        </field>
+     </record>
+</odoo>

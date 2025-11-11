@@ -529,50 +529,88 @@ class AccountPaymentOrder(models.Model):
     @api.model
     def generate_address_block(self, parent_node, partner, gen_args):
         """Generate the piece of the XML corresponding to PstlAdr"""
-        if partner.country_id:
-            postal_address = etree.SubElement(parent_node, "PstlAdr")
-            country = etree.SubElement(postal_address, "Ctry")
-            country.text = self._prepare_field(
-                "Country",
-                "partner.country_id.code",
+        if not partner.country_id:
+            return True
+        postal_address = etree.SubElement(parent_node, "PstlAdr")
+        country = etree.SubElement(postal_address, "Ctry")
+        country.text = self._prepare_field(
+            "Country",
+            "partner.country_id.code",
+            {"partner": partner},
+            2,
+            gen_args=gen_args,
+        )
+        bank = self._get_bank_record()
+        if bank.enforce_sepa_hybrid_mode:
+            if partner.city:
+                twn = etree.SubElement(postal_address, "TwnNm")
+                twn.text = self._prepare_field(
+                    "city",
+                    "partner.city",
+                    {"partner": partner},
+                    35,  # TwnNm max length
+                    gen_args=gen_args,
+                )
+            return True
+        if partner.street:
+            adrline1 = etree.SubElement(postal_address, "AdrLine")
+            adrline1.text = self._prepare_field(
+                "Adress Line1",
+                "partner.street",
                 {"partner": partner},
-                2,
+                70,
                 gen_args=gen_args,
             )
-            if partner.street:
-                adrline1 = etree.SubElement(postal_address, "AdrLine")
-                adrline1.text = self._prepare_field(
-                    "Adress Line1",
-                    "partner.street",
+        if (
+            gen_args.get("pain_flavor").startswith("pain.001.001.")
+            or gen_args.get("pain_flavor").startswith("pain.008.001.")
+        ) and (partner.zip or partner.city):
+            adrline2 = etree.SubElement(postal_address, "AdrLine")
+            if partner.zip:
+                val = self._prepare_field(
+                    "zip",
+                    "partner.zip",
                     {"partner": partner},
                     70,
                     gen_args=gen_args,
                 )
-            if (
-                gen_args.get("pain_flavor").startswith("pain.001.001.")
-                or gen_args.get("pain_flavor").startswith("pain.008.001.")
-            ) and (partner.zip or partner.city):
-                adrline2 = etree.SubElement(postal_address, "AdrLine")
-                if partner.zip:
-                    val = self._prepare_field(
-                        "zip",
-                        "partner.zip",
-                        {"partner": partner},
-                        70,
-                        gen_args=gen_args,
-                    )
-                else:
-                    val = ""
-                if partner.city:
-                    val += " " + self._prepare_field(
-                        "city",
-                        "partner.city",
-                        {"partner": partner},
-                        70,
-                        gen_args=gen_args,
-                    )
-                adrline2.text = val
+            else:
+                val = ""
+            if partner.city:
+                val += " " + self._prepare_field(
+                    "city",
+                    "partner.city",
+                    {"partner": partner},
+                    70,
+                    gen_args=gen_args,
+                )
+            adrline2.text = val
         return True
+
+    @api.model
+    def _get_bank_record(self):
+        """Retrieve bank"""
+        bank = self.env["res.bank"].browse()
+        bank_id = self.env.context.get("export_bank_id")
+        if bank_id:
+            bank = self.env["res.bank"].browse(bank_id)
+        # probably never reached
+        elif self and len(self) == 1:
+            bank = (
+                self.company_partner_bank_id.bank_id
+                or self.journal_id.bank_account_id.bank_id
+            )
+        return bank
+
+    def open2generated(self):
+        """Ensure export_bank_id is in context before generating the file"""
+        self.ensure_one()
+        bank = self.company_partner_bank_id.bank_id or (
+            self.journal_id.bank_account_id and self.journal_id.bank_account_id.bank_id
+        )
+        context_with_bank = self.with_context(export_bank_id=bank.id) if bank else self
+        # Call super for a specific context if bank exists
+        return super(AccountPaymentOrder, context_with_bank).open2generated()
 
     @api.model
     def generate_party_block(

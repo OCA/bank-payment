@@ -3,7 +3,7 @@
 
 import re
 
-from odoo import _, api, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 BIC_REGEX = re.compile(r"[A-Z]{6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3})?$")
@@ -11,6 +11,14 @@ BIC_REGEX = re.compile(r"[A-Z]{6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3})?$")
 
 class ResBank(models.Model):
     _inherit = "res.bank"
+
+    enforce_sepa_hybrid_mode = fields.Boolean(
+        string="Enforce SEPA Hybrid Mode",
+        help=(
+            "When enabled, SEPA pain.001 exports will strip detailed postal address "
+            "(postal code and address lines) and only include City and Country."
+        ),
+    )
 
     @api.constrains("bic")
     def _check_bic(self):
