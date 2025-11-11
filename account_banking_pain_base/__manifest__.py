@@ -2,14 +2,15 @@
 # Copyright 2016 Tecnativa - Antonio Espinosa
 # Copyright 2021 Tecnativa - Carlos Roca
 # Copyright 2014-2023 Tecnativa - Pedro M. Baeza
+# Copyright 2026 Therp BV <https://therp.nl>.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
     "name": "Account Banking PAIN Base Module",
     "summary": "Base module for PAIN file generation",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "license": "AGPL-3",
-    "author": "Akretion, Noviat, Tecnativa, Odoo Community Association (OCA)",
+    "author": "Akretion, Noviat, Tecnativa, Therp BV, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",
     "category": "Hidden",
     "depends": ["account_payment_order"],
