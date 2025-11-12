@@ -2,7 +2,7 @@
 
 {
     "name": "Account Payment Order - Generate grouped moves",
-    "version": "18.0.1.0.1",
+    "version": "19.0.1.0.0",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV, Therp BV, Tecnativa, Akretion, "
     "Odoo Community Association (OCA)",

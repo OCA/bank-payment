@@ -1,6 +1,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
+from odoo.fields import Domain
 
 
 class AccountPaymentOrder(models.Model):
@@ -19,15 +20,12 @@ class AccountPaymentOrder(models.Model):
 
     @api.depends("grouped_move_ids")
     def _compute_grouped_move_count(self):
-        rg_res = self.env["account.move"].read_group(
-            [("grouped_payment_order_id", "in", self.ids)],
-            ["grouped_payment_order_id"],
-            ["grouped_payment_order_id"],
+        rg_res = self.env["account.move"]._read_group(
+            domain=Domain("grouped_payment_order_id", "in", self.ids),
+            groupby=["grouped_payment_order_id"],
+            aggregates=["grouped_payment_order_id:count"],
         )
-        mapped_data = {
-            x["grouped_payment_order_id"][0]: x["grouped_payment_order_id_count"]
-            for x in rg_res
-        }
+        mapped_data = {x[0].id: x[1] for x in rg_res}
         for order in self:
             order.grouped_move_count = mapped_data.get(order.id, 0)
 
@@ -90,9 +88,9 @@ class AccountPaymentOrder(models.Model):
 
     def _prepare_move(self, payments=None):
         if self.payment_type == "outbound":
-            ref = _("Payment order %s") % self.name
+            ref = self.env._("Payment order %s", self.name)
         else:
-            ref = _("Debit order %s") % self.name
+            ref = self.env._("Debit order %s", self.name)
         if payments and len(payments) == 1:
             ref += " - " + payments.name
         vals = {
@@ -116,11 +114,13 @@ class AccountPaymentOrder(models.Model):
         return vals
 
     def _get_grouped_output_liquidity_account(self, payment):
-        domain = [
-            ("journal_id", "=", self.journal_id.id),
-            ("payment_method_id", "=", payment.payment_method_id.id),
-            ("payment_type", "=", self.payment_type),
-        ]
+        domain = Domain(
+            [
+                ("journal_id", "=", self.journal_id.id),
+                ("payment_method_id", "=", payment.payment_method_id.id),
+                ("payment_type", "=", self.payment_type),
+            ]
+        )
         apml = self.env["account.payment.method.line"].search(domain)
         if apml.payment_account_id:
             return apml.payment_account_id
@@ -131,9 +131,9 @@ class AccountPaymentOrder(models.Model):
 
     def _prepare_move_line_partner_account(self, payment):
         if self.payment_type == "outbound":
-            name = _("Payment bank line %s") % payment.name
+            name = self.env._("Payment bank line %s", payment.name)
         else:
-            name = _("Debit bank line %s") % payment.name
+            name = self.env._("Debit bank line %s", payment.name)
         account = self._get_grouped_output_liquidity_account(payment)
         sign = self.payment_type == "inbound" and -1 or 1
         amount_company_currency = abs(payment.move_id.line_ids[0].balance)
@@ -158,9 +158,9 @@ class AccountPaymentOrder(models.Model):
         self, amount_company_currency, amount_payment_currency, payments
     ):
         if self.payment_type == "outbound":
-            name = _("Payment order %s") % self.name
+            name = self.env._("Payment order %s", self.name)
         else:
-            name = _("Debit order %s") % self.name
+            name = self.env._("Debit order %s", self.name)
         partner = self.env["res.partner"]
         for index, payment in enumerate(payments):
             account = self._get_grouped_output_liquidity_account(payment)
@@ -203,7 +203,7 @@ class AccountPaymentOrder(models.Model):
                 }
             )
         else:
-            action["domain"] = [("id", "in", self.grouped_move_ids.ids)]
+            action["domain"] = Domain("id", "in", self.grouped_move_ids.ids)
         ctx = self.env.context.copy()
         ctx.update({"search_default_misc_filter": 0})
         action["context"] = ctx
