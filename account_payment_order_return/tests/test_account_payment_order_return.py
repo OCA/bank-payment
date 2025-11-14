@@ -19,8 +19,8 @@ class TestAccountPaymentOrderReturn(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env.ref("account_payment_order.group_account_payment").write(
-            {"users": [(4, cls.env.user.id)]}
+        cls.env.user.group_ids |= cls.env.ref(
+            "account_payment_order.group_account_payment"
         )
         cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
         cls.bank_journal = cls.env["account.journal"].create(
@@ -66,7 +66,7 @@ class TestAccountPaymentOrderReturn(AccountTestInvoicingCommon):
     def test_global(self):
         self.invoice.action_post()
         wizard_o = self.env["account.payment.line.create"]
-        context = wizard_o._context.copy()
+        context = dict(self.env.context)
         context.update(
             {
                 "active_model": "account.payment.order",
@@ -110,6 +110,11 @@ class TestAccountPaymentOrderReturn(AccountTestInvoicingCommon):
             )
         self.payment_return = payment_return_form.save()
         self.payment_return.action_confirm()
+        wizard.include_returned = True
+        wizard._compute_move_line_domain()
+        wizard.populate()
+        self.assertEqual(len(wizard.move_line_ids), 1)
         wizard.include_returned = False
+        wizard._compute_move_line_domain()
         wizard.populate()
         self.assertEqual(len(wizard.move_line_ids), 0)
