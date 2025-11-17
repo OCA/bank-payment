@@ -1,5 +1,6 @@
 # Copyright 2025
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+from lxml import etree
 
 from odoo.tests.common import TransactionCase, tagged
 
@@ -78,4 +79,62 @@ class TestOpen2GeneratedBankContext(TransactionCase):
         self.assertEqual(
             captured.get("export_bank_id"),
             self.bank.id,
+        )
+
+    def test_hybrid_address_block_city_only(self):
+        """In hybrid mode, address block must keep only city + country."""
+        country = self.env["res.country"].search([("code", "=", "NL")], limit=1)
+        # Partner with full address info
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Hybrid Partner",
+                "street": "Somewhere",
+                "zip": "5555 NN",
+                "city": "Amersfoort",
+                "country_id": country.id,
+            }
+        )
+
+        self.bank.enforce_sepa_hybrid_mode = True
+        gen_args = {"pain_flavor": "pain.001.001.03"}
+        # Build XML fragment
+        root = etree.Element("Root")
+        self.po.generate_address_block(root, partner, gen_args)
+        # There should be exactly one PstlAdr node
+        pstl_nodes = root.findall("PstlAdr")
+        self.assertEqual(len(pstl_nodes), 1)
+        pstl = pstl_nodes[0]
+        # Country must be present and correct
+        ctry = pstl.find("Ctry")
+        self.assertIsNotNone(ctry)
+        self.assertEqual(
+            ctry.text,
+            partner.country_id.code,
+        )
+        # In hybrid mode we expect exactly one AdrLine with only the city
+        adr_lines = pstl.findall("AdrLine")
+        self.assertEqual(
+            len(adr_lines),
+            1,
+        )
+        adr_text = adr_lines[0].text or ""
+        self.assertIn(
+            partner.city,
+            adr_text,
+        )
+        # Street and zip must not appear
+        if partner.zip:
+            self.assertNotIn(
+                partner.zip,
+                adr_text,
+            )
+        if partner.street:
+            first_street_token = partner.street.split()[0]
+            self.assertNotIn(
+                first_street_token,
+                adr_text,
+            )
+        # No structured city tag should exist in hybrid mode
+        self.assertIsNone(
+            pstl.find("TwnNm"),
         )
