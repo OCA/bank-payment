@@ -130,3 +130,12 @@ class TestSaleOrder(CommonTestCase):
         other_company = self.env["res.company"].create({"name": "other company"})
         order.company_id = other_company
         self.assertFalse(order.payment_mode_id)
+
+    def test_grouped_invoicing_payment_mode_compare(self):
+        order_1 = self.create_sale_order()
+        order_1.payment_mode_id = False
+        order_2 = self.create_sale_order()
+        orders = order_1 | order_2
+        orders.action_confirm()
+        invoices = orders._create_invoices(grouped=False)
+        self.assertEqual(len(invoices), 2)
