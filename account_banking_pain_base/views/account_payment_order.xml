@@ -13,11 +13,8 @@
         />
         <field name="arch" type="xml">
             <field name="company_partner_bank_id" position="after">
-                <field
-                    name="sepa"
-                    attrs="{'invisible': [('sepa_payment_method', '=', False)]}"
-                />
-                <field name="sepa_payment_method" invisible="1" />
+                <field name="sepa" attrs="{'invisible': [('sepa', '=', False)]}" />
+                <field name="sepa" invisible="1" />
                 <field name="show_warning_not_sepa" invisible="1" />
                 <field name="batch_booking" />
                 <field

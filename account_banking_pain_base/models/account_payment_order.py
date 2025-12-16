@@ -400,7 +400,11 @@ class AccountPaymentOrder(models.Model):
         else:
             request_date_tag = "ReqdExctnDt"
         requested_date_node = etree.SubElement(payment_info, request_date_tag)
-        requested_date_node.text = requested_date
+        if gen_args["pain_flavor"].startswith("pain.001.001.09"):
+            requested_date_node_dt = etree.SubElement(requested_date_node, "Dt")
+            requested_date_node_dt.text = requested_date
+        else:
+            requested_date_node.text = requested_date
         return payment_info, nb_of_transactions, control_sum
 
     @api.model
@@ -527,54 +531,6 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
-    def generate_address_block(self, parent_node, partner, gen_args):
-        """Generate the piece of the XML corresponding to PstlAdr"""
-        if partner.country_id:
-            postal_address = etree.SubElement(parent_node, "PstlAdr")
-            country = etree.SubElement(postal_address, "Ctry")
-            country.text = self._prepare_field(
-                "Country",
-                "partner.country_id.code",
-                {"partner": partner},
-                2,
-                gen_args=gen_args,
-            )
-            if partner.street:
-                adrline1 = etree.SubElement(postal_address, "AdrLine")
-                adrline1.text = self._prepare_field(
-                    "Adress Line1",
-                    "partner.street",
-                    {"partner": partner},
-                    70,
-                    gen_args=gen_args,
-                )
-            if (
-                gen_args.get("pain_flavor").startswith("pain.001.001.")
-                or gen_args.get("pain_flavor").startswith("pain.008.001.")
-            ) and (partner.zip or partner.city):
-                adrline2 = etree.SubElement(postal_address, "AdrLine")
-                if partner.zip:
-                    val = self._prepare_field(
-                        "zip",
-                        "partner.zip",
-                        {"partner": partner},
-                        70,
-                        gen_args=gen_args,
-                    )
-                else:
-                    val = ""
-                if partner.city:
-                    val += " " + self._prepare_field(
-                        "city",
-                        "partner.city",
-                        {"partner": partner},
-                        70,
-                        gen_args=gen_args,
-                    )
-                adrline2.text = val
-        return True
-
-    @api.model
     def generate_party_block(
         self, parent_node, party_type, order, partner_bank, gen_args, bank_line=None
     ):
@@ -613,7 +569,7 @@ class AccountPaymentOrder(models.Model):
         party_nm.text = party_name
         partner = partner_bank.partner_id
 
-        self.generate_address_block(party, partner, gen_args)
+        partner._generate_sepa_pain_address_block(party, gen_args)
 
         self.generate_party_id(party, party_type, partner)
 
