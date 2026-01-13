@@ -8,6 +8,7 @@ from datetime import date, datetime, timedelta
 from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import Form, tagged
+from odoo.tools import mute_logger
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -216,6 +217,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
                 active_model="account.move", active_ids=self.invoice.ids
             ).create({}).run()
 
+    @mute_logger("odoo.models.unlink")
     def test_cancel_payment_order(self):
         # Open invoice
         self.invoice.action_post()
@@ -275,6 +277,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             "F1242", self.invoice._get_payment_order_communication_direct()
         )
 
+    @mute_logger("odoo.models.unlink")
     def test_invoice_communication_03(self):
         self.invoice.ref = False
         self.invoice.action_post()
@@ -351,6 +354,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             fields.Date.context_today(outbound_order),
         )
 
+    @mute_logger("odoo.models.unlink")
     def test_supplier_refund(self):
         """
         Confirm the supplier invoice
@@ -386,6 +390,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
 
         self.assertEqual("F1242 R1234", payment_order.payment_line_ids.communication)
 
+    @mute_logger("odoo.models.unlink")
     def test_supplier_refund_reference(self):
         """
         Confirm the supplier invoice
