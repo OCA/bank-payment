@@ -9,6 +9,7 @@ from freezegun import freeze_time
 
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import Form, tagged
+from odoo.tools import mute_logger
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -111,6 +112,7 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
             "R1234", self.invoice._get_payment_order_communication_direct()
         )
 
+    @mute_logger("odoo.models.unlink")
     def test_creation(self):
         payment_order = self.inbound_order
         self.assertEqual(len(payment_order.ids), 1)
