@@ -92,7 +92,7 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
         rule._run_buy(
             procurements=[
                 (
-                    self.env["procurement.group"].Procurement(
+                    self.env["stock.rule"].Procurement(
                         self.mto_product,
                         1,
                         self.mto_product.uom_id,
