@@ -4,13 +4,13 @@
 
 {
     "name": "Account Payment Purchase",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "category": "Banking addons",
     "license": "AGPL-3",
     "summary": "Adds Bank Account and Payment Mode on Purchase Orders",
     "author": "Akretion, Tecnativa, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",
-    "depends": ["account_payment_partner", "purchase"],
+    "depends": ["account_payment_mode", "purchase"],
     "data": ["views/purchase_order_view.xml"],
     "installable": True,
     "auto_install": True,

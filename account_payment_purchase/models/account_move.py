@@ -2,7 +2,7 @@
 # Copyright 2017 Tecnativa - Vicent Cubells.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, models
+from odoo import api, models
 
 
 class AccountMove(models.Model):
@@ -25,16 +25,20 @@ class AccountMove(models.Model):
         res = super()._onchange_purchase_auto_complete() or {}
         if old_mode and new_mode and old_mode != new_mode:
             res["warning"] = {
-                "title": _("Warning"),
-                "message": _("Selected purchase order have different payment mode."),
+                "title": self.env._("Warning"),
+                "message": self.env._(
+                    "Selected purchase order have different payment mode."
+                ),
             }
             return res
         elif new_mode and self.payment_mode_id.id != new_mode:
             self.payment_mode_id = new_mode
         if old_bank and new_bank and old_bank != new_bank:
             res["warning"] = {
-                "title": _("Warning"),
-                "message": _("Selected purchase order have different supplier bank."),
+                "title": self.env._("Warning"),
+                "message": self.env._(
+                    "Selected purchase order have different supplier bank."
+                ),
             }
         elif new_bank and self.partner_bank_id.id != new_bank:
             self.partner_bank_id = new_bank

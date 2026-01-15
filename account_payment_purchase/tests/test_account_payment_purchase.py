@@ -51,7 +51,6 @@ class TestAccountPaymentPurchase(TransactionCase):
             {
                 "name": "Test buy product",
                 "uom_id": cls.uom_id,
-                "uom_po_id": cls.uom_id,
                 "seller_ids": [Command.create({"partner_id": cls.partner.id})],
             }
         )
