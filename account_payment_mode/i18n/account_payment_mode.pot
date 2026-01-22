@@ -98,9 +98,29 @@ msgid "Created on"
 msgstr ""
 
 #. module: account_payment_mode
+#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
+msgid "Credit Transfer to Suppliers"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_users__customer_payment_mode_id
 msgid "Customer Payment Mode"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_dd1
+msgid "Direct Debit of customers"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd2
+msgid "Direct Debit of suppliers from La Banque Postale"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd1
+msgid "Direct Debit of suppliers from Société Générale"
 msgstr ""
 
 #. module: account_payment_mode
@@ -167,6 +187,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Inbound"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct2
+msgid "Inbound Credit Trf La Banque Postale"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct1
+msgid "Inbound Credit Trf Société Générale"
 msgstr ""
 
 #. module: account_payment_mode

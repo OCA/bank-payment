@@ -1,32 +1,50 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * account_payment_mode
+# 	* account_payment_mode
 #
-# Translators:
-# OCA Transbot <transbot@odoo-community.org>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-14 11:29+0000\n"
-"PO-Revision-Date: 2021-04-22 18:47+0000\n"
-"Last-Translator: Bosd <c5e2fd43-d292-4c90-9d1f-74ff3436329a@anonaddy.me>\n"
-"Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
-"Language: nl\n"
+"POT-Creation-Date: 2026-01-21 16:41+0000\n"
+"PO-Revision-Date: 2026-01-21 16:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"Plural-Forms: \n"
 
 #. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "# of chars"
+msgstr "# tekens"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__show_bank_account_chars
+msgid "# of digits for customer bank account"
+msgstr "# tekens voor de bankrekening van de klant"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.report_invoice_payment_mode
+msgid "<strong>Bank Account:</strong>"
+msgstr "<strong>Bankrekening:</strong>"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.report_invoice_payment_mode
+msgid "<strong>Payment Mode:</strong>"
+msgstr "<strong>Betaalmode:</strong>"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_line__bank_account_required
+#: model:ir.model.fields,help:account_payment_mode.field_account_move__bank_account_required
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
-"Activeer deze optie als de betaalwijze verwacht dat u het bankrekeningnummer "
-"van uw klant of leverancier kent."
+"Activeer deze optie als de betaalwijze verwacht dat u het bankrekeningnummer"
+" van uw klant of leverancier kent."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__active
@@ -46,9 +64,16 @@ msgid "Archived"
 msgstr "Gearchiveerd"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__bank_account_required
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__bank_account_required
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__bank_account_required
 msgid "Bank Account Required"
 msgstr "Bankrekening verplicht"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__show_bank_account_from_journal
+msgid "Bank account from journals"
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__code
@@ -60,6 +85,11 @@ msgstr "Code (Pas dit niet aan)"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
 msgid "Company"
 msgstr "Bedrijf"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_partner
+msgid "Contact"
+msgstr "Relatie"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__create_uid
@@ -77,6 +107,12 @@ msgid "Credit Transfer to Suppliers"
 msgstr "Terugbetaling aan leveraciers"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__customer_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_users__customer_payment_mode_id
+msgid "Customer Payment Mode"
+msgstr "Betaalwijze klant"
+
+#. module: account_payment_mode
 #: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_dd1
 msgid "Direct Debit of customers"
 msgstr "Incasso van klanten"
@@ -92,9 +128,20 @@ msgid "Direct Debit of suppliers from Société Générale"
 msgstr "Incasso van leveranciers van Société Générale"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Weergave naam"
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__first
+msgid "First n chars"
+msgstr "Eerste aantal tekens"
 
 #. module: account_payment_mode
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__fixed
@@ -119,20 +166,31 @@ msgid ""
 msgstr ""
 "Voor betalingswijzen die altijd aan dezelfde bankrekening van uw bedrijf "
 "zijn gekoppeld (zoals bankoverschrijving van klanten of SEPA-incasso van "
-"leveranciers), selecteert u 'Vast'. Voor betalingswijzen die niet altijd aan "
-"dezelfde bankrekening zijn gekoppeld (zoals SEPA-incasso voor klanten, "
+"leveranciers), selecteert u 'Vast'. Voor betalingswijzen die niet altijd aan"
+" dezelfde bankrekening zijn gekoppeld (zoals SEPA-incasso voor klanten, "
 "overboeking naar leveranciers), dient u 'Variabel' te selecteren, wat "
 "betekent dat u de bankrekening op de betalingsopdracht selecteert. Als uw "
 "bedrijf maar één bankrekening heeft, moet u altijd 'Fixed' selecteren."
 
 #. module: account_payment_mode
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
-msgid "Group By"
-msgstr "Groepeer op"
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__full
+msgid "Full"
+msgstr "Volledig"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__has_reconciled_items
+msgid "Has Reconciled Items"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__id
 msgid "ID"
 msgstr "ID"
 
@@ -153,9 +211,24 @@ msgid "Inbound Credit Trf Société Générale"
 msgstr "Inkomende credit Trf Société Générale"
 
 #. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Factuuranalyses"
+
+#. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_journal
 msgid "Journal"
 msgstr "Dagboek"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_move
+msgid "Journal Entry"
+msgstr "Boeking"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_move_line
+msgid "Journal Item"
+msgstr "Boekingsregel"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
@@ -166,6 +239,11 @@ msgstr "Laatst bijgewerkt door"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_date
 msgid "Last Updated on"
 msgstr "Laatst bijgewerkt op"
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__last
+msgid "Last n chars"
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__bank_account_link
@@ -183,6 +261,17 @@ msgid "Name or Code"
 msgstr "Naam of code"
 
 #. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__no
+msgid "No"
+msgstr ""
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/tests/test_account_payment_partner.py:0
+msgid "No Chart of Account Template has been defined !"
+msgstr "Er is geen grootboekschema ingesteld!"
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__note
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
 msgid "Note"
@@ -191,16 +280,14 @@ msgstr "Opmerking"
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
-#, python-format
 msgid ""
-"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
-"bank journal is not set"
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed"
+" bank journal is not set"
 msgstr ""
 
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "On the payment mode %(paymode)s, the payment method is %(paymethod)s (it is "
 "in fact a debit method), but this debit method is not part of the debit "
@@ -210,7 +297,6 @@ msgstr ""
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "On the payment mode %(paymode)s, the payment method is %(paymethod)s, but "
 "this payment method is not part of the payment methods of the fixed bank "
@@ -224,8 +310,13 @@ msgid "Outbound"
 msgstr "UItgaand"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__partner_bank_filter_type_domain
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__partner_bank_filter_type_domain
+msgid "Partner Bank Filter Type Domain"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_id
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_form
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Payment Method"
 msgstr "Betaalwijze"
@@ -238,9 +329,19 @@ msgid "Payment Methods"
 msgstr "Betaalwijzes"
 
 #. module: account_payment_mode
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__payment_mode_id
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_account_invoice_filter
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_account_invoice_report_search
 msgid "Payment Mode"
 msgstr "Betaalmode"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__payment_mode_filter_type_domain
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__payment_mode_filter_type_domain
+msgid "Payment Mode Filter Type Domain"
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.actions.act_window,name:account_payment_mode.account_payment_mode_action
@@ -256,20 +357,36 @@ msgid "Payment Type"
 msgstr "Betaalwijze"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__payment_mode_id
+msgid "Payment mode"
+msgstr "Betaalmode"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__refund_payment_mode_id
+msgid "Payment mode for refunds"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__payment_mode_ids
-#, fuzzy
 msgid "Payment modes"
 msgstr "Betaalwijzen"
 
 #. module: account_payment_mode
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
-msgid "Search Payment Methods"
-msgstr "Zoek betaalwijzes"
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_move_line_form
+msgid "Payments"
+msgstr "Betalingen"
 
 #. module: account_payment_mode
-#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
-msgid "Search Payment Modes"
-msgstr "Zoek betaalmode"
+#: model:ir.model.fields,help:account_payment_mode.field_res_partner__customer_payment_mode_id
+#: model:ir.model.fields,help:account_payment_mode.field_res_users__customer_payment_mode_id
+msgid "Select the default payment mode for this customer."
+msgstr "Selecteer de standaard betaalwijze voor deze klant."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_partner__supplier_payment_mode_id
+#: model:ir.model.fields,help:account_payment_mode.field_res_users__supplier_payment_mode_id
+msgid "Select the default payment mode for this supplier."
+msgstr "Selecteer de standaard betaalwijze voor deze leverancier."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__sequence
@@ -277,9 +394,40 @@ msgid "Sequence"
 msgstr ""
 
 #. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__show_bank_account
+msgid "Show Bank Account"
+msgstr ""
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "Show bank account in invoice report"
+msgstr "Bankrekening weergeven op de factuur"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__show_bank_account
+msgid "Show in invoices partial or full bank account number"
+msgstr "Toon op facturen een gedeeltelijk of volledig bankrekeningnummer"
+
+#. module: account_payment_mode
+#: model:res.groups,name:account_payment_mode.group_show_account_payment_method
+msgid "Show the default payment method line in contacts"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__supplier_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_users__supplier_payment_mode_id
+msgid "Supplier Payment Mode"
+msgstr "Betaalmode leverancier"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_mode.field_account_move__has_reconciled_items
+msgid "Technical field for supporting the editability of the payment mode"
+msgstr ""
+
+#. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
-#, python-format
 msgid ""
 "The company of the journal  %(journal)s does not match with the company of "
 "the payment mode  %(paymode)s where it is being used in the Allowed Bank "
@@ -289,7 +437,6 @@ msgstr ""
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_journal.py:0
-#, python-format
 msgid ""
 "The company of the journal %(journal)s does not match with the company of "
 "the payment mode %(paymode)s where it is being used as Fixed Bank Journal."
@@ -298,7 +445,6 @@ msgstr ""
 #. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "The company of the payment mode %(paymode)s, does not match with one of the "
 "Allowed Bank Journals."
@@ -313,106 +459,37 @@ msgid ""
 "fail."
 msgstr ""
 "Deze code wordt gebruikt in de code van de module die deze betaalmethode "
-"afhandelt. Daarom kan het genereren van het betalingsbestand mislukken als u "
-"dit wijzigt."
+"afhandelt. Daarom kan het genereren van het betalingsbestand mislukken als u"
+" dit wijzigt."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__refund_payment_mode_id
+msgid ""
+"This payment mode will be used when doing refunds coming from the current "
+"payment mode."
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr "Variabel"
 
-#~ msgid "Last Modified on"
-#~ msgstr "Laatst bijgewerkt op"
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"You cannot change the Company. There exists at least one Journal Entry with "
+"this Payment Mode, already assigned to another Company."
+msgstr ""
+"U kunt het bedrijf niet wijzigen. Er bestaat minstens één boeking met deze "
+"betalingwijze, al toegewezen aan een ander bedrijf."
 
-#~ msgid "A payment method of the same type already exists with this code"
-#~ msgstr "Een betaalwijze met dezelfde naam bestaat al met deze code."
-
-#~ msgid "Inbound Payment Methods"
-#~ msgstr "Inkomende betaalmethodes"
-
-#, fuzzy
-#~ msgid ""
-#~ "Manual: Get paid by cash, check or any other method outside of Odoo.\n"
-#~ "Electronic: Get paid automatically through a payment acquirer by "
-#~ "requesting a transaction on a card saved by the customer when buying or "
-#~ "subscribing online (payment token).\n"
-#~ "Batch Deposit: Encase several customer checks at once by generating a "
-#~ "batch deposit to submit to your bank. When encoding the bank statement in "
-#~ "Odoo,you are suggested to reconcile the transaction with the batch "
-#~ "deposit. Enable this option from the settings."
-#~ msgstr ""
-#~ "Handmatig: Krijg contant betaald, per cheque of een andere methode buiten "
-#~ "de bankrekening om.\n"
-#~ "Elektronisch: krijg automatisch betaald via een financiele instelling "
-#~ "door een transactie aan te vragen op een rekening of (credit)card die "
-#~ "door de klant is opgeslagen bij het online kopen of abonneren "
-#~ "(betalingstoken).\n"
-#~ "Batchstorting: voer meerdere klantencheques tegelijk uit door een "
-#~ "batchstorting te genereren die u bij uw bank kunt indienen. Bij het "
-#~ "coderen van het bankafschrift in Odoo, wordt u voorgesteld om de "
-#~ "transactie af te stemmen met de batchstorting. Schakel deze optie in via "
-#~ "de instellingen."
-
-#~ msgid ""
-#~ "Manual:Pay bill by cash or any other method outside of Odoo.\n"
-#~ "Check:Pay bill by check and print it from Odoo.\n"
-#~ "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you "
-#~ "submit to your bank. Enable this option from the settings."
-#~ msgstr ""
-#~ "Handmatig: Betaal contant, of op een andere manier buiten het systeem "
-#~ "om.\n"
-#~ "Cheque: betaal de rekening per cheque en druk deze af vanuit Odoo.\n"
-#~ "SEPA-overboeking: voer de betalingstransactie uit een SEPA-"
-#~ "overboekingsbestand dat u bij uw bank indient. Schakel deze optie in via "
-#~ "de instellingen."
-
-#, python-format
-#~ msgid ""
-#~ "On the payment mode '%s', the bank account link is 'Fixed' but the fixed "
-#~ "bank journal is not set"
-#~ msgstr ""
-#~ "Bij de betaalmode '%s', is de bankrekening koppeling ingesteld op 'Vast' "
-#~ "maar het bankboek is niet ingesteld."
-
-#, python-format
-#~ msgid ""
-#~ "On the payment mode '%s', the payment method is '%s' (it is in fact a "
-#~ "debit method), but this debit method is not part of the debit methods of "
-#~ "the fixed bank journal '%s'"
-#~ msgstr ""
-#~ "Op de betaal mode '%s', de betaalwijze is '%s' (dit is een debet mode), "
-#~ "maar de debet mode is geen onderdeel van de debet modes van de vaste "
-#~ "bankrekening '%s'"
-
-#, python-format
-#~ msgid ""
-#~ "On the payment mode '%s', the payment method is '%s', but this payment "
-#~ "method is not part of the payment methods of the fixed bank journal '%s'"
-#~ msgstr ""
-#~ "Op de betaal mode '%s', de betaalwijze is '%s' (dit is een debet mode), "
-#~ "maar de debet mode is geen onderdeel van de debet modes van de vaste "
-#~ "bankrekening '%s'"
-
-#~ msgid "Outbound Payment Methods"
-#~ msgstr "Uitgaande betaalmethodes"
-
-#, fuzzy, python-format
-#~ msgid ""
-#~ "The company of the journal '%s' does not match with the company of the "
-#~ "payment mode '%s' where it is being used in the Allowed Bank Journals."
-#~ msgstr ""
-#~ "Het bedrijf van het dagboek '% s' komt niet overeen met het bedrijf van "
-#~ "de betaalwijze '% s' waar het wordt gebruikt in de toegestane "
-#~ "bankrekeningen."
-
-#~ msgid "Bank Account Type"
-#~ msgstr "Soort bankrekening"
-
-#~ msgid "Payment Method Code"
-#~ msgstr "Code betaalwijze"
-
-#~ msgid "Bank Accounts"
-#~ msgstr "Bankrekeningen"
-
-#~ msgid "Partner"
-#~ msgstr "Relatie"
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"You cannot change the Company. There exists at least one Journal Item with "
+"this Payment Mode, already assigned to another Company."
+msgstr ""
+"U kunt het bedrijf niet wijzigen. Er bestaat ten minste één dagboek item met "
+"deze betalingsmodus, al toegewezen aan een ander bedrijf."
