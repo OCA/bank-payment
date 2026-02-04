@@ -259,6 +259,14 @@ class AccountPaymentOrder(models.Model):
         self.write({"state": "cancel"})
         return True
 
+    def _group_payment_lines(self):
+        """
+        Return True if payment lines should be grouped by the hashcode,
+        False otherwise.
+        """
+        self.ensure_one()
+        return self.payment_mode_id.group_lines
+
     def draft2open(self):
         """
         Called when you click on the 'Confirm' button
@@ -332,7 +340,7 @@ class AccountPaymentOrder(models.Model):
                 # Group options
                 hashcode = (
                     payline.payment_line_hashcode()
-                    if order.payment_mode_id.group_lines
+                    if order._group_payment_lines()
                     else payline.id
                 )
                 if hashcode in group_paylines:
