@@ -206,6 +206,12 @@ class TestAccountPaymentPartner(TransactionCase):
                 "type": "service",
             }
         )
+        cls.company_default_bank = cls.company.partner_id.bank_ids.filtered(
+            lambda bank: not bank.company_id or bank.company_id == cls.company
+        ).sorted(lambda bank: not bank.allow_out_payment)[:1]
+        cls.company_2_default_bank = cls.company_2.partner_id.bank_ids.filtered(
+            lambda bank: not bank.company_id or bank.company_id == cls.company_2
+        ).sorted(lambda bank: not bank.allow_out_payment)[:1]
 
     def _create_invoice(self, default_move_type, partner):
         move_form = Form(
@@ -246,27 +252,25 @@ class TestAccountPaymentPartner(TransactionCase):
         move_form = Form(
             self.env["account.move"].with_context(default_move_type="out_invoice")
         )
-        self.assertFalse(move_form.partner_bank_id)
+        self.assertEqual(move_form.partner_bank_id, self.company_default_bank)
         move_form.partner_id = self.customer
         self.assertEqual(move_form.payment_mode_id, self.customer_payment_mode)
         self.assertFalse(move_form.partner_bank_id)
 
     def test_out_invoice_onchange(self):
         # Test the onchange methods in invoice
-        invoice = self.move_model.new(
-            {
-                "partner_id": self.customer.id,
-                "move_type": "out_invoice",
-                "company_id": self.company.id,
-            }
+        invoice_form = Form(
+            self.move_model.with_context(default_move_type="out_invoice")
         )
-        self.assertEqual(invoice.payment_mode_id, self.customer_payment_mode)
-
-        invoice.company_id = self.company_2
-        self.assertEqual(invoice.payment_mode_id, self.payment_mode_model)
-
-        invoice.payment_mode_id = False
-        self.assertFalse(invoice.partner_bank_id)
+        invoice_form.partner_id = self.customer
+        self.assertEqual(invoice_form.company_id, self.company)
+        self.assertFalse(invoice_form.partner_bank_id)
+        self.assertEqual(invoice_form.payment_mode_id, self.customer_payment_mode)
+        invoice_form.company_id = self.company_2
+        self.assertEqual(invoice_form.partner_bank_id, self.company_2_default_bank)
+        self.assertEqual(invoice_form.payment_mode_id, self.payment_mode_model)
+        invoice_form.payment_mode_id = self.payment_mode_model.browse()
+        self.assertEqual(invoice_form.partner_bank_id, self.company_2_default_bank)
 
     def test_invoice_create_in_invoice(self):
         invoice = self._create_invoice(
@@ -476,7 +480,7 @@ class TestAccountPaymentPartner(TransactionCase):
         self.assertFalse(invoice.partner_bank_id)
         vals = {"partner_id": False, "move_type": "in_refund"}
         invoice = self.move_model.new(vals)
-        self.assertFalse(invoice.partner_bank_id)
+        self.assertEqual(invoice.partner_bank_id, self.company_default_bank)
 
     def test_onchange_payment_mode_id(self):
         mode = self.supplier_payment_mode
@@ -487,7 +491,7 @@ class TestAccountPaymentPartner(TransactionCase):
         mode.payment_method_id.bank_account_required = False
         self.assertEqual(self.supplier_invoice.partner_bank_id, self.supplier_bank)
         self.supplier_invoice.payment_mode_id = False
-        self.assertFalse(self.supplier_invoice.partner_bank_id)
+        self.assertEqual(self.supplier_invoice.partner_bank_id, self.supplier_bank)
 
     def test_print_report(self):
         self.supplier_invoice.partner_bank_id = self.supplier_bank.id
