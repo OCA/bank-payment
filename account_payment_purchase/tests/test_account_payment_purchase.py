@@ -37,6 +37,7 @@ class TestAccountPaymentPurchase(TransactionCase):
                 "bank_name": "Test bank",
                 "acc_number": "1234567890",
                 "partner_id": cls.partner.id,
+                "allow_out_payment": True,
             }
         )
         cls.bank2 = cls.env["res.partner.bank"].create(
