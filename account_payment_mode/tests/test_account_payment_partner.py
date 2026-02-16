@@ -131,6 +131,7 @@ class TestAccountPaymentPartner(BaseCommon):
             {
                 "acc_number": "5345345",
                 "partner_id": cls.supplier.id,
+                "allow_out_payment": True,
             }
         )
         cls.supplier.with_company(
@@ -179,7 +180,7 @@ class TestAccountPaymentPartner(BaseCommon):
                 "bank_account_id": cls.journal_bank.id,
             }
         )
-        cls.supplier_invoice = cls.move_model.create(
+        cls.supplier_invoice = cls.move_model.with_company(cls.company.id).create(
             {
                 "partner_id": cls.supplier.id,
                 "invoice_date": fields.Date.today(),
