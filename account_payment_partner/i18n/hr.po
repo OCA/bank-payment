@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.14.1\n"
 
 #. module: account_payment_partner
@@ -43,7 +43,6 @@ msgstr "<strong>Način plaćanja:</strong>"
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__bank_account_required
 #: model:ir.model.fields,help:account_payment_partner.field_account_move__bank_account_required
-#: model:ir.model.fields,help:account_payment_partner.field_account_payment__bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
@@ -52,21 +51,8 @@ msgstr ""
 "bankovnog računa vašeg kupca ili dobavljača."
 
 #. module: account_payment_partner
-#: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__partner_bank_id
-#: model:ir.model.fields,help:account_payment_partner.field_account_move__partner_bank_id
-msgid ""
-"Bank Account Number to which the invoice will be paid. A Company bank "
-"account if this is a Customer Invoice or Vendor Credit Note, otherwise a "
-"Partner bank account number."
-msgstr ""
-"Broj bankovnog računa na koji račun treba biti plaćen. Bankovni račun tvrtke "
-"ako je ovo izlazni račun ili odobrenje dobavljača, inače broj bankovnog "
-"računa partnera."
-
-#. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__bank_account_required
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__bank_account_required
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__bank_account_required
 msgid "Bank Account Required"
 msgstr "Bankovni račun je obavezan"
 
@@ -74,6 +60,16 @@ msgstr "Bankovni račun je obavezan"
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account_from_journal
 msgid "Bank account from journals"
 msgstr "Bankovni računi iz dnevnika"
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
@@ -99,7 +95,6 @@ msgstr "Puno"
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__has_reconciled_items
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__has_reconciled_items
 msgid "Has Reconciled Items"
 msgstr ""
 
@@ -119,6 +114,19 @@ msgid "Journal Item"
 msgstr "Stavka dnevnika"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid "Keep Bank Account Without Payment Mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: model_terms:ir.ui.view,arch_db:account_payment_partner.res_config_settings_view_form
+msgid ""
+"Keep the bank account auto-selected by Odoo on invoices without a payment "
+"mode. Disable to clear the bank account when no payment mode is set."
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__last
 msgid "Last n chars"
 msgstr "Zadnjih n znakova"
@@ -131,14 +139,12 @@ msgstr "Ne"
 #. module: account_payment_partner
 #. odoo-python
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:0
-#, python-format
 msgid "No Chart of Account Template has been defined !"
 msgstr "Nije definiran predložak kontnog plana!"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__partner_bank_filter_type_domain
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_filter_type_domain
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__partner_bank_filter_type_domain
 msgid "Partner Bank Filter Type Domain"
 msgstr ""
 
@@ -146,7 +152,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__payment_mode_id
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__payment_mode_id
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_filter
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_report_search
 msgid "Payment Mode"
@@ -155,7 +160,6 @@ msgstr "Metoda plaćanja"
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__payment_mode_filter_type_domain
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_filter_type_domain
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__payment_mode_filter_type_domain
 msgid "Payment Mode Filter Type Domain"
 msgstr ""
 
@@ -178,12 +182,6 @@ msgstr "Metoda plaćanja za povrate"
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
 msgstr "Plaćanja"
-
-#. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__partner_bank_id
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_id
-msgid "Recipient Bank"
-msgstr "Banka primatelja"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner__customer_payment_mode_id
@@ -213,6 +211,11 @@ msgid "Show in invoices partial or full bank account number"
 msgstr "Na računima prikaži puni ili djelomični bankovni račun"
 
 #. module: account_payment_partner
+#: model:res.groups,name:account_payment_partner.group_show_account_payment_method
+msgid "Show the default payment method line in contacts"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__supplier_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Supplier Payment Mode"
@@ -221,7 +224,6 @@ msgstr "Metoda plaćanja dobavljača"
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
 #: model:ir.model.fields,help:account_payment_partner.field_account_move__has_reconciled_items
-#: model:ir.model.fields,help:account_payment_partner.field_account_payment__has_reconciled_items
 msgid "Technical field for supporting the editability of the payment mode"
 msgstr ""
 
@@ -235,9 +237,17 @@ msgstr ""
 "metodu plaćanja."
 
 #. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,help:account_payment_partner.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid ""
+"When enabled, invoices without a payment mode will keep the bank account "
+"auto-selected by Odoo. When disabled, the bank account will be cleared if no "
+"payment mode is set."
+msgstr ""
+
+#. module: account_payment_partner
 #. odoo-python
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Journal Entry with "
 "this Payment Mode, already assigned to another Company."
@@ -248,13 +258,24 @@ msgstr ""
 #. module: account_payment_partner
 #. odoo-python
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
 "Nije moguće promijeniti Tvrtku. Postoji najmanje jedna stavka dnevnika sa "
 "ovom metodom plaćanja, već dodijeljena drugoj tvrtki."
+
+#~ msgid ""
+#~ "Bank Account Number to which the invoice will be paid. A Company bank "
+#~ "account if this is a Customer Invoice or Vendor Credit Note, otherwise a "
+#~ "Partner bank account number."
+#~ msgstr ""
+#~ "Broj bankovnog računa na koji račun treba biti plaćen. Bankovni račun "
+#~ "tvrtke ako je ovo izlazni račun ili odobrenje dobavljača, inače broj "
+#~ "bankovnog računa partnera."
+
+#~ msgid "Recipient Bank"
+#~ msgstr "Banka primatelja"
 
 #~ msgid "Display Name"
 #~ msgstr "Naziv za prikaz"

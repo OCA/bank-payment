@@ -42,7 +42,6 @@ msgstr "<strong>Betaalmode:</strong>"
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__bank_account_required
 #: model:ir.model.fields,help:account_payment_partner.field_account_move__bank_account_required
-#: model:ir.model.fields,help:account_payment_partner.field_account_payment__bank_account_required
 msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
@@ -51,27 +50,24 @@ msgstr ""
 "van uw klant of leverancier kent."
 
 #. module: account_payment_partner
-#: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__partner_bank_id
-#: model:ir.model.fields,help:account_payment_partner.field_account_move__partner_bank_id
-msgid ""
-"Bank Account Number to which the invoice will be paid. A Company bank "
-"account if this is a Customer Invoice or Vendor Credit Note, otherwise a "
-"Partner bank account number."
-msgstr ""
-"Bankrekeningnummer waarop de factuur zal worden betaald. Een "
-"bedrijfsbankrekening als dit een klantfactuur of een creditfactuur van een "
-"leverancier betreft, anders een bankrekeningnummer van een relatie."
-
-#. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__bank_account_required
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__bank_account_required
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__bank_account_required
 msgid "Bank Account Required"
 msgstr "Bankrekening verplicht"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_payment_mode__show_bank_account_from_journal
 msgid "Bank account from journals"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_payment_partner
+#: model:ir.model,name:account_payment_partner.model_res_config_settings
+msgid "Config Settings"
 msgstr ""
 
 #. module: account_payment_partner
@@ -98,7 +94,6 @@ msgstr "Volledig"
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__has_reconciled_items
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__has_reconciled_items
 msgid "Has Reconciled Items"
 msgstr ""
 
@@ -118,6 +113,19 @@ msgid "Journal Item"
 msgstr "Boekingsregel"
 
 #. module: account_payment_partner
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,field_description:account_payment_partner.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid "Keep Bank Account Without Payment Mode"
+msgstr ""
+
+#. module: account_payment_partner
+#: model_terms:ir.ui.view,arch_db:account_payment_partner.res_config_settings_view_form
+msgid ""
+"Keep the bank account auto-selected by Odoo on invoices without a payment "
+"mode. Disable to clear the bank account when no payment mode is set."
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__last
 msgid "Last n chars"
 msgstr ""
@@ -130,14 +138,12 @@ msgstr ""
 #. module: account_payment_partner
 #. odoo-python
 #: code:addons/account_payment_partner/tests/test_account_payment_partner.py:0
-#, python-format
 msgid "No Chart of Account Template has been defined !"
 msgstr "Er is geen grootboekschema ingesteld!"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__partner_bank_filter_type_domain
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_filter_type_domain
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__partner_bank_filter_type_domain
 msgid "Partner Bank Filter Type Domain"
 msgstr ""
 
@@ -145,7 +151,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move_line__payment_mode_id
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__payment_mode_id
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_filter
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_account_invoice_report_search
 msgid "Payment Mode"
@@ -154,7 +159,6 @@ msgstr "Betaalwijze"
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__payment_mode_filter_type_domain
 #: model:ir.model.fields,field_description:account_payment_partner.field_account_move__payment_mode_filter_type_domain
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_payment__payment_mode_filter_type_domain
 msgid "Payment Mode Filter Type Domain"
 msgstr ""
 
@@ -177,12 +181,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.view_move_line_form
 msgid "Payments"
 msgstr "Betalingen"
-
-#. module: account_payment_partner
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_bank_statement_line__partner_bank_id
-#: model:ir.model.fields,field_description:account_payment_partner.field_account_move__partner_bank_id
-msgid "Recipient Bank"
-msgstr "Ontvangende bank"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_res_partner__customer_payment_mode_id
@@ -212,6 +210,11 @@ msgid "Show in invoices partial or full bank account number"
 msgstr "Toon op facturen een gedeeltelijk of volledig bankrekeningnummer"
 
 #. module: account_payment_partner
+#: model:res.groups,name:account_payment_partner.group_show_account_payment_method
+msgid "Show the default payment method line in contacts"
+msgstr ""
+
+#. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__supplier_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_users__supplier_payment_mode_id
 msgid "Supplier Payment Mode"
@@ -220,7 +223,6 @@ msgstr "Betaalwijze leverancier"
 #. module: account_payment_partner
 #: model:ir.model.fields,help:account_payment_partner.field_account_bank_statement_line__has_reconciled_items
 #: model:ir.model.fields,help:account_payment_partner.field_account_move__has_reconciled_items
-#: model:ir.model.fields,help:account_payment_partner.field_account_payment__has_reconciled_items
 msgid "Technical field for supporting the editability of the payment mode"
 msgstr ""
 
@@ -232,9 +234,17 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_partner
+#: model:ir.model.fields,help:account_payment_partner.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,help:account_payment_partner.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid ""
+"When enabled, invoices without a payment mode will keep the bank account "
+"auto-selected by Odoo. When disabled, the bank account will be cleared if no "
+"payment mode is set."
+msgstr ""
+
+#. module: account_payment_partner
 #. odoo-python
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Journal Entry with "
 "this Payment Mode, already assigned to another Company."
@@ -245,13 +255,24 @@ msgstr ""
 #. module: account_payment_partner
 #. odoo-python
 #: code:addons/account_payment_partner/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "You cannot change the Company. There exists at least one Journal Item with "
 "this Payment Mode, already assigned to another Company."
 msgstr ""
 "U kunt het bedrijf niet wijzigen. Er bestaat ten minste één dagboek item met "
 "deze betalingsmodus, al toegewezen aan een ander bedrijf."
+
+#~ msgid ""
+#~ "Bank Account Number to which the invoice will be paid. A Company bank "
+#~ "account if this is a Customer Invoice or Vendor Credit Note, otherwise a "
+#~ "Partner bank account number."
+#~ msgstr ""
+#~ "Bankrekeningnummer waarop de factuur zal worden betaald. Een "
+#~ "bedrijfsbankrekening als dit een klantfactuur of een creditfactuur van "
+#~ "een leverancier betreft, anders een bankrekeningnummer van een relatie."
+
+#~ msgid "Recipient Bank"
+#~ msgstr "Ontvangende bank"
 
 #~ msgid "Display Name"
 #~ msgstr "Weergavenaam"
