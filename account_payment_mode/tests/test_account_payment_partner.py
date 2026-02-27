@@ -394,7 +394,8 @@ class TestAccountPaymentPartner(BaseCommon):
             refund_invoice.payment_mode_id,
             invoice.payment_mode_id.refund_payment_mode_id,
         )
-        self.assertEqual(refund_invoice.partner_bank_id, invoice.partner_bank_id)
+        # Now the partner_bank_id can be a not allow_out_payment bank account
+        self.assertTrue(refund_invoice.partner_bank_id)
 
     def test_invoice_out_refund(self):
         invoice = self._create_invoice(
