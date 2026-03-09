@@ -10,7 +10,7 @@
     "author": "Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/bank-payment",
     "category": "Banking addons",
-    "depends": ["account"],
+    "depends": ["account", "account_payment_method_base"],
     "data": [
         "security/account_payment_mode.xml",
         "security/ir.model.access.csv",

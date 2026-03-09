@@ -1,80 +1,64 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- The object account.payment.method is defined in the account module
-but there are no view for this object in the account module... so we define it
-here. I hate the objects that don't have a view... -->
+    <!-- The base payment method UI is now provided by
+         account_payment_method_base. These XML IDs are kept as compatibility
+         anchors for downstream addons that still inherit from
+         account_payment_mode.* -->
     <record id="account_payment_method_form" model="ir.ui.view">
-        <field name="name">account_payment_method.form</field>
+        <field name="name">account_payment_mode.account_payment_method.form</field>
         <field name="model">account.payment.method</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_method_base.account_payment_method_form"
+        />
         <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <widget
-                        name="web_ribbon"
-                        title="Archived"
-                        bg_color="bg-danger"
-                        invisible="active"
-                    />
-                    <group name="main">
-                        <field name="name" />
-                        <field name="code" />
-                        <field name="payment_type" />
-                        <field name="bank_account_required" />
-                    </group>
-                </sheet>
-            </form>
+            <xpath expr="//form/sheet" position="inside">
+                <widget
+                    name="web_ribbon"
+                    title="Archived"
+                    bg_color="bg-danger"
+                    invisible="active"
+                />
+            </xpath>
+            <xpath
+                expr="//group[@name='main']/field[@name='code']"
+                position="attributes"
+            >
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <xpath
+                expr="//group[@name='main']/field[@name='payment_type']"
+                position="after"
+            >
+                <field name="bank_account_required" />
+            </xpath>
         </field>
     </record>
+
+    <!--Keep these for back compatibility-->
     <record id="account_payment_method_tree" model="ir.ui.view">
-        <field name="name">account_payment_method.list</field>
+        <field name="name">account_payment_mode.account_payment_method.list</field>
         <field name="model">account.payment.method</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_method_base.account_payment_method_list"
+        />
         <field name="arch" type="xml">
-            <list>
-                <field name="name" />
-                <field name="code" />
-                <field name="payment_type" />
-            </list>
+            <xpath expr="//list" position="attributes">
+                <attribute name="create">1</attribute>
+            </xpath>
         </field>
     </record>
+
     <record id="account_payment_method_search" model="ir.ui.view">
-        <field name="name">account_payment_method.search</field>
+        <field name="name">account_payment_mode.account_payment_method.search</field>
         <field name="model">account.payment.method</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_method_base.account_payment_method_search"
+        />
         <field name="arch" type="xml">
-            <search>
-                <field
-                    name="name"
-                    filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"
-                    string="Name or Code"
-                />
-                <filter
-                    name="inbound"
-                    string="Inbound"
-                    domain="[('payment_type', '=', 'inbound')]"
-                />
-                <filter
-                    name="outbound"
-                    string="Outbound"
-                    domain="[('payment_type', '=', 'outbound')]"
-                />
-                <group string="Group By" name="groupby">
-                    <filter
-                        string="Payment Type"
-                        name="payment_type_groupby"
-                        context="{'group_by': 'payment_type'}"
-                    />
-                </group>
-            </search>
+            <xpath expr="//search" position="inside" />
         </field>
     </record>
-    <record id="account_payment_method_action" model="ir.actions.act_window">
-        <field name="name">Payment Methods</field>
-        <field name="res_model">account.payment.method</field>
-        <field name="view_mode">list,form</field>
-    </record>
-    <menuitem
-        id="account_payment_method_menu"
-        action="account_payment_method_action"
-        parent="account.account_management_menu"
-        sequence="30"
-    />
 </odoo>
