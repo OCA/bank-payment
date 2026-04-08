@@ -20,7 +20,6 @@ class AccountPaymentLineCreate(models.TransientModel):
     partner_ids = fields.Many2many(
         comodel_name="res.partner",
         string="Partners",
-        domain=[("parent_id", "=", False)],
     )
     target_move = fields.Selection(
         selection=[("posted", "All Posted Entries"), ("all", "All Entries")],

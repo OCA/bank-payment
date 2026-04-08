@@ -56,7 +56,6 @@ class AccountPaymentLine(models.Model):
         comodel_name="res.partner",
         string="Partner",
         required=True,
-        domain=[("parent_id", "=", False)],
         check_company=True,
     )
     partner_bank_id = fields.Many2one(
