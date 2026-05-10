@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-25 12:38+0000\n"
-"PO-Revision-Date: 2023-04-12 10:07+0000\n"
-"Last-Translator: gelo joga Rodríguez <gelo.joga@factorlibre.com>\n"
+"PO-Revision-Date: 2026-05-10 09:13+0000\n"
+"Last-Translator: Ed-Spain <eduamoros@gmail.com>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.account_payment_mode_form
@@ -63,12 +63,12 @@ msgstr "Cuenta bancaria de los diarios"
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Empresas"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Ajustes de configuración"
 
 #. module: account_payment_partner
 #: model:ir.model,name:account_payment_partner.model_res_partner
@@ -116,7 +116,7 @@ msgstr "Apunte contable"
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_company__keep_partner_bank_without_payment_mode
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_config_settings__keep_partner_bank_without_payment_mode
 msgid "Keep Bank Account Without Payment Mode"
-msgstr ""
+msgstr "Mantener cuenta bancaria sin modo de pago"
 
 #. module: account_payment_partner
 #: model_terms:ir.ui.view,arch_db:account_payment_partner.res_config_settings_view_form
@@ -124,6 +124,9 @@ msgid ""
 "Keep the bank account auto-selected by Odoo on invoices without a payment "
 "mode. Disable to clear the bank account when no payment mode is set."
 msgstr ""
+"Mantener la cuenta bancaria seleccionada automáticamente por Odoo en "
+"facturas sin modo de pago. Desactivar para limpiar la cuenta bancaria cuando "
+"no hay modo de pago establecido."
 
 #. module: account_payment_partner
 #: model:ir.model.fields.selection,name:account_payment_partner.selection__account_payment_mode__show_bank_account__last
@@ -216,7 +219,7 @@ msgstr "Mostrar en facturas nº de cuenta bancaria parcial o completo"
 #. module: account_payment_partner
 #: model:res.groups,name:account_payment_partner.group_show_account_payment_method
 msgid "Show the default payment method line in contacts"
-msgstr ""
+msgstr "Mostrar la línea de método de pago predeterminada en contactos"
 
 #. module: account_payment_partner
 #: model:ir.model.fields,field_description:account_payment_partner.field_res_partner__supplier_payment_mode_id
@@ -248,6 +251,9 @@ msgid ""
 "auto-selected by Odoo. When disabled, the bank account will be cleared if no "
 "payment mode is set."
 msgstr ""
+"Cuando está activado, las facturas sin modo de pago mantendrán la cuenta "
+"bancaria seleccionada automáticamente por Odoo. Cuando está desactivado, la "
+"cuenta bancaria se borrará si no hay modo de pago establecido."
 
 #. module: account_payment_partner
 #. odoo-python
