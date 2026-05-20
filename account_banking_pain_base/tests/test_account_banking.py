@@ -31,6 +31,7 @@ class TestPainBase(BaseCommon):
                 "partner_id": cls.partner.id,
                 "bank_id": Bank.id,
                 "acc_number": "ES12345678901234567890",
+                "allow_out_payment": True,
             }
         )
         cls.order = cls.env["account.payment.order"].create(
