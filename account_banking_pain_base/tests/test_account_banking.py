@@ -23,7 +23,9 @@ class TestPainBase(BaseCommon):
                 "bank_account_link": "variable",
             }
         )
-        Journal = cls.env["account.journal"].search([], limit=1)
+        Journal = cls.env["account.journal"].search(
+            [("company_id", "=", cls.env.company.id)], limit=1
+        )
         cls.partner = cls.env["res.partner"].create({"name": "Partner"})
         Bank = cls.env["res.bank"].create({"name": "Bank", "bic": "NEDSZAJJXXX"})
         cls.partner_bank = cls.env["res.partner.bank"].create(
@@ -191,7 +193,9 @@ class TestPainBase(BaseCommon):
         self.assertFalse(self.order.batch_booking)
         self.assertFalse(self.Mode.default_batch_booking)
         self.Mode.default_batch_booking = True
-        journal = self.env["account.journal"].search([], limit=1)
+        journal = self.env["account.journal"].search(
+            [("company_id", "=", self.env.company.id)], limit=1
+        )
         order = self.env["account.payment.order"].create(
             {
                 "name": "TESTDBB",
