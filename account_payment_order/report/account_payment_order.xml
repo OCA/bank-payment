@@ -91,8 +91,11 @@
                                         t-esc="line.move_line_id.move_id.ref or line.move_line_id.move_id.payment_reference"
                                     />
                                 </t>
-                                <t t-else="">
+                                <t t-elif="line.move_line_id">
                                     <span t-esc="line.move_line_id.move_id.name" />
+                                </t>
+                                <t t-else="">
+                                    <span t-esc="line.communication" />
                                 </t>
                             </td>
                             <td class="text-center">
