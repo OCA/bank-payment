@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-23 08:41+0000\n"
-"PO-Revision-Date: 2026-06-13 11:46+0000\n"
+"PO-Revision-Date: 2026-06-16 18:50+0000\n"
 "Last-Translator: Matjaz Mozetic <matjaz@luxim.si>\n"
 "Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "Language: sl\n"
@@ -29,7 +29,7 @@ msgstr "Temeljnica"
 #. module: account_payment_purchase
 #: model:ir.model.fields,field_description:account_payment_purchase.field_purchase_order__payment_mode_id
 msgid "Payment Mode"
-msgstr "Metoda plačila"
+msgstr "Način plačila"
 
 #. module: account_payment_purchase
 #: model:ir.model,name:account_payment_purchase.model_purchase_order
