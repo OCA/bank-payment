@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-21 16:42+0000\n"
-"PO-Revision-Date: 2026-06-13 11:46+0000\n"
+"PO-Revision-Date: 2026-06-16 18:50+0000\n"
 "Last-Translator: Matjaz Mozetic <matjaz@luxim.si>\n"
 "Language-Team: \n"
 "Language: sl\n"
@@ -345,7 +345,7 @@ msgstr "Načini plačila"
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.view_account_invoice_filter
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.view_account_invoice_report_search
 msgid "Payment Mode"
-msgstr "Metoda plačila"
+msgstr "Način plačila"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__payment_mode_filter_type_domain
