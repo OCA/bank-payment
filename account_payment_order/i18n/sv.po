@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-06-05 11:37+0000\n"
-"Last-Translator: jakobkrabbe <jakob@syscare.se>\n"
+"PO-Revision-Date: 2026-07-06 13:04+0000\n"
+"Last-Translator: Laura V <laura.valls@forgeflow.com>\n"
 "Language-Team: none\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: account_payment_order
 #. odoo-python
@@ -234,12 +234,12 @@ msgstr "Typ av bankkonto: Normal eller IBAN. Härleds från bankkontonumret."
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__due_on__<=
 msgid "Before or equal"
-msgstr ""
+msgstr "Före eller lika med"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__due_on__between
 msgid "Between"
-msgstr ""
+msgstr "Mellan"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__cancel
@@ -423,12 +423,12 @@ msgstr "Förfallodag"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__due_on
 msgid "Due on"
-msgstr ""
+msgstr "Förfaller den"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line_create__due_on__=
 msgid "Equal"
-msgstr ""
+msgstr "Lika med"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_order__state__generated
@@ -462,12 +462,12 @@ msgstr "Fil uppladdad"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__filter_date
 msgid "Filter Date"
-msgstr ""
+msgstr "Filterdatum"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__filter_date_end
 msgid "Filter Date End"
-msgstr ""
+msgstr "Filterdatum slut"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_mode__default_date_prefered__fixed
@@ -495,6 +495,8 @@ msgstr "Font awesome-ikon, t.ex. fa-tasks"
 msgid ""
 "For 'Due on' 'Between', date between 'Filter Date' and 'Filter Date End'"
 msgstr ""
+"För 'Förfaller den' 'Mellan', datum mellan 'Filterdatum' och 'Filterdatum "
+"slut'"
 
 #. module: account_payment_order
 #: model:ir.model.fields,help:account_payment_order.field_account_payment_order__bank_account_link
@@ -925,7 +927,7 @@ msgstr "Antal betalningsrader"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__payment_line_date
 msgid "Payment Line Date"
-msgstr ""
+msgstr "Betalningsradsdatum"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_line_action
@@ -987,7 +989,7 @@ msgstr "Betalningsorder ok"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment__order_state
 msgid "Payment Order State"
-msgstr ""
+msgstr "Betalningsorderstatus"
 
 #. module: account_payment_order
 #: model:ir.actions.act_window,name:account_payment_order.account_payment_order_outbound_action
@@ -1119,7 +1121,7 @@ msgstr ""
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_payment_line__communication_type__structured
 msgid "Structured"
-msgstr ""
+msgstr "Strukturerad"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__structured
@@ -1236,7 +1238,7 @@ msgstr "Totalt återstående"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 msgid "Total amount"
-msgstr ""
+msgstr "Totalbelopp"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__payment_line_ids
@@ -1262,7 +1264,7 @@ msgstr "Typ av undantagsaktivitet som registreras."
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_update_view_form
 #: model_terms:ir.ui.view,arch_db:account_payment_order.view_account_payment_tree_payment_order
 msgid "Update Payment Reference"
-msgstr ""
+msgstr "Uppdatera betalningsreferens"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.print_account_payment_order_document
@@ -1272,7 +1274,7 @@ msgstr "Datum för värde"
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_line_tree
 msgid "View"
-msgstr ""
+msgstr "Visa"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__website_message_ids
