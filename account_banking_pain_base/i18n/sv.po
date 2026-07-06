@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-06-05 11:37+0000\n"
-"Last-Translator: jakobkrabbe <jakob@syscare.se>\n"
+"PO-Revision-Date: 2026-07-06 15:46+0000\n"
+"Last-Translator: Laura V <laura.valls@forgeflow.com>\n"
 "Language-Team: none\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: account_banking_pain_base
 #: model:ir.model.constraint,message:account_banking_pain_base.constraint_account_payment_method_code_payment_type_unique
@@ -113,7 +113,7 @@ msgstr "Avbokningsavgift"
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 msgid "Cannot compute the field '%(field_name)s'."
-msgstr ""
+msgstr "Kan inte beräkna fältet '%(field_name)s'."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__clpr
@@ -203,6 +203,9 @@ msgid ""
 "only City (TwnNm) and Country (Ctry)- Hybrid: City/Country plus optional "
 "AdrLine lines (street/street2) and optional Post Code (PstCd) when available."
 msgstr ""
+"Styr hur <PstlAdr>-blocket genereras för PAIN.001.001.09 - Minimal: endast "
+"stad (TwnNm) och land (Ctry) - Hybrid: stad/land samt valfria AdrLine-rader "
+"(gata/gata2) och valfritt postnummer (PstCd), om tillgängligt."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cvcf
@@ -248,6 +251,9 @@ msgid ""
 "\tcontext: %(eval_ctx)s\n"
 "\tfield path: %(field_value)s"
 msgstr ""
+"Data för utvärdering:\n"
+"\tkontext: %(eval_ctx)s\n"
+"\tfältväg: %(field_value)s"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__dcrd
@@ -268,13 +274,15 @@ msgstr "Gäldenärens namn"
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__default_batch_booking
 msgid "Default Batch Booking"
-msgstr ""
+msgstr "Standardbatchbokning"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__default_batch_booking
 msgid ""
 "Default value for payment order batch booking related to this payment mode"
 msgstr ""
+"Standardvärde för batchbokning av betalningsorder relaterat till denna "
+"betalningsmetod"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__dvpm
@@ -300,7 +308,7 @@ msgstr "Derivatinstrument"
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__display_name
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Visningsnamn"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__divi
@@ -431,7 +439,7 @@ msgstr "Skatt på bostäder"
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_method__sepa_pain09_address_mode__hybrid
 msgid "Hybrid (City/Country + AdrLine)"
-msgstr ""
+msgstr "Hybrid (stad/land + AdrLine)"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__id
@@ -442,7 +450,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__id
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__communication_type__iso
@@ -607,7 +615,7 @@ msgstr "Medicinsk service"
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_method__sepa_pain09_address_mode__minimal
 msgid "Minimal (City + Country only)"
-msgstr ""
+msgstr "Minimal (endast stad + land)"
 
 #. module: account_banking_pain_base
 #. odoo-python
@@ -616,6 +624,8 @@ msgid ""
 "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
 "the company '%(company)s'. Both fields must have a value."
 msgstr ""
+"Saknar 'Initiating Party Issuer' och/eller 'Initiating Party Identifier' för "
+"företaget '%(company)s'. Båda fälten måste ha ett värde."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__msvc
@@ -690,11 +700,13 @@ msgid ""
 "PAIN format %(flavor)s requires City (TwnNm). Partner missing City: %"
 "(partner)s. Please set a City or choose an older PAIN format."
 msgstr ""
+"PAIN-formatet %(flavor)s kräver stad (TwnNm). Kontakten saknar stad: %"
+"(partner)s. Ange en stad eller välj ett äldre PAIN-format."
 
 #. module: account_banking_pain_base
 #: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__sepa_pain09_address_mode
 msgid "PAIN.001.001.09 Address Mode"
-msgstr ""
+msgstr "PAIN.001.001.09-adressläge"
 
 #. module: account_banking_pain_base
 #. odoo-python
@@ -706,13 +718,13 @@ msgstr "Partnerns namn"
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 msgid "Partner's bank account is '%(bank)s'."
-msgstr ""
+msgstr "Kontaktens bankkonto är '%(bank)s'."
 
 #. module: account_banking_pain_base
 #. odoo-python
 #: code:addons/account_banking_pain_base/models/account_payment_order.py:0
 msgid "Payment Line has reference '%(ref)s'."
-msgstr ""
+msgstr "Betalningsraden har referensen '%(ref)s'."
 
 #. module: account_banking_pain_base
 #: model:ir.model,name:account_banking_pain_base.model_account_payment_line
@@ -915,6 +927,10 @@ msgid ""
 "\n"
 "SEPA pattern: %(sepa_pattern)s"
 msgstr ""
+"Följande Bank Identifier Codes (BIC) följer inte SEPA-mönstret:\n"
+"%(bic_list)s\n"
+"\n"
+"SEPA-mönster: %(sepa_pattern)s"
 
 #. module: account_banking_pain_base
 #. odoo-python
@@ -925,6 +941,10 @@ msgid ""
 "the server logs. Here is the error, which may give you an idea on the cause "
 "of the problem : %(error)s"
 msgstr ""
+"Den genererade XML-filen är inte giltig mot den officiella XML Schema "
+"Definition. Den genererade XML-filen och hela felet har skrivits i "
+"serverloggarna. Här är felet, som kan ge dig en uppfattning om orsaken till "
+"problemet: %(error)s"
 
 #. module: account_banking_pain_base
 #. odoo-python
