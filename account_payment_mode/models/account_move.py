@@ -116,7 +116,8 @@ class AccountMove(models.Model):
                     else:
                         move.partner_bank_id = False
             else:
-                move.partner_bank_id = False
+                if not move.company_id.keep_partner_bank_without_payment_mode:
+                    move.partner_bank_id = False
         return res
 
     @api.depends("line_ids.matched_credit_ids", "line_ids.matched_debit_ids")

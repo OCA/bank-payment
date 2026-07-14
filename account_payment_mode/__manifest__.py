@@ -22,6 +22,7 @@
         "views/account_payment_method.xml",
         "views/account_payment_mode.xml",
         "views/account_journal.xml",
+        "views/res_config_settings.xml",
         "views/report_invoice.xml",
         "reports/account_invoice_report_view.xml",
     ],
