@@ -84,9 +84,19 @@ msgid "Code (Do Not Modify)"
 msgstr "Codice (Non modificare)"
 
 #. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
 msgid "Company"
 msgstr "Azienda"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_res_partner
@@ -104,30 +114,10 @@ msgid "Created on"
 msgstr "Creato il"
 
 #. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
-msgid "Credit Transfer to Suppliers"
-msgstr "Trasferimento Credito a Fornitori"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_users__customer_payment_mode_id
 msgid "Customer Payment Mode"
 msgstr "Modo di pagamento cliente"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_dd1
-msgid "Direct Debit of customers"
-msgstr "Addebito Diretto dei clienti"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd2
-msgid "Direct Debit of suppliers from La Banque Postale"
-msgstr "Addebito diretto del fornitore dalla Banca Postale"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd1
-msgid "Direct Debit of suppliers from Société Générale"
-msgstr "Addebito diretto del fornitore da Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__display_name
@@ -136,6 +126,8 @@ msgstr "Addebito diretto del fornitore da Société Générale"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nome visualizzato"
@@ -193,6 +185,8 @@ msgstr "Ha movimenti riconciliati"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__id
 msgid "ID"
 msgstr "ID"
@@ -202,16 +196,6 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Inbound"
 msgstr "In entrata"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct2
-msgid "Inbound Credit Trf La Banque Postale"
-msgstr "Credito Trf La Banque Postale in entrata"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct1
-msgid "Inbound Credit Trf Société Générale"
-msgstr "Credito Trf Société Générale in entrata"
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_invoice_report
@@ -232,6 +216,20 @@ msgstr "Registrazione contabile"
 #: model:ir.model,name:account_payment_mode.model_account_move_line
 msgid "Journal Item"
 msgstr "Movimento contabile"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid "Keep Bank Account Without Payment Mode"
+msgstr ""
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid ""
+"Keep the bank account auto-selected by Odoo on invoices without a payment "
+"mode. Disable to clear the bank account when no payment mode is set."
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
@@ -284,8 +282,8 @@ msgstr "Nota"
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 msgid ""
-"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed"
-" bank journal is not set"
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
+"bank journal is not set"
 msgstr ""
 "Nel metodo di pagamento %(name)s, il conto bancario collegato è 'Fisso' ma "
 "il registro banca fissa non è impostato"
@@ -298,8 +296,8 @@ msgid ""
 "in fact a debit method), but this debit method is not part of the debit "
 "methods of the fixed bank journal %(journal)s"
 msgstr ""
-"Nel modo di pagamento %(paymode)s, il metodo di pagamento è %(paymethod)s (è"
-" infatti un metodo di debito), ma questo metodo di debito non è parte dei "
+"Nel modo di pagamento %(paymode)s, il metodo di pagamento è %(paymethod)s (è "
+"infatti un metodo di debito), ma questo metodo di debito non è parte dei "
 "metodi di debito del registro banca fisso %(journal)s"
 
 #. module: account_payment_mode
@@ -444,8 +442,8 @@ msgid ""
 "the payment mode  %(paymode)s where it is being used in the Allowed Bank "
 "Journals."
 msgstr ""
-"L'azienda del registro %(journal)s non corrisponde con l'azienda del modo di"
-" pagamento %(paymode)s dove è usato nei registri banche consentite."
+"L'azienda del registro %(journal)s non corrisponde con l'azienda del modo di "
+"pagamento %(paymode)s dove è usato nei registri banche consentite."
 
 #. module: account_payment_mode
 #. odoo-python
@@ -454,8 +452,8 @@ msgid ""
 "The company of the journal %(journal)s does not match with the company of "
 "the payment mode %(paymode)s where it is being used as Fixed Bank Journal."
 msgstr ""
-"L'azienda del registro %(journal)s non corrisponde con l'azienda del modo di"
-" pagamento %(paymode)s dove è usato come registro banca fissa."
+"L'azienda del registro %(journal)s non corrisponde con l'azienda del modo di "
+"pagamento %(paymode)s dove è usato come registro banca fissa."
 
 #. module: account_payment_mode
 #. odoo-python
@@ -494,6 +492,15 @@ msgid "Variable"
 msgstr "Variabile"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid ""
+"When enabled, invoices without a payment mode will keep the bank account "
+"auto-selected by Odoo. When disabled, the bank account will be cleared if no "
+"payment mode is set."
+msgstr ""
+
+#. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 msgid ""
@@ -512,3 +519,21 @@ msgid ""
 msgstr ""
 "Non si può cambiare l'azienda. Esiste almeno un movimento contabile con "
 "questo modo di pagamento, che è già assegnata ad un'altra azienda."
+
+#~ msgid "Credit Transfer to Suppliers"
+#~ msgstr "Trasferimento Credito a Fornitori"
+
+#~ msgid "Direct Debit of customers"
+#~ msgstr "Addebito Diretto dei clienti"
+
+#~ msgid "Direct Debit of suppliers from La Banque Postale"
+#~ msgstr "Addebito diretto del fornitore dalla Banca Postale"
+
+#~ msgid "Direct Debit of suppliers from Société Générale"
+#~ msgstr "Addebito diretto del fornitore da Société Générale"
+
+#~ msgid "Inbound Credit Trf La Banque Postale"
+#~ msgstr "Credito Trf La Banque Postale in entrata"
+
+#~ msgid "Inbound Credit Trf Société Générale"
+#~ msgstr "Credito Trf Société Générale in entrata"

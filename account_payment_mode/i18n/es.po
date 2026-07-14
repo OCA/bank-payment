@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2026-01-21 16:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -43,8 +44,8 @@ msgid ""
 "Activate this option if this payment method requires you to know the bank "
 "account number of your customer or supplier."
 msgstr ""
-"Activa esta opción si este método de pago debe requerirte informar el número"
-" de cuenta bancaria de tu cliente o proveedor."
+"Activa esta opción si este método de pago debe requerirte informar el número "
+"de cuenta bancaria de tu cliente o proveedor."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__active
@@ -82,9 +83,19 @@ msgid "Code (Do Not Modify)"
 msgstr "Código (no modificar)"
 
 #. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
 msgid "Company"
 msgstr "Compañía"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_res_partner
@@ -102,30 +113,10 @@ msgid "Created on"
 msgstr "Creado en"
 
 #. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
-msgid "Credit Transfer to Suppliers"
-msgstr "Orden de pago a proveedores"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_users__customer_payment_mode_id
 msgid "Customer Payment Mode"
 msgstr "Modo de pago de cliente"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_dd1
-msgid "Direct Debit of customers"
-msgstr "Orden de cobro de clientes"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd2
-msgid "Direct Debit of suppliers from La Banque Postale"
-msgstr "Adeudo directo de proveedores de La Banque Postale"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd1
-msgid "Direct Debit of suppliers from Société Générale"
-msgstr "Adeudo directo de proveedores de Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__display_name
@@ -134,6 +125,8 @@ msgstr "Adeudo directo de proveedores de Société Générale"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nombre mostrado"
@@ -167,8 +160,8 @@ msgstr ""
 "Para modos de pago que siempre estarán asociados a la misma cuenta bancaria "
 "de la compañía (como las transferencias bancarias de clientes o los débitos "
 "directos SEPA de proveedores), selecciona 'Fijado\". Para modos de pagos en "
-"los que puede cambiar la cuenta bancaria (como el débito directo de clientes"
-" o las transferencias de proveedores), seleccione 'Variable', lo que "
+"los que puede cambiar la cuenta bancaria (como el débito directo de clientes "
+"o las transferencias de proveedores), seleccione 'Variable', lo que "
 "significa que podrá seleccionar la cuenta bancaria en la orden de pago. Si "
 "su compañía tiene una única cuenta bancaria, debería seleccionar siempre "
 "'Fijo'."
@@ -191,6 +184,8 @@ msgstr "Tiene apuntes conciliados"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__id
 msgid "ID"
 msgstr "ID"
@@ -200,16 +195,6 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Inbound"
 msgstr "Entrante"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct2
-msgid "Inbound Credit Trf La Banque Postale"
-msgstr "Transf. entrante La Banque Postale"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct1
-msgid "Inbound Credit Trf Société Générale"
-msgstr "Transf. entrante Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_invoice_report
@@ -230,6 +215,20 @@ msgstr "Entrada de Diario"
 #: model:ir.model,name:account_payment_mode.model_account_move_line
 msgid "Journal Item"
 msgstr "Apunte contable"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid "Keep Bank Account Without Payment Mode"
+msgstr ""
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid ""
+"Keep the bank account auto-selected by Odoo on invoices without a payment "
+"mode. Disable to clear the bank account when no payment mode is set."
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
@@ -282,8 +281,8 @@ msgstr "Nota"
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 msgid ""
-"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed"
-" bank journal is not set"
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
+"bank journal is not set"
 msgstr ""
 "En el modo de pago %(name)s, la cuenta bancaria relacionada es 'Fija' pero "
 "el diario bancario fijo no está establecido"
@@ -296,8 +295,8 @@ msgid ""
 "in fact a debit method), but this debit method is not part of the debit "
 "methods of the fixed bank journal %(journal)s"
 msgstr ""
-"En el modo de pago %(paymode)s, el método de pago %(paymethod)s (es de hecho"
-" un metodo de débito), pero no está establecido entre los métodos de débito "
+"En el modo de pago %(paymode)s, el método de pago %(paymethod)s (es de hecho "
+"un metodo de débito), pero no está establecido entre los métodos de débito "
 "del banco del diario %(journal)s"
 
 #. module: account_payment_mode
@@ -478,9 +477,9 @@ msgid ""
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
 msgstr ""
-"Este código se usa en el código del módulo de Odoo que gestiona el método de"
-" pago. Por lo tanto, si lo cambias, la generación del fichero de pago podría"
-" fallar."
+"Este código se usa en el código del módulo de Odoo que gestiona el método de "
+"pago. Por lo tanto, si lo cambias, la generación del fichero de pago podría "
+"fallar."
 
 #. module: account_payment_mode
 #: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__refund_payment_mode_id
@@ -495,6 +494,15 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr "Variable"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid ""
+"When enabled, invoices without a payment mode will keep the bank account "
+"auto-selected by Odoo. When disabled, the bank account will be cleared if no "
+"payment mode is set."
+msgstr ""
 
 #. module: account_payment_mode
 #. odoo-python
@@ -515,3 +523,21 @@ msgid ""
 msgstr ""
 "No puede cambiar la Compañía. Existe como mínimo una elemento del Diario con "
 "este Modo de Pago que ya está asignado a otra Compañía."
+
+#~ msgid "Credit Transfer to Suppliers"
+#~ msgstr "Orden de pago a proveedores"
+
+#~ msgid "Direct Debit of customers"
+#~ msgstr "Orden de cobro de clientes"
+
+#~ msgid "Direct Debit of suppliers from La Banque Postale"
+#~ msgstr "Adeudo directo de proveedores de La Banque Postale"
+
+#~ msgid "Direct Debit of suppliers from Société Générale"
+#~ msgstr "Adeudo directo de proveedores de Société Générale"
+
+#~ msgid "Inbound Credit Trf La Banque Postale"
+#~ msgstr "Transf. entrante La Banque Postale"
+
+#~ msgid "Inbound Credit Trf Société Générale"
+#~ msgstr "Transf. entrante Société Générale"
