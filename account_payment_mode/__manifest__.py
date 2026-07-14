@@ -4,7 +4,7 @@
 
 {
     "name": "Account Payment Mode",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.1.0",
     "development_status": "Mature",
     "license": "AGPL-3",
     "summary": "Adds payment mode on partners and invoices",
@@ -22,6 +22,7 @@
         "views/account_payment_method.xml",
         "views/account_payment_mode.xml",
         "views/account_journal.xml",
+        "views/res_config_settings.xml",
         "views/report_invoice.xml",
         "reports/account_invoice_report_view.xml",
     ],

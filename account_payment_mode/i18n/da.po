@@ -83,9 +83,19 @@ msgid "Code (Do Not Modify)"
 msgstr "Kode (må ikke ændres)"
 
 #. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
 msgid "Company"
 msgstr "Virksomhed"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_res_partner
@@ -115,6 +125,8 @@ msgstr "Kundens betalingsmåde"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Vis navn"
@@ -171,6 +183,8 @@ msgstr "Har afstemte posteringer"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__id
 msgid "ID"
 msgstr "ID"
@@ -200,6 +214,20 @@ msgstr "Journalbilag"
 #: model:ir.model,name:account_payment_mode.model_account_move_line
 msgid "Journal Item"
 msgstr "Journalpost"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid "Keep Bank Account Without Payment Mode"
+msgstr ""
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid ""
+"Keep the bank account auto-selected by Odoo on invoices without a payment "
+"mode. Disable to clear the bank account when no payment mode is set."
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
@@ -252,8 +280,8 @@ msgstr "Notat"
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 msgid ""
-"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed"
-" bank journal is not set"
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
+"bank journal is not set"
 msgstr ""
 "På betalingsmåden %(name)s er bankkontolinket 'Fast', men den faste "
 "bankjournal er ikke angivet"
@@ -460,6 +488,15 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
 msgid "Variable"
 msgstr "Variabel"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid ""
+"When enabled, invoices without a payment mode will keep the bank account "
+"auto-selected by Odoo. When disabled, the bank account will be cleared if no "
+"payment mode is set."
+msgstr ""
 
 #. module: account_payment_mode
 #. odoo-python

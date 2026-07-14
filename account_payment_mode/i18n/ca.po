@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2026-01-21 16:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -82,9 +83,19 @@ msgid "Code (Do Not Modify)"
 msgstr "Codi (no modificar)"
 
 #. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
 msgid "Company"
 msgstr "Companyia"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_res_partner
@@ -102,30 +113,10 @@ msgid "Created on"
 msgstr "Creat el"
 
 #. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
-msgid "Credit Transfer to Suppliers"
-msgstr "Transferència de crèdit als proveïdors"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_users__customer_payment_mode_id
 msgid "Customer Payment Mode"
 msgstr "Modalitat de pagament del client"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_dd1
-msgid "Direct Debit of customers"
-msgstr "Dèbit directe als clients"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd2
-msgid "Direct Debit of suppliers from La Banque Postale"
-msgstr "Dèbit directe de proveïdors de La Banque Postale"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd1
-msgid "Direct Debit of suppliers from Société Générale"
-msgstr "Dèbit directe de proveïdors de Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__display_name
@@ -134,6 +125,8 @@ msgstr "Dèbit directe de proveïdors de Société Générale"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nom de visualització"
@@ -190,6 +183,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__id
 msgid "ID"
 msgstr "ID"
@@ -199,16 +194,6 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Inbound"
 msgstr "Entrant"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct2
-msgid "Inbound Credit Trf La Banque Postale"
-msgstr "Crèdit entrant transf. La Banque Postale"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct1
-msgid "Inbound Credit Trf Société Générale"
-msgstr "Crèdit entrant transf. Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_invoice_report
@@ -229,6 +214,20 @@ msgstr "Entrada de diari"
 #: model:ir.model,name:account_payment_mode.model_account_move_line
 msgid "Journal Item"
 msgstr "Apunt comptable"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid "Keep Bank Account Without Payment Mode"
+msgstr ""
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid ""
+"Keep the bank account auto-selected by Odoo on invoices without a payment "
+"mode. Disable to clear the bank account when no payment mode is set."
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
@@ -477,6 +476,15 @@ msgid "Variable"
 msgstr "Variable"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid ""
+"When enabled, invoices without a payment mode will keep the bank account "
+"auto-selected by Odoo. When disabled, the bank account will be cleared if no "
+"payment mode is set."
+msgstr ""
+
+#. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 msgid ""
@@ -495,3 +503,21 @@ msgid ""
 msgstr ""
 "No podeu canviar la companyia. Com a mínim existeix un assentament amb "
 "aquest mode de pagament, ja assignat a una altra companyia."
+
+#~ msgid "Credit Transfer to Suppliers"
+#~ msgstr "Transferència de crèdit als proveïdors"
+
+#~ msgid "Direct Debit of customers"
+#~ msgstr "Dèbit directe als clients"
+
+#~ msgid "Direct Debit of suppliers from La Banque Postale"
+#~ msgstr "Dèbit directe de proveïdors de La Banque Postale"
+
+#~ msgid "Direct Debit of suppliers from Société Générale"
+#~ msgstr "Dèbit directe de proveïdors de Société Générale"
+
+#~ msgid "Inbound Credit Trf La Banque Postale"
+#~ msgstr "Crèdit entrant transf. La Banque Postale"
+
+#~ msgid "Inbound Credit Trf Société Générale"
+#~ msgstr "Crèdit entrant transf. Société Générale"

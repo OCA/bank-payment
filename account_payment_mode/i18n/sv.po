@@ -84,9 +84,19 @@ msgid "Code (Do Not Modify)"
 msgstr "Kod (ändra inte)"
 
 #. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
 msgid "Company"
 msgstr "Bolag"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_res_partner
@@ -104,30 +114,10 @@ msgid "Created on"
 msgstr "Skapad den"
 
 #. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
-msgid "Credit Transfer to Suppliers"
-msgstr "Kreditöverföring till leverantörer"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_users__customer_payment_mode_id
 msgid "Customer Payment Mode"
 msgstr "Kundens betalningssätt"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_dd1
-msgid "Direct Debit of customers"
-msgstr "Autogirering av kunder"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd2
-msgid "Direct Debit of suppliers from La Banque Postale"
-msgstr "Autogirering av leverantörer från La Banque Postale"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd1
-msgid "Direct Debit of suppliers from Société Générale"
-msgstr "Autogirering av leverantörer från Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__display_name
@@ -136,6 +126,8 @@ msgstr "Autogirering av leverantörer från Société Générale"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Visningsnamn"
@@ -192,6 +184,8 @@ msgstr "Har avstämda poster"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__id
 msgid "ID"
 msgstr "ID"
@@ -201,16 +195,6 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Inbound"
 msgstr "Inkommande"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct2
-msgid "Inbound Credit Trf La Banque Postale"
-msgstr "Inkommande kredit Trf La Banque Postale"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct1
-msgid "Inbound Credit Trf Société Générale"
-msgstr "Inkommande kredit Trf Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_invoice_report
@@ -231,6 +215,20 @@ msgstr "Verifikat"
 #: model:ir.model,name:account_payment_mode.model_account_move_line
 msgid "Journal Item"
 msgstr "Tidskriftsartikel"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid "Keep Bank Account Without Payment Mode"
+msgstr ""
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid ""
+"Keep the bank account auto-selected by Odoo on invoices without a payment "
+"mode. Disable to clear the bank account when no payment mode is set."
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
@@ -283,8 +281,8 @@ msgstr "Anteckning"
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 msgid ""
-"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed"
-" bank journal is not set"
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
+"bank journal is not set"
 msgstr ""
 "På betalningsläget %(name)s är bankkontolänken \"Fast\" men den fasta "
 "bankjournalen är inte inställd"
@@ -309,8 +307,8 @@ msgid ""
 "this payment method is not part of the payment methods of the fixed bank "
 "journal %(journal)s"
 msgstr ""
-"På betalningsläget %(paymode)s är betalningsmetoden %(paymethod)s, men denna"
-" betalningsmetod är inte en del av betalningsmetoderna för den fasta "
+"På betalningsläget %(paymode)s är betalningsmetoden %(paymethod)s, men denna "
+"betalningsmetod är inte en del av betalningsmetoderna för den fasta "
 "bankjournalen %(journal)s"
 
 #. module: account_payment_mode
@@ -493,6 +491,15 @@ msgid "Variable"
 msgstr "Variabel"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid ""
+"When enabled, invoices without a payment mode will keep the bank account "
+"auto-selected by Odoo. When disabled, the bank account will be cleared if no "
+"payment mode is set."
+msgstr ""
+
+#. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 msgid ""
@@ -511,3 +518,21 @@ msgid ""
 msgstr ""
 "Du kan inte byta bolag. Det finns minst ett verifikat med detta "
 "betalningssätt som redan har tilldelats ett annat bolag."
+
+#~ msgid "Credit Transfer to Suppliers"
+#~ msgstr "Kreditöverföring till leverantörer"
+
+#~ msgid "Direct Debit of customers"
+#~ msgstr "Autogirering av kunder"
+
+#~ msgid "Direct Debit of suppliers from La Banque Postale"
+#~ msgstr "Autogirering av leverantörer från La Banque Postale"
+
+#~ msgid "Direct Debit of suppliers from Société Générale"
+#~ msgstr "Autogirering av leverantörer från Société Générale"
+
+#~ msgid "Inbound Credit Trf La Banque Postale"
+#~ msgstr "Inkommande kredit Trf La Banque Postale"
+
+#~ msgid "Inbound Credit Trf Société Générale"
+#~ msgstr "Inkommande kredit Trf Société Générale"

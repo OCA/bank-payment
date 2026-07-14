@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2026-01-21 16:41+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -82,9 +83,19 @@ msgid "Code (Do Not Modify)"
 msgstr "Code (ne pas modifier)"
 
 #. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
 msgid "Company"
 msgstr "Société"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_res_partner
@@ -102,30 +113,10 @@ msgid "Created on"
 msgstr "Créé le"
 
 #. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_ct1
-msgid "Credit Transfer to Suppliers"
-msgstr "Virement a fournisseur"
-
-#. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__customer_payment_mode_id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_users__customer_payment_mode_id
 msgid "Customer Payment Mode"
 msgstr "Mode de paiement client"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_dd1
-msgid "Direct Debit of customers"
-msgstr "Prélevement client"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd2
-msgid "Direct Debit of suppliers from La Banque Postale"
-msgstr "Prélèvement des fournisseurs de La Banque Postale"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_outbound_dd1
-msgid "Direct Debit of suppliers from Société Générale"
-msgstr "Prélèvement des fournisseurs de la Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__display_name
@@ -134,6 +125,8 @@ msgstr "Prélèvement des fournisseurs de la Société Générale"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
@@ -166,8 +159,8 @@ msgid ""
 msgstr ""
 "Pour les modes de paiement qui sont toujours rattachés au même compte "
 "bancaire de votre entreprise (comme le virement des clients ou le "
-"prélèvement SEPA des fournisseurs), sélectionnez \"Fixe\". Pour les modes de"
-" paiement qui ne sont pas toujours rattachés au même compte bancaire (comme "
+"prélèvement SEPA des fournisseurs), sélectionnez \"Fixe\". Pour les modes de "
+"paiement qui ne sont pas toujours rattachés au même compte bancaire (comme "
 "le prélèvement SEPA pour les clients, le virement bancaire pour les "
 "fournisseurs), vous devez sélectionner \"Variable\", ce qui signifie que "
 "vous choisirez le compte bancaire sur l'ordre de paiement. Si votre "
@@ -192,6 +185,8 @@ msgstr "A des écritures lettrées"
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__id
 #: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__id
 msgid "ID"
 msgstr "ID"
@@ -201,16 +196,6 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
 msgid "Inbound"
 msgstr "Entrant"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct2
-msgid "Inbound Credit Trf La Banque Postale"
-msgstr "Virement de La Banque Postale"
-
-#. module: account_payment_mode
-#: model:account.payment.mode,name:account_payment_mode.payment_mode_inbound_ct1
-msgid "Inbound Credit Trf Société Générale"
-msgstr "Virement de la Société Générale"
 
 #. module: account_payment_mode
 #: model:ir.model,name:account_payment_mode.model_account_invoice_report
@@ -231,6 +216,20 @@ msgstr "Pièce comptable"
 #: model:ir.model,name:account_payment_mode.model_account_move_line
 msgid "Journal Item"
 msgstr "Écriture comptable"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid "Keep Bank Account Without Payment Mode"
+msgstr ""
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid ""
+"Keep the bank account auto-selected by Odoo on invoices without a payment "
+"mode. Disable to clear the bank account when no payment mode is set."
+msgstr ""
 
 #. module: account_payment_mode
 #: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
@@ -283,8 +282,8 @@ msgstr "Note"
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 msgid ""
-"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed"
-" bank journal is not set"
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
+"bank journal is not set"
 msgstr ""
 "Dans le mode de paiement %(name)s, le lien vers le compte bancaire est "
 "'Fixe' mais le journal de banque fixe n'est pas défini"
@@ -297,10 +296,10 @@ msgid ""
 "in fact a debit method), but this debit method is not part of the debit "
 "methods of the fixed bank journal %(journal)s"
 msgstr ""
-"Sur le mode de paiement %(paymode)s, la méthode de paiement est "
-"%(paymethod)s (il s'agit en fait d'une méthode de débit), mais cette méthode"
-" de débit ne fait pas partie des méthodes de débit du journal de banque fixe"
-" %(journal)s"
+"Sur le mode de paiement %(paymode)s, la méthode de paiement est %"
+"(paymethod)s (il s'agit en fait d'une méthode de débit), mais cette méthode "
+"de débit ne fait pas partie des méthodes de débit du journal de banque fixe %"
+"(journal)s"
 
 #. module: account_payment_mode
 #. odoo-python
@@ -310,9 +309,9 @@ msgid ""
 "this payment method is not part of the payment methods of the fixed bank "
 "journal %(journal)s"
 msgstr ""
-"Sur le mode de paiement %(paymode)s, la méthode de paiement est "
-"%(paymethod)s, mais cette méthode de paiement ne fait pas partie des "
-"méthodes de paiement du journal de banque fixe %(journal)s"
+"Sur le mode de paiement %(paymode)s, la méthode de paiement est %"
+"(paymethod)s, mais cette méthode de paiement ne fait pas partie des méthodes "
+"de paiement du journal de banque fixe %(journal)s"
 
 #. module: account_payment_mode
 #: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
@@ -497,6 +496,15 @@ msgid "Variable"
 msgstr "Variable"
 
 #. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid ""
+"When enabled, invoices without a payment mode will keep the bank account "
+"auto-selected by Odoo. When disabled, the bank account will be cleared if no "
+"payment mode is set."
+msgstr ""
+
+#. module: account_payment_mode
 #. odoo-python
 #: code:addons/account_payment_mode/models/account_payment_mode.py:0
 msgid ""
@@ -515,3 +523,21 @@ msgid ""
 msgstr ""
 "Vous ne pouvez pas modifier la Société. Il existe au moins un poste "
 "journalier avec ce mode de paiement, déjà affecté à une autre société."
+
+#~ msgid "Credit Transfer to Suppliers"
+#~ msgstr "Virement a fournisseur"
+
+#~ msgid "Direct Debit of customers"
+#~ msgstr "Prélevement client"
+
+#~ msgid "Direct Debit of suppliers from La Banque Postale"
+#~ msgstr "Prélèvement des fournisseurs de La Banque Postale"
+
+#~ msgid "Direct Debit of suppliers from Société Générale"
+#~ msgstr "Prélèvement des fournisseurs de la Société Générale"
+
+#~ msgid "Inbound Credit Trf La Banque Postale"
+#~ msgstr "Virement de La Banque Postale"
+
+#~ msgid "Inbound Credit Trf Société Générale"
+#~ msgstr "Virement de la Société Générale"
