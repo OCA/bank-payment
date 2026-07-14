@@ -4,7 +4,7 @@
 
 {
     "name": "Account Payment Mode",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.1.0",
     "development_status": "Mature",
     "license": "AGPL-3",
     "summary": "Adds payment mode on partners and invoices",
