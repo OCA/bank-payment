@@ -239,6 +239,8 @@ class AccountPaymentOrder(models.Model):
     def payment_mode_id_change(self):
         if len(self.allowed_journal_ids) == 1:
             self.journal_id = self.allowed_journal_ids
+        if self.journal_id not in self.allowed_journal_ids:
+            self.journal_id = False
         if self.payment_mode_id.default_date_prefered:
             self.date_prefered = self.payment_mode_id.default_date_prefered
 
