@@ -27,8 +27,8 @@ class AccountPaymentLine(models.Model):
                 raise UserError(
                     self.env._(
                         "Missing SEPA Direct Debit mandate on the line with "
-                        "partner {partner_name} (reference {reference}).",
-                        artner_name=rec.partner_id.name,
+                        "partner %(partner_name)s (reference %(reference)s).",
+                        partner_name=rec.partner_id.name,
                         reference=rec.name,
                     )
                 )
@@ -36,7 +36,7 @@ class AccountPaymentLine(models.Model):
                 raise UserError(
                     self.env._(
                         "The SEPA Direct Debit mandate with reference "
-                        "{mandate_ref} for partner {partner_name} has "
+                        "%(mandate_ref)s for partner %(partner_name)s has "
                         "expired.",
                         mandate_ref=rec.mandate_id.unique_mandate_reference,
                         partner_name=rec.partner_id.name,
@@ -46,9 +46,9 @@ class AccountPaymentLine(models.Model):
                 raise UserError(
                     self.env._(
                         "The SEPA Direct Debit mandate with reference "
-                        "{mandate_ref} for partner {partner_name} has type set "
+                        "%(mandate_ref)s for partner %(partner_name)s has type set "
                         "to 'One-Off' but has a last debit date set to "
-                        "{last_debit_date}. Therefore, it cannot be used.",
+                        "%(last_debit_date)s. Therefore, it cannot be used.",
                         mandate_ref=rec.mandate_id.unique_mandate_reference,
                         partner_name=rec.partner_id.name,
                         last_debit_date=rec.mandate_id.last_debit_date,

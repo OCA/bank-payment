@@ -374,11 +374,11 @@ msgstr "Aggiornamento mandato"
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
-"(reference {reference})."
+"Missing SEPA Direct Debit mandate on the line with partner %(partner_name)s "
+"(reference %(reference)s)."
 msgstr ""
 "Mandato di addebito diretto SEPA non trovato sulla riga con partner "
-"{partner_name} (reference {reference})."
+"%(partner_name)s (reference %(reference)s)."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__oneoff
@@ -515,23 +515,23 @@ msgstr "L'identificativo creditore SEPA '%s' non è valido."
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
-"{partner_name} has expired."
+"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner "
+"%(partner_name)s has expired."
 msgstr ""
-"Il mandato di addebito diretto SEPA con riferimento {mandate_ref} for "
-"partner {partner_name} è scaduto."
+"Il mandato di addebito diretto SEPA con riferimento %(mandate_ref)s for "
+"partner %(partner_name)s è scaduto."
 
 #. module: account_banking_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
-"{partner_name} has type set to 'One-Off' but has a last debit date set to "
-"{last_debit_date}. Therefore, it cannot be used."
+"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner "
+"%(partner_name)s has type set to 'One-Off' but has a last debit date set to "
+"%(last_debit_date)s. Therefore, it cannot be used."
 msgstr ""
-"Il mandato di addebito diretto SEPA con riferimento {mandate_ref} per il "
-"partner {partner_name} ha timpo impostato a 'Singolo' ma ha una data ultimo "
-"addebito impostata a {last_debit_date}. Pertanto non può essere usato."
+"Il mandato di addebito diretto SEPA con riferimento %(mandate_ref)s per il "
+"partner %(partner_name)s ha timpo impostato a 'Singolo' ma ha una data ultimo "
+"addebito impostata a %(last_debit_date)s. Pertanto non può essere usato."
 
 #. module: account_banking_sepa_direct_debit
 #. odoo-python
