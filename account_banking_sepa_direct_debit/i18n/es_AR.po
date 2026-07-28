@@ -347,11 +347,9 @@ msgstr "Actualizacion de mandato"
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
-"(reference {reference})."
+"Missing SEPA Direct Debit mandate on the line with partner %(partner_name)s "
+"(reference %(reference)s)."
 msgstr ""
-"Falta el mandato de adeudo directo SEPA en la linea de pago bancario de la "
-"empresa {partner_name} (referencia {reference})."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__oneoff
@@ -486,23 +484,18 @@ msgstr "Identificador de acreedor SEPA '%s' no válido."
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
-"{partner_name} has expired."
+"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner %"
+"(partner_name)s has expired."
 msgstr ""
-"El mandato de adeudo directo SEPA con referencia {mandate_ref} para la "
-"empresa {partner_name} ha expirado."
 
 #. module: account_banking_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
-"{partner_name} has type set to 'One-Off' but has a last debit date set to "
-"{last_debit_date}. Therefore, it cannot be used."
+"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner %"
+"(partner_name)s has type set to 'One-Off' but has a last debit date set to %"
+"(last_debit_date)s. Therefore, it cannot be used."
 msgstr ""
-"El mandato con referencia {mandate_ref} para la empresa {partner_name} tipo "
-"como 'Único', ya tiene como fecha de último cobro {last_debit_date}, por lo "
-"que no se puede usar."
 
 #. module: account_banking_sepa_direct_debit
 #. odoo-python
@@ -590,6 +583,29 @@ msgstr ""
 "a enviar instrucciones a la entidad del deudor para adeudar su cuenta y (B) "
 "a la entidad para efectuar los adeudos en su cuenta siguiendo las "
 "instrucciones del acreedor"
+
+#~ msgid ""
+#~ "Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
+#~ "(reference {reference})."
+#~ msgstr ""
+#~ "Falta el mandato de adeudo directo SEPA en la linea de pago bancario de "
+#~ "la empresa {partner_name} (referencia {reference})."
+
+#~ msgid ""
+#~ "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+#~ "{partner_name} has expired."
+#~ msgstr ""
+#~ "El mandato de adeudo directo SEPA con referencia {mandate_ref} para la "
+#~ "empresa {partner_name} ha expirado."
+
+#~ msgid ""
+#~ "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+#~ "{partner_name} has type set to 'One-Off' but has a last debit date set to "
+#~ "{last_debit_date}. Therefore, it cannot be used."
+#~ msgstr ""
+#~ "El mandato con referencia {mandate_ref} para la empresa {partner_name} "
+#~ "tipo como 'Único', ya tiene como fecha de último cobro {last_debit_date}, "
+#~ "por lo que no se puede usar."
 
 #, python-format
 #~ msgid "Mandate automatically set to expired after %d months without use."

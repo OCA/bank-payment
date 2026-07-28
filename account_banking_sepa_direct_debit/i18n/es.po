@@ -356,8 +356,8 @@ msgid ""
 "Missing SEPA Direct Debit mandate on the line with partner %(partner_name)s "
 "(reference %(reference)s)."
 msgstr ""
-"Falta el mandato de adeudo directo SEPA en la línea con cliente "
-"%(partner_name)s (referencia de la línea %(reference)s)."
+"Falta el mandato de adeudo directo SEPA en la línea con cliente %"
+"(partner_name)s (referencia de la línea %(reference)s)."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__oneoff
@@ -494,8 +494,8 @@ msgstr "Identificador de acreedor SEPA '%s' no válido."
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner "
-"%(partner_name)s has expired."
+"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner %"
+"(partner_name)s has expired."
 msgstr ""
 "El mandato de adeudo directo SEPA con referencia %(mandate_ref)s del cliente "
 "%(partner_name)s ha expirado."
@@ -504,13 +504,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner "
-"%(partner_name)s has type set to 'One-Off' but has a last debit date set to "
-"%(last_debit_date)s. Therefore, it cannot be used."
+"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner %"
+"(partner_name)s has type set to 'One-Off' but has a last debit date set to %"
+"(last_debit_date)s. Therefore, it cannot be used."
 msgstr ""
 "El mandato de adeudo directo SEPA con referencia %(mandate_ref)s del cliente "
-"%(partner_name)s es de tipo «Único», pero ya se utilizó el "
-"%(last_debit_date)s. Por tanto, no puede volver a utilizarse."
+"%(partner_name)s es de tipo «Único», pero ya se utilizó el %"
+"(last_debit_date)s. Por tanto, no puede volver a utilizarse."
 
 #. module: account_banking_sepa_direct_debit
 #. odoo-python

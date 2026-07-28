@@ -376,11 +376,9 @@ msgstr "Posodobitev mandata"
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
-"(reference {reference})."
+"Missing SEPA Direct Debit mandate on the line with partner %(partner_name)s "
+"(reference %(reference)s)."
 msgstr ""
-"Pri postavki SEPA direktnega debetnega mandata manjka vrstica s partnerjem "
-"{partner_name} (reference {reference})."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__oneoff
@@ -466,8 +464,8 @@ msgid ""
 "SEPA Mandate {{ object.unique_mandate_reference or 'n/a' }} for "
 "{{ object.company_id.name }} is pending to sign"
 msgstr ""
-"Mandat SEPA {{ object.unique_mandate_reference or 'n/a' }} za {{ "
-"object.company_id.name }} čaka na podpis"
+"Mandat SEPA {{ object.unique_mandate_reference or 'n/a' }} za "
+"{{ object.company_id.name }} čaka na podpis"
 
 #. module: account_banking_sepa_direct_debit
 #: model:mail.template,name:account_banking_sepa_direct_debit.email_template_sepa_mandate
@@ -517,23 +515,18 @@ msgstr "Identifikator upnika SEPA '%s' ni veljaven."
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
-"{partner_name} has expired."
+"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner %"
+"(partner_name)s has expired."
 msgstr ""
-"Mandat za direktno obremenitev SEPA z referenco {mandate_ref} za partnerja "
-"{partner_name} je potekel."
 
 #. module: account_banking_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
-"{partner_name} has type set to 'One-Off' but has a last debit date set to "
-"{last_debit_date}. Therefore, it cannot be used."
+"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner %"
+"(partner_name)s has type set to 'One-Off' but has a last debit date set to %"
+"(last_debit_date)s. Therefore, it cannot be used."
 msgstr ""
-"Pri SEPA mandatu za direktno bremenitev s sklicem {mandate_ref} za partnerja "
-"{partner_name} je tip nastavljen na 'enkraten', zadnji datum obremenitve pa "
-"ima nastavljen na {last_debit_date}, zato ga ne moremo uporabiti."
 
 #. module: account_banking_sepa_direct_debit
 #. odoo-python
@@ -623,6 +616,30 @@ msgstr ""
 "za pošiljanje navodil svoji banki glede bremenitve vašega računa in (B) "
 "svoji banki\n"
 "                       naj bremeni vaš račun v skladu z navodili iz"
+
+#~ msgid ""
+#~ "Missing SEPA Direct Debit mandate on the line with partner {partner_name} "
+#~ "(reference {reference})."
+#~ msgstr ""
+#~ "Pri postavki SEPA direktnega debetnega mandata manjka vrstica s "
+#~ "partnerjem {partner_name} (reference {reference})."
+
+#~ msgid ""
+#~ "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+#~ "{partner_name} has expired."
+#~ msgstr ""
+#~ "Mandat za direktno obremenitev SEPA z referenco {mandate_ref} za "
+#~ "partnerja {partner_name} je potekel."
+
+#~ msgid ""
+#~ "The SEPA Direct Debit mandate with reference {mandate_ref} for partner "
+#~ "{partner_name} has type set to 'One-Off' but has a last debit date set to "
+#~ "{last_debit_date}. Therefore, it cannot be used."
+#~ msgstr ""
+#~ "Pri SEPA mandatu za direktno bremenitev s sklicem {mandate_ref} za "
+#~ "partnerja {partner_name} je tip nastavljen na 'enkraten', zadnji datum "
+#~ "obremenitve pa ima nastavljen na {last_debit_date}, zato ga ne moremo "
+#~ "uporabiti."
 
 #~ msgid "Bank Payment Lines"
 #~ msgstr "Postavke bančnih plačil"

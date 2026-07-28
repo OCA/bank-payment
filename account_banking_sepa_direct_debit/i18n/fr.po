@@ -491,8 +491,8 @@ msgstr "L'identification de créancier SEPA '%s' est invalide."
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner "
-"%(partner_name)s has expired."
+"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner %"
+"(partner_name)s has expired."
 msgstr ""
 "Le mandat de prélèvement SEPA portant la référence %(mandate_ref)s pour le "
 "partenaire %(partner_name)s a expiré."
@@ -501,13 +501,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_banking_sepa_direct_debit/models/account_payment_line.py:0
 msgid ""
-"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner "
-"%(partner_name)s has type set to 'One-Off' but has a last debit date set to "
-"%(last_debit_date)s. Therefore, it cannot be used."
+"The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner %"
+"(partner_name)s has type set to 'One-Off' but has a last debit date set to %"
+"(last_debit_date)s. Therefore, it cannot be used."
 msgstr ""
-"Le mandat SEPA portant la référence %(mandate_ref)s pour le partenaire "
-"%(partner_name)s est de type 'One-Off' et il a une date de dernier débit au "
-"%(last_debit_date)s. Il n'est donc pas utilisable."
+"Le mandat SEPA portant la référence %(mandate_ref)s pour le partenaire %"
+"(partner_name)s est de type 'One-Off' et il a une date de dernier débit au %"
+"(last_debit_date)s. Il n'est donc pas utilisable."
 
 #. module: account_banking_sepa_direct_debit
 #. odoo-python
