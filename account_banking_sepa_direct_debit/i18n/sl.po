@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-23 03:38+0000\n"
-"PO-Revision-Date: 2026-06-13 11:46+0000\n"
+"PO-Revision-Date: 2026-08-19 05:46+0000\n"
 "Last-Translator: Matjaz Mozetic <matjaz@luxim.si>\n"
 "Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
 "Language: sl\n"
@@ -379,6 +379,8 @@ msgid ""
 "Missing SEPA Direct Debit mandate on the line with partner %(partner_name)s "
 "(reference %(reference)s)."
 msgstr ""
+"Pri postavki SEPA direktnega debetnega mandata manjka vrstica s partnerjem %"
+"(partner_name)s (reference %(reference)s)."
 
 #. module: account_banking_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_banking_sepa_direct_debit.selection__account_banking_mandate__type__oneoff
@@ -518,6 +520,8 @@ msgid ""
 "The SEPA Direct Debit mandate with reference %(mandate_ref)s for partner %"
 "(partner_name)s has expired."
 msgstr ""
+"Mandat za direktno obremenitev SEPA z referenco %(mandate_ref)s za partnerja "
+"%(partner_name)s je potekel."
 
 #. module: account_banking_sepa_direct_debit
 #. odoo-python
@@ -527,6 +531,10 @@ msgid ""
 "(partner_name)s has type set to 'One-Off' but has a last debit date set to %"
 "(last_debit_date)s. Therefore, it cannot be used."
 msgstr ""
+"Pri SEPA mandatu za direktno bremenitev s sklicem %(mandate_ref)s za "
+"partnerja %(partner_name)s je tip nastavljen na 'enkraten', zadnji datum "
+"obremenitve pa ima nastavljen na %(last_debit_date)s, zato ga ne moremo "
+"uporabiti."
 
 #. module: account_banking_sepa_direct_debit
 #. odoo-python
