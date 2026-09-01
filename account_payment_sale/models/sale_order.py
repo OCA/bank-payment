@@ -25,15 +25,21 @@ class SaleOrder(models.Model):
             ).customer_payment_mode_id
 
     def _get_payment_mode_vals(self, vals):
-        if self.payment_mode_id:
-            vals["payment_mode_id"] = self.payment_mode_id.id
-            if (
-                self.payment_mode_id.bank_account_link == "fixed"
-                and self.payment_mode_id.payment_method_id.code == "manual"
-            ):
-                vals[
-                    "partner_bank_id"
-                ] = self.payment_mode_id.fixed_journal_id.bank_account_id.id
+        # NB: since "payment_mode_id" is in the grouping keys,
+        # there needs to be a key in the dict for every record.
+        # Otherwise the "sorted by grouping key" might fail in
+        # "sales > models > sale_orderpy > _create_invoices" when
+        # receiving a None alongside int's.
+        vals["payment_mode_id"] = self.payment_mode_id.id
+
+        if (
+            self.payment_mode_id
+            and self.payment_mode_id.bank_account_link == "fixed"
+            and self.payment_mode_id.payment_method_id.code == "manual"
+        ):
+            vals[
+                "partner_bank_id"
+            ] = self.payment_mode_id.fixed_journal_id.bank_account_id.id
 
     def _prepare_invoice(self):
         """Copy bank partner from sale order to invoice"""
