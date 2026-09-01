@@ -31,7 +31,7 @@ addon | version | maintainers | summary
 [account_invoice_select_for_payment](account_invoice_select_for_payment/) | 18.0.1.0.0 |  | Account Invoice Select for Payment
 [account_payment_method_base_mode](account_payment_method_base_mode/) | 18.0.1.0.0 |  | Glue module for base views
 [account_payment_mode](account_payment_mode/) | 18.0.1.0.2 |  | Account Payment Mode
-[account_payment_order](account_payment_order/) | 18.0.1.2.7 |  | Account Payment Order
+[account_payment_order](account_payment_order/) | 18.0.1.2.8 |  | Account Payment Order
 [account_payment_order_grouped_output](account_payment_order_grouped_output/) | 18.0.1.0.1 |  | Account Payment Order - Generate grouped moves
 [account_payment_order_notification](account_payment_order_notification/) | 18.0.1.0.0 | <a href='https://github.com/victoralmau'><img src='https://github.com/victoralmau.png' width='32' height='32' style='border-radius:50%;' alt='victoralmau'/></a> | Account Payment Order Notification
 [account_payment_order_return](account_payment_order_return/) | 18.0.1.0.0 |  | Account Payment Order Return
