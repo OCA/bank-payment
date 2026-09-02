@@ -657,7 +657,7 @@ class TestAccountPaymentPartner(BaseCommon):
     def test_account_move_payment_mode_id_default(self):
         payment_mode = self.env["account.payment.mode"].create(
             {
-                "name": "Direct Debit of customers",
+                "name": "Test default customer payment mode",
                 "company_id": self.env.ref("base.main_company").id,
                 "bank_account_link": "variable",
                 "payment_method_id": self.env.ref(

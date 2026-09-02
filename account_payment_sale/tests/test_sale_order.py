@@ -112,7 +112,7 @@ class TestSaleOrder(CommonTestCase):
         """
         payment_mode_2 = self.env["account.payment.mode"].create(
             {
-                "name": "Direct Debit of suppliers from Société Générale",
+                "name": "Test direct debit of suppliers",
                 "bank_account_link": "variable",
                 "payment_method_id": self.env.ref(
                     "account.account_payment_method_manual_out"

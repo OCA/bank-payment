@@ -4,3 +4,4 @@
 - Marçal Isern \<<marsal.isern@qubiq.es>\>
 - Miquel Alzanillas \<<malzanillas@apsl.net>\>
 - Bert Van Groenendael \<<bert.vangroenendael@dynapps.eu>\>
+- Marcos Mendez \<<m@pop.coop>\>
