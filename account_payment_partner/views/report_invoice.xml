@@ -11,23 +11,37 @@
             </p>
             <t t-if="o.payment_mode_id and o.payment_mode_id.show_bank_account != 'no'">
                 <p t-foreach="o.sudo().partner_banks_to_show()" t-as="partner_bank">
+                    <strong
+                        t-if="o.payment_mode_id.show_company_name"
+                        t-esc="o.company_id.name"
+                    />
                     <strong>Bank Account:</strong>
                     <t t-if="partner_bank.bank_id">
-                        <t
-                            t-esc="partner_bank.bank_id.name + ('' if not partner_bank.bank_id.bic else ' (' + partner_bank.bank_id.bic + ')')"
-                        />
+                        <t t-esc="partner_bank.bank_id.name" />
+                        <t t-if="partner_bank.bank_id.bic">
+                            (<strong>BIC/SWIFT:</strong> <t
+                                t-esc="partner_bank.bank_id.bic"
+                            />)
+                        </t>
                     </t>
+
+                    <strong t-if="partner_bank.acc_type == 'iban'">IBAN:</strong>
+                    <t t-set="acc_number" t-value="partner_bank.sanitized_acc_number" />
+                    <t
+                        t-set="show_chars"
+                        t-value="o.payment_mode_id.show_bank_account_chars"
+                    />
                     <t t-if="o.payment_mode_id.show_bank_account == 'full'">
-                        <span t-field="partner_bank.acc_number" />
+                        <span t-esc="acc_number" />
                     </t>
                     <t t-elif="o.payment_mode_id.show_bank_account == 'first'">
                         <span
-                            t-esc="partner_bank.acc_number[:o.payment_mode_id.show_bank_account_chars] + '*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars)"
+                            t-esc="acc_number[:show_chars] + '*' * (len(acc_number) - show_chars)"
                         />
                     </t>
                     <t t-elif="o.payment_mode_id.show_bank_account == 'last'">
                         <span
-                            t-esc="'*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars) + partner_bank.acc_number[-o.payment_mode_id.show_bank_account_chars:]"
+                            t-esc="'*' * (len(acc_number) - show_chars) + acc_number[-show_chars:]"
                         />
                     </t>
                 </p>
