@@ -148,6 +148,7 @@ class TestSCT(TransactionCase):
                 "acc_number": "BE96 9988 7766 5544",
                 "bank_id": cls.bank_2.id,
                 "partner_id": cls.partner_2.id,
+                "allow_out_payment": True,
             }
         )
         cls.bank_journal = cls.journal_model.create(

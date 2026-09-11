@@ -25,9 +25,8 @@ class TestVendorEmail(TransactionCase):
         self.email_template = self.env.ref(
             "account_payment_order_vendor_email.ach_payment_email_template"
         )
-
         self.partner_id = self.env.ref("base.res_partner_12")
-
+        self.partner_id.bank_ids.write({"allow_out_payment": True})
         self.payment_mode_c1 = self.env["account.payment.mode"].create(
             {
                 "name": "Direct Debit of suppliers from Bank 1",
