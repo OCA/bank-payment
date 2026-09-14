@@ -58,11 +58,8 @@
                         invisible="move_type not in ('out_invoice', 'out_refund')"
                         required="move_type in ('out_invoice', 'out_refund')"
                     />
+                    <field name="payment_reference" position="move" />
                 </div>
-            </field>
-            <!-- Then we move the std field, as this can only be on a first level -->
-            <field name="reference_type" position="after">
-                <field name="payment_reference" position="move" />
             </field>
         </field>
     </record>
