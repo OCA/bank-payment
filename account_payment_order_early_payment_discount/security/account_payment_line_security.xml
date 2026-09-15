@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_line_group_remove_preferred" model="res.groups">
+        <field name="name">Remove Preferred Suppliers from Payment Orders</field>
+        <field name="privilege_id" ref="account.res_groups_privilege_accounting" />
+    </record>
+    <!-- Accounting managers may take them out unless told otherwise. -->
+    <record id="account.group_account_manager" model="res.groups">
+        <field
+            name="implied_ids"
+            eval="[(4, ref('account_payment_line_group_remove_preferred'))]"
+        />
+    </record>
+</odoo>
