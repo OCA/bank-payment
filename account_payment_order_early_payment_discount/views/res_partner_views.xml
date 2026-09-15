@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.payment.order.early.payment</field>
+        <field name="model">res.partner</field>
+        <field
+            name="inherit_id"
+            ref="account_supplier_early_payment_discount.res_partner_view_form"
+        />
+        <field name="arch" type="xml">
+            <field name="early_payment_base" position="after">
+                <field name="preferred_supplier" />
+            </field>
+        </field>
+    </record>
+</odoo>
