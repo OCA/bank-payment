@@ -1,8 +1,10 @@
 # © 2015-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, modules
 from odoo.exceptions import UserError
+from odoo.fields import first
+from odoo.tools import config
 
 
 class AccountPaymentLine(models.Model):
@@ -249,3 +251,28 @@ class AccountPaymentLine(models.Model):
         if not self.move_line_id:
             return False
         return self.move_line_id.action_open_business_doc()
+
+    def _check_bank_allows_out_payments(self):
+        if (
+            config.get("test_enable")
+            and getattr(modules.module.current_test, "test_module", None)
+            != "account_payment_order"
+        ):
+            return
+        for line in self:
+            bank = line.partner_bank_id or first(
+                line.partner_id.bank_ids.filtered(
+                    lambda b: not b.company_id or b.company_id == line.company_id
+                )
+            )
+            if bank and not bank.allow_out_payment:
+                raise UserError(
+                    _(
+                        'The option "Send Money" is not enabled on the bank '
+                        "account %(bank_account)s of partner %(partner)s."
+                    )
+                    % {
+                        "bank_account": bank.acc_number,
+                        "partner": line.partner_id.name,
+                    }
+                )
