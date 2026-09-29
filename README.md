@@ -22,8 +22,8 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[account_banking_mandate](account_banking_mandate/) | 19.0.1.0.0 |  | Banking mandates
-[account_banking_mandate_contact](account_banking_mandate_contact/) | 19.0.1.0.0 |  | Assign specific banking mandates in contact level
+[account_banking_mandate](account_banking_mandate/) | 19.0.1.0.1 |  | Banking mandates
+[account_banking_mandate_contact](account_banking_mandate_contact/) | 19.0.1.0.1 |  | Assign specific banking mandates in contact level
 [account_banking_mandate_sale](account_banking_mandate_sale/) | 19.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Adds mandates on sale orders
 [account_banking_pain_base](account_banking_pain_base/) | 19.0.1.1.1 |  | Base module for PAIN file generation
 [account_banking_sepa_credit_transfer](account_banking_sepa_credit_transfer/) | 19.0.1.0.0 |  | Create SEPA XML files for Credit Transfers
@@ -31,7 +31,7 @@ addon | version | maintainers | summary
 [account_payment_mode](account_payment_mode/) | 19.0.1.1.0 |  | Adds payment mode on partners and invoices
 [account_payment_order](account_payment_order/) | 19.0.1.0.7 |  | Account Payment Order
 [account_payment_order_grouped_output](account_payment_order_grouped_output/) | 19.0.1.0.0 |  | Account Payment Order - Generate grouped moves
-[account_payment_order_notification](account_payment_order_notification/) | 19.0.1.0.0 | <a href='https://github.com/victoralmau'><img src='https://github.com/victoralmau.png' width='32' height='32' style='border-radius:50%;' alt='victoralmau'/></a> | Account Payment Order Notification
+[account_payment_order_notification](account_payment_order_notification/) | 19.0.1.0.1 | <a href='https://github.com/victoralmau'><img src='https://github.com/victoralmau.png' width='32' height='32' style='border-radius:50%;' alt='victoralmau'/></a> | Account Payment Order Notification
 [account_payment_purchase](account_payment_purchase/) | 19.0.1.0.0 |  | Adds Bank Account and Payment Mode on Purchase Orders
 [account_payment_purchase_stock](account_payment_purchase_stock/) | 19.0.1.0.0 |  | Integrate Account Payment Purchase with Stock
 [account_payment_sale](account_payment_sale/) | 19.0.1.0.1 |  | Adds payment mode on sale orders
