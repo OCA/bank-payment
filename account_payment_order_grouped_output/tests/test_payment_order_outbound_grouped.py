@@ -40,6 +40,19 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.order.date_prefered = "fixed"
         self.order.date_scheduled = "2024-08-01"
         self.order.draft2open()
+        payment = self.order.payment_ids
+        payment_method_line = payment.payment_method_line_id
+        payment_account = payment_method_line.payment_account_id
+        payment_method_line.payment_account_id = False
+        try:
+            liquidity_account = self.order._get_grouped_output_liquidity_account(
+                payment
+            )
+        finally:
+            payment_method_line.payment_account_id = payment_account
+        self.assertEqual(
+            liquidity_account, payment._get_outstanding_account("outbound")
+        )
         self.order.open2generated()
         self.order.generated2uploaded()
         grouped_moves = self.order.grouped_move_ids
