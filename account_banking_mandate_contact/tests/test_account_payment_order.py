@@ -17,13 +17,25 @@ class TestAccountPaymentOrder(BaseCommon):
         cls.mandate_core = cls._create_mandate(cls.partner_bank_core, "CORE")
         cls.partner_bank_b2b = cls._create_res_partner_bank("N-B2B")
         cls.mandate_b2b = cls._create_mandate(cls.partner_bank_b2b, "B2B")
-        payment_method_vals = {
-            "name": "SEPA",
-            "code": "sepa_direct_debit",
-            "payment_type": "inbound",
-            "bank_account_required": True,
-        }
-        cls.method_sepa = cls.env["account.payment.method"].create(payment_method_vals)
+        # Use the method created by account_banking_sepa_direct_debit or create
+        # a new one: when the whole repository is installed, that module already
+        # creates the "sepa_direct_debit" method and the code is unique.
+        cls.method_sepa = cls.env["account.payment.method"].search(
+            [("code", "=", "sepa_direct_debit")], limit=1
+        )
+        if not cls.method_sepa:
+            payment_method_vals = {
+                "name": "SEPA",
+                "code": "sepa_direct_debit",
+                "payment_type": "inbound",
+                "bank_account_required": True,
+            }
+            cls.method_sepa = cls.env["account.payment.method"].create(
+                payment_method_vals
+            )
+        # Always set mandate_required=False to avoid incorrect behavior if
+        # account_banking_sepa_direct_debit is already installed
+        cls.method_sepa.mandate_required = False
         cls.journal_bank = cls.env["account.journal"].create(
             {
                 "name": "BANK",
