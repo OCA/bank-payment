@@ -1,8 +1,9 @@
 # Copyright 2022 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from odoo.tests import Form, TransactionCase
+from odoo.tests import Form, TransactionCase, tagged
 
 
+@tagged("post_install", "-at_install")
 class TestAccountPaymentOrderNotification(TransactionCase):
     @classmethod
     def setUpClass(cls):

@@ -5,12 +5,14 @@ from unittest.mock import patch
 
 from odoo import fields
 from odoo.exceptions import UserError
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.account.models.account_payment_method import AccountPaymentMethod
 from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
 
+@tagged("post_install", "-at_install")
 class TestInvoiceMandate(TransactionCase):
     def test_post_invoice_01(self):
         self.assertEqual(self.invoice.mandate_id, self.mandate)
