@@ -3,7 +3,7 @@
 {
     "name": "Account Banking Mandate Contact",
     "summary": "Assign specific banking mandates in contact level",
-    "version": "18.0.1.2.1",
+    "version": "18.0.1.2.2",
     "development_status": "Production/Stable",
     "category": "Banking addons",
     "website": "https://github.com/OCA/bank-payment",
