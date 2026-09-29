@@ -2,11 +2,12 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl
 
 from odoo import fields
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests.common import Form, TransactionCase, tagged
 
 from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
 
+@tagged("post_install", "-at_install")
 class TestAccountPaymentOrder(TransactionCase):
     @classmethod
     def setUpClass(cls):
