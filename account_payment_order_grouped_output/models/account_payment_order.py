@@ -114,20 +114,11 @@ class AccountPaymentOrder(models.Model):
         return vals
 
     def _get_grouped_output_liquidity_account(self, payment):
-        domain = Domain(
-            [
-                ("journal_id", "=", self.journal_id.id),
-                ("payment_method_id", "=", payment.payment_method_id.id),
-                ("payment_type", "=", self.payment_type),
-            ]
-        )
-        apml = self.env["account.payment.method.line"].search(domain)
+        payment.ensure_one()
+        apml = payment.payment_method_line_id
         if apml.payment_account_id:
             return apml.payment_account_id
-        elif self.payment_type == "inbound":
-            return payment.company_id.account_journal_payment_debit_account_id
-        else:
-            return payment.company_id.account_journal_payment_credit_account_id
+        return payment._get_outstanding_account(self.payment_type)
 
     def _prepare_move_line_partner_account(self, payment):
         if self.payment_type == "outbound":
