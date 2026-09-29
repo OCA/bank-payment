@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-# © 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
-# © 2014 Serv. Tecnol. Avanzados - Pedro M. Baeza
-# © 2016 Antiun Ingenieria S.L. - Antonio Espinosa
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Copyright 2013-2016 Akretion - Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright 2016 Antiun Ingenieria S.L. - Antonio Espinosa
+# Copyright 2021 Tecnativa - Carlos Roca
+# Copyright 2014-2022 Tecnativa - Pedro M. Baeza
+# Copyright 2026 Therp BV <https://therp.nl>.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _, tools
 from odoo.exceptions import UserError
@@ -287,9 +289,12 @@ class AccountPaymentOrder(models.Model):
             request_date_tag = 'ReqdColltnDt'
         else:
             request_date_tag = 'ReqdExctnDt'
-        requested_date_node = etree.SubElement(
-            payment_info, request_date_tag)
-        requested_date_node.text = requested_date
+        # date should be adjusted for 09
+        requested_date_node = etree.SubElement(payment_info, request_date_tag)
+        if (gen_args.get("pain_flavor", "")).startswith("pain.001.001.09"):
+            etree.SubElement(requested_date_node, "Dt").text = requested_date
+        else:
+            requested_date_node.text = requested_date
         return payment_info, nb_of_transactions, control_sum
 
     @api.model
@@ -458,38 +463,111 @@ class AccountPaymentOrder(models.Model):
         return True
 
     @api.model
-    def generate_address_block(
-            self, parent_node, partner, gen_args):
-        """Generate the piece of the XML corresponding to PstlAdr"""
-        if partner.country_id:
-            postal_address = etree.SubElement(parent_node, 'PstlAdr')
-            if gen_args.get('pain_flavor').startswith(
-                    'pain.001.001.') or gen_args.get('pain_flavor').startswith(
-                    'pain.008.001.'):
-                if partner.zip:
-                    pstcd = etree.SubElement(postal_address, 'PstCd')
-                    pstcd.text = self._prepare_field(
-                        'Postal Code', 'partner.zip',
-                        {'partner': partner}, 16, gen_args=gen_args)
-                if partner.city:
-                    twnnm = etree.SubElement(postal_address, 'TwnNm')
-                    twnnm.text = self._prepare_field(
-                        'Town Name', 'partner.city',
-                        {'partner': partner}, 35, gen_args=gen_args)
-            country = etree.SubElement(postal_address, 'Ctry')
+    def generate_address_block(self, parent_node, partner, gen_args):
+        if not partner.country_id:
+            return True
+        pain_flavor = (gen_args.get("pain_flavor", "")).strip()
+        payment_method = self.payment_mode_id.payment_method_id
+        address_mode = payment_method.sepa_pain09_address_mode
+        if pain_flavor.startswith("pain.001.001.09"):
+            if not partner.city:
+                raise UserError(
+                    _(
+                        "PAIN format %(flavor)s requires City (TwnNm). "
+                        "Partner missing City: %(partner)s. "
+                        "Please set a City or choose an older PAIN format."
+                    )
+                    % {"flavor": pain_flavor, "partner": partner.display_name}
+                )
+            postal_address = etree.SubElement(parent_node, "PstlAdr")
+            if address_mode == "hybrid" and partner.zip:
+                pstcd = etree.SubElement(postal_address, "PstCd")
+                pstcd.text = self._prepare_field(
+                    "zip",
+                    "partner.zip",
+                    {"partner": partner},
+                    16,
+                    gen_args=gen_args,
+                )
+            twn = etree.SubElement(postal_address, "TwnNm")
+            twn.text = self._prepare_field(
+                "city",
+                "partner.city",
+                {"partner": partner},
+                35,
+                gen_args=gen_args,
+            )
+            country = etree.SubElement(postal_address, "Ctry")
             country.text = self._prepare_field(
-                'Country', 'partner.country_id.code',
-                {'partner': partner}, 2, gen_args=gen_args)
-            if partner.street:
-                adrline1 = etree.SubElement(postal_address, 'AdrLine')
-                adrline1.text = self._prepare_field(
-                    'Address Line1', 'partner.street',
-                    {'partner': partner}, 70, gen_args=gen_args)
-            if partner.street2:
-                adrline2 = etree.SubElement(postal_address, 'AdrLine')
-                adrline2.text = self._prepare_field(
-                    'Address Line2', 'partner.street2',
-                    {'partner': partner}, 70, gen_args=gen_args)
+                "Country",
+                "partner.country_id.code",
+                {"partner": partner},
+                2,
+                gen_args=gen_args,
+            )
+            if address_mode == "hybrid":
+                if partner.street:
+                    adrline1 = etree.SubElement(postal_address, "AdrLine")
+                    adrline1.text = self._prepare_field(
+                        "Address Line 1",
+                        "partner.street",
+                        {"partner": partner},
+                        70,
+                        gen_args=gen_args,
+                    )
+                if partner.street2:
+                    adrline2 = etree.SubElement(postal_address, "AdrLine")
+                    adrline2.text = self._prepare_field(
+                        "Address Line 2",
+                        "partner.street2",
+                        {"partner": partner},
+                        70,
+                        gen_args=gen_args,
+                    )
+            return True
+        postal_address = etree.SubElement(parent_node, "PstlAdr")
+        country = etree.SubElement(postal_address, "Ctry")
+        country.text = self._prepare_field(
+            "Country",
+            "partner.country_id.code",
+            {"partner": partner},
+            2,
+            gen_args=gen_args,
+        )
+
+        if partner.street:
+            adrline1 = etree.SubElement(postal_address, "AdrLine")
+            adrline1.text = self._prepare_field(
+                "Address Line 1",
+                "partner.street",
+                {"partner": partner},
+                70,
+                gen_args=gen_args,
+            )
+
+        if (
+            pain_flavor.startswith("pain.001.001.")
+            or pain_flavor.startswith("pain.008.001.")
+        ) and (partner.zip or partner.city):
+            adrline2 = etree.SubElement(postal_address, "AdrLine")
+            val = ""
+            if partner.zip:
+                val = self._prepare_field(
+                    "zip",
+                    "partner.zip",
+                    {"partner": partner},
+                    70,
+                    gen_args=gen_args,
+                )
+            if partner.city:
+                val += " " + self._prepare_field(
+                    "city",
+                    "partner.city",
+                    {"partner": partner},
+                    70,
+                    gen_args=gen_args,
+                )
+            adrline2.text = val.strip()
 
         return True
 
