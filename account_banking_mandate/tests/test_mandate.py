@@ -5,10 +5,12 @@ from datetime import timedelta
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
+from odoo.tests import tagged
 
 from odoo.addons.base.tests.common import BaseCommon
 
 
+@tagged("post_install", "-at_install")
 class TestMandate(BaseCommon):
     @classmethod
     def setUpClass(cls):
