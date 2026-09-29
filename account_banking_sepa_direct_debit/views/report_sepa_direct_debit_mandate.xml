@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="sepa_direct_debit_mandate_document">
-        <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
         <t
-            t-set="is_not_english"
-            t-value="doc.partner_id.lang and doc.partner_id.lang[:2] != 'en'"
+            t-set="doc_lang"
+            t-value="doc.partner_id.lang or doc.env.context.get('lang')"
         />
+        <t t-set="doc" t-value="doc.with_context(lang=doc_lang)" />
+        <t t-set="is_not_english" t-value="doc_lang and doc_lang[:2] != 'en'" />
         <div class="page sepa_direct_debit">
             <div class="row mt0">
                 <div class="col-12 text-center">
@@ -369,8 +370,12 @@
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.basic_layout">
                     <t
+                        t-set="doc_lang"
+                        t-value="doc.partner_id.lang or doc.env.context.get('lang')"
+                    />
+                    <t
                         t-call="account_banking_sepa_direct_debit.sepa_direct_debit_mandate_document"
-                        t-lang="doc.partner_id.lang"
+                        t-lang="doc_lang"
                     />
                 </t>
             </t>
