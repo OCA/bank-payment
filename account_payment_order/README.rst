@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 =====================
 Account Payment Order
 =====================
@@ -17,7 +13,7 @@ Account Payment Order
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github
@@ -44,9 +40,9 @@ Installation
 
 This module depends on:
 
-- account_payment_partner
-- base_iban
-- document
+-  account_payment_partner
+-  base_iban
+-  document
 
 This modules is part of the OCA/bank-payment suite.
 
@@ -95,41 +91,42 @@ Authors
 Contributors
 ------------
 
-- Stéphane Bidoul <stephane.bidoul@acsone.eu>
-- Alexis de Lattre <alexis.delattre@akretion.com>
-- Adrien Peiffer <adrien.peiffer@acsone.eu>
-- Stefan Rijnhart
-- Laurent Mignon <laurent.mignon@acsone.eu>
-- Alexandre Fayolle
-- Danimar Ribeiro
-- Erwin van der Ploeg
-- Raphaël Valyi
-- Sandy Carter
-- Angel Moya <angel.moya@domatix.com>
-- Jose María Alzaga <jose.alzaga@aselcis.com>
-- Meyomesse Gilles <meyomesse.gilles@gmail.com>
-- Denis Roussel <denis.roussel@acsone.eu>
-- `DynApps <https://www.dynapps.be>`__:
+-  Stéphane Bidoul <stephane.bidoul@acsone.eu>
+-  Alexis de Lattre <alexis.delattre@akretion.com>
+-  Adrien Peiffer <adrien.peiffer@acsone.eu>
+-  Stefan Rijnhart
+-  Laurent Mignon <laurent.mignon@acsone.eu>
+-  Alexandre Fayolle
+-  Danimar Ribeiro
+-  Erwin van der Ploeg
+-  Raphaël Valyi
+-  Sandy Carter
+-  Angel Moya <angel.moya@domatix.com>
+-  Jose María Alzaga <jose.alzaga@aselcis.com>
+-  Meyomesse Gilles <meyomesse.gilles@gmail.com>
+-  Denis Roussel <denis.roussel@acsone.eu>
+-  `DynApps <https://www.dynapps.be>`__:
 
-  - Raf Ven <raf.ven@dynapps.be>
+   -  Raf Ven <raf.ven@dynapps.be>
 
-- Andrea Stirpe <a.stirpe@onestein.nl>
-- `Jarsa <https://www.jarsa.com.mx>`__:
+-  Andrea Stirpe <a.stirpe@onestein.nl>
+-  `Jarsa <https://www.jarsa.com.mx>`__:
 
-  - Alan Ramos <alan.ramos@jarsa.com.mx>
+   -  Alan Ramos <alan.ramos@jarsa.com.mx>
 
-- `Tecnativa <https://www.tecnativa.com>`__:
+-  `Tecnativa <https://www.tecnativa.com>`__:
 
-  - Pedro M. Baeza
-  - Carlos Dauden
-  - Carlos Roca
-  - Carlos Lopez
+   -  Pedro M. Baeza
+   -  Carlos Dauden
+   -  Carlos Roca
+   -  Carlos Lopez
 
-- `Open Source Integrators <https://www.opensourceintegrators.com>`__:
+-  `Open Source Integrators <https://www.opensourceintegrators.com>`__:
 
-  - Ammar Officewala <aofficewala@opensourceintegrators.com>
+   -  Ammar Officewala <aofficewala@opensourceintegrators.com>
 
-- Marçal Isern <marsal.isern@qubiq.es>
+-  Marçal Isern <marsal.isern@qubiq.es>
+-  Simone Rubino <simone.rubino88@gmail.com>
 
 Maintainers
 -----------
