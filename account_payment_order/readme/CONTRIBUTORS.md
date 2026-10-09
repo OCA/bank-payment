@@ -25,3 +25,4 @@
 - [Open Source Integrators](https://www.opensourceintegrators.com):
   - Ammar Officewala \<<aofficewala@opensourceintegrators.com>\>
 - Marçal Isern \<<marsal.isern@qubiq.es>\>
+- Simone Rubino \<<simone.rubino88@gmail.com>\>
