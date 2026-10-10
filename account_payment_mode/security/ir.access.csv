@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+account.access_account_payment_method,Full access on account.payment.method to Financial Manager,account.payment.method,account.group_account_manager,crud,
+access_account_payment_mode_read,Read access on account.payment.mode to Employees,account.payment.mode,base.group_user,r,
+access_account_payment_mode_full,Full access on account.payment.mode to Financial Manager,account.payment.mode,account.group_account_manager,crud,
+account_payment_mode_company_rule,Payment mode multi-company rule,account.payment.mode,,crud,"[('company_id', 'in', company_ids)]"
