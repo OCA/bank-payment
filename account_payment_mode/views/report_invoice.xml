@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template
         id="report_invoice_payment_mode"
@@ -12,22 +12,22 @@
             <t t-if="o.payment_mode_id and o.payment_mode_id.show_bank_account != 'no'">
                 <p t-foreach="o.sudo().partner_banks_to_show()" t-as="partner_bank">
                     <strong>Bank Account:</strong>
-                    <t t-if="partner_bank.bank_id">
+                    <t t-if="partner_bank.bank_name">
                         <t
-                            t-esc="partner_bank.bank_id.name + ('' if not partner_bank.bank_id.bic else ' (' + partner_bank.bank_id.bic + ')')"
+                            t-out="partner_bank.bank_name + ('' if not partner_bank.bank_bic else ' (' + partner_bank.bank_bic + ')')"
                         />
                     </t>
                     <t t-if="o.payment_mode_id.show_bank_account == 'full'">
-                        <span t-field="partner_bank.acc_number" />
+                        <span t-field="partner_bank.account_number" />
                     </t>
                     <t t-elif="o.payment_mode_id.show_bank_account == 'first'">
                         <span
-                            t-esc="partner_bank.acc_number[:o.payment_mode_id.show_bank_account_chars] + '*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars)"
+                            t-out="partner_bank.account_number[:o.payment_mode_id.show_bank_account_chars] + '*' * (len(partner_bank.account_number) - o.payment_mode_id.show_bank_account_chars)"
                         />
                     </t>
                     <t t-elif="o.payment_mode_id.show_bank_account == 'last'">
                         <span
-                            t-esc="'*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars) + partner_bank.acc_number[-o.payment_mode_id.show_bank_account_chars:]"
+                            t-out="'*' * (len(partner_bank.account_number) - o.payment_mode_id.show_bank_account_chars) + partner_bank.account_number[-o.payment_mode_id.show_bank_account_chars:]"
                         />
                     </t>
                 </p>

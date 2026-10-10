@@ -4,7 +4,7 @@
 
 {
     "name": "Account Payment Mode",
-    "version": "19.0.1.1.0",
+    "version": "20.0.1.0.0",
     "development_status": "Mature",
     "license": "AGPL-3",
     "summary": "Adds payment mode on partners and invoices",
@@ -14,8 +14,7 @@
     "depends": ["account"],
     "data": [
         "security/account_payment_partner_security.xml",
-        "security/account_payment_mode.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/res_partner_view.xml",
         "views/account_move_view.xml",
         "views/account_move_line.xml",

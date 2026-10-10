@@ -11,6 +11,9 @@ from odoo.addons.base.tests.common import BaseCommon
 
 @tagged("-at_install", "post_install")
 class TestAccountPaymentPartner(BaseCommon):
+    # Keep running the tests as the environment user, like account's own tests
+    _test_user_groups = None
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -60,7 +63,7 @@ class TestAccountPaymentPartner(BaseCommon):
                 "code": "J1",
                 "type": "bank",
                 "company_id": cls.company.id,
-                "bank_acc_number": "123456",
+                "bank_account_number": "123456",
             }
         )
         cls.journal_c2 = cls.journal_model.create(
@@ -69,7 +72,7 @@ class TestAccountPaymentPartner(BaseCommon):
                 "code": "J2",
                 "type": "bank",
                 "company_id": cls.company_2.id,
-                "bank_acc_number": "552344",
+                "bank_account_number": "552344",
             }
         )
         cls.supplier_payment_mode = cls.payment_mode_model.create(
@@ -129,7 +132,7 @@ class TestAccountPaymentPartner(BaseCommon):
         )
         cls.supplier_bank = cls.env["res.partner.bank"].create(
             {
-                "acc_number": "5345345",
+                "account_number": "5345345",
                 "partner_id": cls.supplier.id,
                 "allow_out_payment": True,
             }
@@ -151,24 +154,14 @@ class TestAccountPaymentPartner(BaseCommon):
             ],
             limit=1,
         )
-        bank = (
-            cls.env["res.bank"]
-            .env["res.bank"]
-            .create(
-                {
-                    "name": "Fiducial Banque",
-                    "bic": "FIDCFR21XXX",
-                    "street": "38 rue Sergent Michel Berthet",
-                    "zip": "69009",
-                    "city": "Lyon",
-                    "country": cls.env.ref("base.fr").id,
-                }
-            )
-        )
         cls.journal_bank = cls.env["res.partner.bank"].create(
             {
-                "bank_id": bank.id,
-                "acc_number": "GB95LOYD87430237296288",
+                "bank_name": "Fiducial Banque",
+                "bank_bic": "FIDCFR21XXX",
+                "street": "38 rue Sergent Michel Berthet",
+                "zip": "69009",
+                "city": "Lyon",
+                "account_number": "GB95LOYD87430237296288",
                 "partner_id": cls.env.user.company_id.partner_id.id,
             }
         )
@@ -377,11 +370,9 @@ class TestAccountPaymentPartner(BaseCommon):
         refund_invoice_wizard = (
             self.env["account.move.reversal"]
             .with_context(
-                **{
-                    "active_ids": [invoice.id],
-                    "active_id": invoice.id,
-                    "active_model": "account.move",
-                }
+                active_ids=[invoice.id],
+                active_id=invoice.id,
+                active_model="account.move",
             )
             .create(
                 {
@@ -411,11 +402,9 @@ class TestAccountPaymentPartner(BaseCommon):
         refund_invoice_wizard = (
             self.env["account.move.reversal"]
             .with_context(
-                **{
-                    "active_ids": [invoice.id],
-                    "active_id": invoice.id,
-                    "active_model": "account.move",
-                }
+                active_ids=[invoice.id],
+                active_id=invoice.id,
+                active_model="account.move",
             )
             .create(
                 {
@@ -504,7 +493,7 @@ class TestAccountPaymentPartner(BaseCommon):
         )
         trusted_bank = self.env["res.partner.bank"].create(
             {
-                "acc_number": "BE32121212121212",
+                "account_number": "BE32121212121212",
                 "partner_id": partner_no_mode.id,
                 "allow_out_payment": True,
             }
@@ -536,17 +525,17 @@ class TestAccountPaymentPartner(BaseCommon):
         self.supplier_invoice.partner_bank_id = self.supplier_bank.id
         report = self.env.ref("account.account_invoices")
         res = str(report._render_qweb_html(report.id, self.supplier_invoice.ids)[0])
-        # self.assertIn(self.supplier_bank.acc_number, res)
+        # self.assertIn(self.supplier_bank.account_number, res)
         payment_mode = self.supplier_payment_mode
         payment_mode.show_bank_account_from_journal = True
         self.supplier_invoice.payment_mode_id = payment_mode.id
         self.supplier_invoice.partner_bank_id = False
         res = str(report._render_qweb_html(report.id, self.supplier_invoice.ids)[0])
-        self.assertIn(self.journal_c1.bank_acc_number, res)
+        self.assertIn(self.journal_c1.bank_account_number, res)
         payment_mode.bank_account_link = "variable"
         payment_mode.variable_journal_ids = [(6, 0, self.journal.ids)]
         res = str(report._render_qweb_html(report.id, self.supplier_invoice.ids)[0])
-        self.assertIn(self.journal_bank.acc_number, res)
+        self.assertIn(self.journal_bank.account_number, res)
 
     def test_filter_type_domain(self):
         in_invoice = self.move_model.create(

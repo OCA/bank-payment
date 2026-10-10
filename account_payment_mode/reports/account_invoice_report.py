@@ -1,8 +1,7 @@
 # Copyright 2021 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
-from odoo.tools import SQL
+from odoo import fields, models
 
 
 class AccountInvoiceReport(models.Model):
@@ -14,6 +13,5 @@ class AccountInvoiceReport(models.Model):
         readonly=True,
     )
 
-    @api.model
-    def _select(self) -> SQL:
-        return SQL("%s, move.payment_mode_id AS payment_mode_id", super()._select())
+    def _select_list(self, table):
+        return super()._select_list(table) + [table.move_id.payment_mode_id]
