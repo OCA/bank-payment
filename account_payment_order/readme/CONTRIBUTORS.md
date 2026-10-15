@@ -24,3 +24,5 @@
 - [Open Source Integrators](https://www.opensourceintegrators.com):
   - Ammar Officewala \<<aofficewala@opensourceintegrators.com>\>
 - Marçal Isern \<<marsal.isern@qubiq.es>\>
+- [Stesi consulting srl](https://www.stesi.consulting):
+  - Michele Di Croce \<<dicroce.m@stesi.consulting>\>
