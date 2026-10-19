@@ -14,7 +14,6 @@ class AccountMove(models.Model):
 
     payment_order_id = fields.Many2one(
         comodel_name="account.payment.order",
-        string="Payment Order",
         copy=False,
         readonly=True,
         check_company=True,

@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_payment_order,Full access on account.payment.order to Payment Manager,account.payment.order,group_account_payment,crud,
+access_account_payment_order_readonly,Readonly access on account.payment.order to group_account_readonly,account.payment.order,account.group_account_readonly,read,
+access_account_payment_line,Full access on account.payment.line to Payment Manager,account.payment.line,group_account_payment,crud,
+access_account_payment_line_readonly,Readonly access on account.payment.line to group_account_readonly,account.payment.line,account.group_account_readonly,read,
+access_bank_payment_line,Full access on account.payment to Payment Manager,account.payment,group_account_payment,crud,
+access_res_partner_bank_group_account_payment,Full access on res.partner.bank to Account Payment group,res.partner.bank,group_account_payment,crud,
+access_account_payment_line_create,access_account_payment_line_create,account.payment.line.create,group_account_payment,crud,
+access_account_invoice_payment_line_multi,access_account_invoice_payment_line_multi,account.invoice.payment.line.multi,group_account_payment,crud,
+access_account_payment_update,access_account_payment_update,account.payment.update,group_account_payment,crud,

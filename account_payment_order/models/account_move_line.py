@@ -51,10 +51,12 @@ class AccountMoveLine(models.Model):
         communication_type = "normal"
         communication = self.move_id._get_payment_order_communication_full()
         # change these default values if move line is linked to an invoice
-        if self.move_id.is_invoice():
-            if (self.move_id.reference_type or "none") != "none":
-                ref2comm_type = aplo.invoice_reference_type2communication_type()
-                communication_type = ref2comm_type[self.move_id.reference_type]
+        if (
+            self.move_id.is_invoice()
+            and (self.move_id.reference_type or "none") != "none"
+        ):
+            ref2comm_type = aplo.invoice_reference_type2communication_type()
+            communication_type = ref2comm_type[self.move_id.reference_type]
         return communication_type, communication
 
     def _prepare_payment_line_vals(self, payment_order):

@@ -48,7 +48,7 @@ class AccountPaymentLineCreate(models.TransientModel):
     move_line_ids = fields.Many2many(
         comodel_name="account.move.line", string="Move Lines"
     )
-    move_line_domain = fields.Binary(compute="_compute_move_line_domain")
+    move_line_domain = fields.Json(compute="_compute_move_line_domain")
 
     @api.model
     def default_get(self, field_list):

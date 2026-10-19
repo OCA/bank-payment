@@ -3,7 +3,7 @@
 # Copyright 2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from datetime import date, datetime, timedelta
+from datetime import timedelta
 
 from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
@@ -186,7 +186,10 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             self.env["account.payment.line.create"]
             .with_context(active_model="account.payment.order", active_id=order.id)
             .create(
-                {"date_type": "move", "filter_date": datetime.now() + timedelta(days=1)}
+                {
+                    "date_type": "move",
+                    "filter_date": fields.Datetime.now() + timedelta(days=1),
+                }
             )
         )
         line_create.payment_mode = "any"
@@ -196,7 +199,10 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             self.env["account.payment.line.create"]
             .with_context(active_model="account.payment.order", active_id=order.id)
             .create(
-                {"date_type": "due", "filter_date": datetime.now() + timedelta(days=1)}
+                {
+                    "date_type": "due",
+                    "filter_date": fields.Datetime.now() + timedelta(days=1),
+                }
             )
         )
         line_created_due.populate()
@@ -260,7 +266,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             }
         )
         with self.assertRaises(ValidationError):
-            outbound_order.date_scheduled = date.today() - timedelta(days=2)
+            outbound_order.date_scheduled = fields.Date.today() - timedelta(days=2)
 
     def test_invoice_communication_01(self):
         self.assertEqual(
@@ -329,12 +335,13 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             "communication": "manual line and manual date",
             "currency_id": outbound_order.payment_mode_id.company_id.currency_id.id,
             "amount_currency": 192.38,
-            "date": date.today() + timedelta(days=8),
+            "date": fields.Date.today() + timedelta(days=8),
         }
         self.env["account.payment.line"].create(vals)
         self.assertEqual(len(outbound_order.payment_line_ids), 1)
         self.assertEqual(
-            outbound_order.payment_line_ids[0].date, date.today() + timedelta(days=8)
+            outbound_order.payment_line_ids[0].date,
+            fields.Date.today() + timedelta(days=8),
         )
         # Create a manual payment order line with normal date
         vals = {
@@ -354,7 +361,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.assertEqual(
             outbound_order.payment_line_ids[0].payment_ids.date, fields.Date.today()
         )
-        self.assertEqual(outbound_order.payment_line_ids[1].date, date.today())
+        self.assertEqual(outbound_order.payment_line_ids[1].date, fields.Date.today())
         self.assertEqual(
             outbound_order.payment_line_ids[1].date,
             fields.Date.context_today(outbound_order),
