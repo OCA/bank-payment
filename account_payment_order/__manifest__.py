@@ -9,7 +9,7 @@
 
 {
     "name": "Account Payment Order",
-    "version": "19.0.1.0.7",
+    "version": "20.0.1.0.0",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV, "
     "Therp BV, "
@@ -19,11 +19,11 @@
     "website": "https://github.com/OCA/bank-payment",
     "development_status": "Mature",
     "category": "Banking addons",
-    "depends": ["account_payment_mode", "base_iban"],  # for manual_bank_tranfer
+    "depends": ["account_payment_mode"],  # for manual_bank_tranfer
     "data": [
         "views/account_payment_method.xml",
         "security/payment_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "wizard/account_payment_line_create_view.xml",
         "wizard/account_invoice_payment_line_multi_view.xml",
         "wizard/account_payment_update_views.xml",

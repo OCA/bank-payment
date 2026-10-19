@@ -4,10 +4,9 @@
 # Copyright 2016-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-import base64
-
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools import BinaryBytes
 
 
 class AccountPaymentOrder(models.Model):
@@ -180,16 +179,15 @@ class AccountPaymentOrder(models.Model):
     def check_date_scheduled(self):
         today = fields.Date.context_today(self)
         for order in self:
-            if order.date_scheduled:
-                if order.date_scheduled < today:
-                    raise ValidationError(
-                        self.env._(
-                            "On payment order %(porder)s, the Payment Execution Date "
-                            "is in the past (%(exedate)s).",
-                            porder=order.name,
-                            exedate=order.date_scheduled,
-                        )
+            if order.date_scheduled and order.date_scheduled < today:
+                raise ValidationError(
+                    self.env._(
+                        "On payment order %(porder)s, the Payment Execution Date "
+                        "is in the past (%(exedate)s).",
+                        porder=order.name,
+                        exedate=order.date_scheduled,
                     )
+                )
 
     @api.depends("payment_line_ids", "payment_line_ids.amount_company_currency")
     def _compute_total(self):
@@ -393,7 +391,7 @@ class AccountPaymentOrder(models.Model):
                     "res_model": "account.payment.order",
                     "res_id": self.id,
                     "name": filename,
-                    "datas": base64.b64encode(payment_file_str),
+                    "raw": BinaryBytes(payment_file_str),
                 }
             )
             simplified_form_view = self.env.ref(

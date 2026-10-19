@@ -12,13 +12,13 @@
                 <div id="oe_structure_1" class="oe_structure" />
                 <div class="row">
                     <div class="col-4 offset-8">
-                        <div t-field="doc.journal_id.bank_id.name" />
-                        <div t-field="doc.journal_id.bank_id.street" />
-                        <div t-field="doc.journal_id.bank_id.street2" />
-                        <div t-field="doc.journal_id.bank_id.zip" />
-                        <div t-field="doc.journal_id.bank_id.city" />
-                        <div t-field="doc.journal_id.bank_id.state.name" />
-                        <div t-field="doc.journal_id.bank_id.country.name" />
+                        <div t-field="doc.journal_id.bank_account_id.bank_name" />
+                        <div t-field="doc.journal_id.bank_account_id.street" />
+                        <div t-field="doc.journal_id.bank_account_id.street2" />
+                        <div t-field="doc.journal_id.bank_account_id.zip" />
+                        <div t-field="doc.journal_id.bank_account_id.city" />
+                        <div t-field="doc.journal_id.bank_account_id.state_id.name" />
+                        <div t-field="doc.journal_id.bank_account_id.country_id.name" />
                     </div>
                 </div>
                 <t t-if="doc.payment_type == 'inbound'">
@@ -36,7 +36,7 @@
                         <strong>Reference</strong>
                         <p t-field="doc.name" />
                     </div>
-                    <div t-if="doc.company_partner_bank_id.bank_id.id" class="col">
+                    <div t-if="doc.company_partner_bank_id.id" class="col">
                         <strong>Used Account:</strong>
                         <p>
                             <span

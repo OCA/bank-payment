@@ -14,7 +14,7 @@
                     </h1>
                     <group name="main">
                         <field
-                            name="datas"
+                            name="raw"
                             filename="name"
                             string="Generated File"
                             readonly="1"

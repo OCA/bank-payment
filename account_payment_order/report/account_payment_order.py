@@ -34,9 +34,9 @@ class AccountPaymentOrderReport(models.AbstractModel):
         if partner_bank:
             name = ""
             if partner_bank.bank_name:
-                name = f"{partner_bank.bank_id.name}: "
-            if partner_bank.acc_number:
-                name = f"{name} {partner_bank.acc_number}"
+                name = f"{partner_bank.bank_name}: "
+            if partner_bank.account_number:
+                name = f"{name} {partner_bank.account_number}"
                 if partner_bank.bank_bic:
                     name = f"{name} - "
             if partner_bank.bank_bic:

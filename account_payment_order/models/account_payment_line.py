@@ -54,7 +54,6 @@ class AccountPaymentLine(models.Model):
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Partner",
         required=True,
         domain=[("parent_id", "=", False)],
         check_company=True,
@@ -67,7 +66,7 @@ class AccountPaymentLine(models.Model):
         check_company=True,
     )
     partner_bank_acc_type = fields.Selection(
-        related="partner_bank_id.acc_type", string="Bank Account Type"
+        related="partner_bank_id.account_type", string="Bank Account Type"
     )
     date = fields.Date(string="Payment Date")
     # communication field is required=False because we don't want to block
