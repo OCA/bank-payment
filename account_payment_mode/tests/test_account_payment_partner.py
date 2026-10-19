@@ -377,11 +377,9 @@ class TestAccountPaymentPartner(BaseCommon):
         refund_invoice_wizard = (
             self.env["account.move.reversal"]
             .with_context(
-                **{
-                    "active_ids": [invoice.id],
-                    "active_id": invoice.id,
-                    "active_model": "account.move",
-                }
+                active_ids=[invoice.id],
+                active_id=invoice.id,
+                active_model="account.move",
             )
             .create(
                 {
@@ -411,11 +409,9 @@ class TestAccountPaymentPartner(BaseCommon):
         refund_invoice_wizard = (
             self.env["account.move.reversal"]
             .with_context(
-                **{
-                    "active_ids": [invoice.id],
-                    "active_id": invoice.id,
-                    "active_model": "account.move",
-                }
+                active_ids=[invoice.id],
+                active_id=invoice.id,
+                active_model="account.move",
             )
             .create(
                 {
