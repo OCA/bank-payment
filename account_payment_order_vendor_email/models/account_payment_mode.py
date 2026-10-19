@@ -73,7 +73,6 @@ class PaymentOrder(models.Model):
                         )
                     partner_email_id = payment.partner_id.email
                     if partner_email_id:
-                        template.write({"email_to": partner_email_id})
                         context.update(
                             {
                                 "date": date_generated,
@@ -84,7 +83,9 @@ class PaymentOrder(models.Model):
                             }
                         )
                         template.with_context(**context).send_mail(
-                            rec.id, force_send=True
+                            rec.id,
+                            force_send=True,
+                            email_values={"email_to": partner_email_id},
                         )
                         rec.message_post(
                             body=_("An email is sent successfully to %s vendor.")
