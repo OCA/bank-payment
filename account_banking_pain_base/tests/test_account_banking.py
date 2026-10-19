@@ -6,6 +6,14 @@ from odoo.addons.base.tests.common import BaseCommon
 
 
 class TestPainBase(BaseCommon):
+    _test_user_groups = (
+        "base.group_user",
+        "base.group_partner_manager",
+        "base.group_system",
+        "account.group_account_manager",
+        "account_payment_order.group_account_payment",
+    )
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -27,12 +35,12 @@ class TestPainBase(BaseCommon):
             [("company_id", "=", cls.env.company.id)], limit=1
         )
         cls.partner = cls.env["res.partner"].create({"name": "Partner"})
-        Bank = cls.env["res.bank"].create({"name": "Bank", "bic": "NEDSZAJJXXX"})
         cls.partner_bank = cls.env["res.partner.bank"].create(
             {
                 "partner_id": cls.partner.id,
-                "bank_id": Bank.id,
-                "acc_number": "ES12345678901234567890",
+                "bank_name": "Bank",
+                "bank_bic": "NEDSZAJJXXX",
+                "account_number": "ES12345678901234567890",
                 "allow_out_payment": True,
             }
         )
@@ -112,7 +120,7 @@ class TestPainBase(BaseCommon):
         partner_bank = self.env["res.partner.bank"].create(
             {
                 "partner_id": self.partner.id,
-                "acc_number": "ES1299999999509999999999",
+                "account_number": "ES1299999999509999999999",
             }
         )
         payment_line = self.env["account.payment.line"].create(
