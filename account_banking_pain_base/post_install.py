@@ -5,4 +5,3 @@
 def set_default_initiating_party(env):
     for company in env["res.company"].search([]):
         company._default_initiating_party()
-    return
