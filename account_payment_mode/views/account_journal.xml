@@ -8,7 +8,7 @@
             <!-- better when related fields are readonly, otherwise the user
                  doesn't understand that he is changing the bank_id
                  on the underlying res.partner.bank object -->
-            <field name="bank_id" position="attributes">
+            <field name="bank_account_id" position="attributes">
                 <attribute name="readonly">1</attribute>
             </field>
         </field>
