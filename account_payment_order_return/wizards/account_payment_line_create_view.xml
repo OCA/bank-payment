@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_line_create_form" model="ir.ui.view">
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_line_create_form"
+        />
+        <field name="model">account.payment.line.create</field>
+        <field name="arch" type="xml">
+            <field name="invoice" position="after">
+                <field name="include_returned" />
+            </field>
+        </field>
+    </record>
+</odoo>
