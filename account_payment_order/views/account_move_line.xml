@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   © 2016 Akretion (https://www.akretion.com/)
   @author Alexis de Lattre <alexis.delattre@akretion.com>
@@ -23,7 +23,7 @@
         <field name="model">account.move.line</field>
         <field name="inherit_id" ref="account.view_move_line_tree" />
         <field name="mode">primary</field>
-        <field name="priority">999</field>
+        <field name="priority" eval="999" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='amount_currency']" position="after">
                 <field name="balance" readonly="1" />
