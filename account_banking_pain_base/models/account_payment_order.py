@@ -6,7 +6,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import logging
-from datetime import datetime
 
 from lxml import etree
 
@@ -109,11 +108,11 @@ class AccountPaymentOrder(models.Model):
 
     @api.depends(
         "payment_mode_id",
-        "company_partner_bank_id.acc_type",
-        "company_partner_bank_id.sanitized_acc_number",
+        "company_partner_bank_id.account_type",
+        "company_partner_bank_id.sanitized_account_number",
         "payment_line_ids.currency_id",
-        "payment_line_ids.partner_bank_id.acc_type",
-        "payment_line_ids.partner_bank_id.sanitized_acc_number",
+        "payment_line_ids.partner_bank_id.account_type",
+        "payment_line_ids.partner_bank_id.sanitized_account_number",
     )
     def _compute_sepa(self):
         eur = self.env.ref("base.EUR")
@@ -128,12 +127,12 @@ class AccountPaymentOrder(models.Model):
                 sepa = True
                 if (
                     order.company_partner_bank_id
-                    and order.company_partner_bank_id.acc_type != "iban"
+                    and order.company_partner_bank_id.account_type != "iban"
                 ):
                     sepa = False
                 if (
                     order.company_partner_bank_id
-                    and order.company_partner_bank_id.sanitized_acc_number[:2]
+                    and order.company_partner_bank_id.sanitized_account_number[:2]
                     not in sepa_list
                 ):
                     sepa = False
@@ -143,13 +142,13 @@ class AccountPaymentOrder(models.Model):
                         break
                     if (
                         pline.partner_bank_id
-                        and pline.partner_bank_id.acc_type != "iban"
+                        and pline.partner_bank_id.account_type != "iban"
                     ):
                         sepa = False
                         break
                     if (
                         pline.partner_bank_id
-                        and pline.partner_bank_id.sanitized_acc_number[:2]
+                        and pline.partner_bank_id.sanitized_account_number[:2]
                         not in sepa_list
                     ):
                         sepa = False
@@ -208,7 +207,7 @@ class AccountPaymentOrder(models.Model):
                 ]
                 for unallowed_ascii_char in unallowed_ascii_chars:
                     value = value.replace(unallowed_ascii_char, "-")
-        except Exception:
+        except Exception:  # noqa: BLE001
             error_msg_prefix = self.env._(
                 "Cannot compute the field '%(field_name)s'.", field_name=field_name
             )
@@ -257,7 +256,7 @@ class AccountPaymentOrder(models.Model):
         exceptions to be raised while evaluating `field_name` using `eval_ctx`.
         :return: List containing the error messages.
         """
-        error_messages = list()
+        error_messages = []
         line = eval_ctx.get("line")
         if line:
             error_messages.append(
@@ -284,7 +283,7 @@ class AccountPaymentOrder(models.Model):
         try:
             root_to_validate = etree.fromstring(xml_string)
             official_pain_schema.assertValid(root_to_validate)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning("The XML file is invalid against the XML Schema Definition")
             logger.warning(xml_string)
             logger.warning(e)
@@ -334,9 +333,7 @@ class AccountPaymentOrder(models.Model):
             "Message Identification", "self.name", {"self": self}, 35, gen_args=gen_args
         )
         creation_date_time = etree.SubElement(group_header, "CreDtTm")
-        creation_date_time.text = datetime.strftime(
-            datetime.today(), "%Y-%m-%dT%H:%M:%S"
-        )
+        creation_date_time.text = fields.Datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
         if gen_args.get("pain_flavor") == "pain.001.001.02":
             # batch_booking is in "Group header" with pain.001.001.02
             # and in "Payment info" in pain.001.001.03/04
@@ -529,13 +526,13 @@ class AccountPaymentOrder(models.Model):
     ):
         party_account = etree.SubElement(parent_node, f"{party_type}Acct")
         party_account_id = etree.SubElement(party_account, "Id")
-        if partner_bank.acc_type == "iban":
+        if partner_bank.account_type == "iban":
             party_account_iban = etree.SubElement(party_account_id, "IBAN")
-            party_account_iban.text = partner_bank.sanitized_acc_number
+            party_account_iban.text = partner_bank.sanitized_account_number
         else:
             party_account_other = etree.SubElement(party_account_id, "Othr")
             party_account_other_id = etree.SubElement(party_account_other, "Id")
-            party_account_other_id.text = partner_bank.sanitized_acc_number
+            party_account_other_id.text = partner_bank.sanitized_account_number
         return True
 
     @api.model
@@ -626,10 +623,9 @@ class AccountPaymentOrder(models.Model):
             if val:
                 etree.SubElement(postal_address, "AdrLine").text = val
 
-        if (
-            pain_flavor.startswith("pain.001.001.")
-            or pain_flavor.startswith("pain.008.001.")
-        ) and (partner.zip or partner.city):
+        if (pain_flavor.startswith(("pain.001.001.", "pain.008.001."))) and (
+            partner.zip or partner.city
+        ):
             val = ""
             if partner.zip:
                 val += self._prepare_field(
@@ -669,7 +665,7 @@ class AccountPaymentOrder(models.Model):
             party_type_label = self.env._("Creditor name")
         elif party_type == "Dbtr":
             party_type_label = self.env._("Debtor name")
-        name = "partner_bank.acc_holder_name or partner_bank.partner_id.name"
+        name = "partner_bank.holder_name or partner_bank.partner_id.name"
         eval_ctx = {"partner_bank": partner_bank}
         party_name = self._prepare_field(
             party_type_label,

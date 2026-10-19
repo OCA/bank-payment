@@ -9,10 +9,10 @@ from odoo.exceptions import ValidationError
 BIC_REGEX = re.compile(r"[A-Z]{6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3})?$")
 
 
-class ResBank(models.Model):
-    _inherit = "res.bank"
+class ResPartnerBank(models.Model):
+    _inherit = "res.partner.bank"
 
-    @api.constrains("bic")
+    @api.constrains("bank_bic")
     def _check_bic(self):
         """
         This method strengthens the constraint on the BIC of the bank account
@@ -21,13 +21,15 @@ class ResBank(models.Model):
         :raise: ValidationError if the BIC doesn't respect the regex of the
         SEPA pain schemas.
         """
-        invalid_banks = self.filtered(lambda r: r.bic and not BIC_REGEX.match(r.bic))
+        invalid_banks = self.filtered(
+            lambda r: r.bank_bic and not BIC_REGEX.match(r.bank_bic)
+        )
         if invalid_banks:
             raise ValidationError(
                 self.env._(
                     "The following Bank Identifier Codes (BIC) do not respect "
                     "the SEPA pattern:\n%(bic_list)s\n\nSEPA pattern: %(sepa_pattern)s",
-                    bic_list="\n".join(invalid_banks.mapped("bic")),
+                    bic_list="\n".join(invalid_banks.mapped("bank_bic")),
                     sepa_pattern=BIC_REGEX.pattern,
                 )
             )

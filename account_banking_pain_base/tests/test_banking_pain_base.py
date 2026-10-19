@@ -14,17 +14,15 @@ class TestBankingPainBase(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.Company = cls.env.company
-        cls.Bank = cls.env["res.bank"].sudo()
         cls.ResPartnerBank = cls.env["res.partner.bank"].sudo()
         cls.Journal = cls.env["account.journal"].sudo()
         cls.PaymentMode = cls.env["account.payment.mode"].sudo()
         cls.PaymentOrder = cls.env["account.payment.order"].sudo()
-        cls.bank = cls.Bank.create({"name": "The Bank"})
         cls.partner_bank = cls.ResPartnerBank.create(
             {
-                "acc_number": "NL00TRIO0123456789",
+                "account_number": "NL00TRIO0123456789",
                 "partner_id": cls.Company.partner_id.id,
-                "bank_id": cls.bank.id,
+                "bank_name": "The Bank",
             }
         )
         cls.journal = cls.Journal.create(
@@ -70,9 +68,7 @@ class TestBankingPainBase(TransactionCase):
         )
         gen_args = {"pain_flavor": "pain.001.001.03"}
         root = etree.Element("Root")
-        self.po.with_context(export_bank_id=self.bank.id).generate_address_block(
-            root, partner, gen_args
-        )
+        self.po.generate_address_block(root, partner, gen_args)
         pstl_nodes = root.findall("PstlAdr")
         self.assertEqual(len(pstl_nodes), 1)
         pstl = pstl_nodes[0]
@@ -124,9 +120,7 @@ class TestBankingPainBase(TransactionCase):
         gen_args = {"pain_flavor": "pain.001.001.09"}
         root = etree.Element("Root")
         with self.assertRaises(UserError):
-            self.po.with_context(export_bank_id=self.bank.id).generate_address_block(
-                root, partner, gen_args
-            )
+            self.po.generate_address_block(root, partner, gen_args)
 
     def test_hybrid_address_block_pain09_hybrid(self):
         country = self.env["res.country"].search([("code", "=", "NL")], limit=1)
@@ -143,9 +137,7 @@ class TestBankingPainBase(TransactionCase):
         self.pay_mode.payment_method_id.sepa_pain09_address_mode = "hybrid"
         gen_args = {"pain_flavor": "pain.001.001.09"}
         root = etree.Element("Root")
-        self.po.with_context(export_bank_id=self.bank.id).generate_address_block(
-            root, partner, gen_args
-        )
+        self.po.generate_address_block(root, partner, gen_args)
         pstl = root.find("PstlAdr")
         self.assertIsNotNone(pstl)
         tags = [c.tag for c in list(pstl)]
@@ -167,9 +159,7 @@ class TestBankingPainBase(TransactionCase):
         )
         gen_args = {"pain_flavor": "pain.001.001.03"}
         root = etree.Element("Root")
-        self.po.with_context(export_bank_id=self.bank.id).generate_address_block(
-            root, partner, gen_args
-        )
+        self.po.generate_address_block(root, partner, gen_args)
         pstl = root.find("PstlAdr")
         self.assertIsNotNone(pstl)
         self.assertIsNone(pstl.find("TwnNm"))
@@ -183,8 +173,8 @@ class TestBankingPainBase(TransactionCase):
         requested_date = fields.Date.to_string(fields.Date.today())
         (
             payment_info,
-            nb_of_transactions,
-            control_sum,
+            _nb_of_transactions,
+            _control_sum,
         ) = self.po.generate_start_payment_info_block(
             parent_node=root,
             payment_info_ident="'TEST'",

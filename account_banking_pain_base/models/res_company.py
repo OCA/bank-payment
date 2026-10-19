@@ -37,19 +37,23 @@ class ResCompany(models.Model):
         }
         logger.debug("Calling _default_initiating_party on company %s", self.name)
         country_code = self.country_id.code
-        if not self.initiating_party_issuer:
-            if country_code and country_code in party_issuer_per_country:
-                self.write(
-                    {"initiating_party_issuer": party_issuer_per_country[country_code]}
-                )
-                logger.info("Updated initiating_party_issuer on company %s", self.name)
+        if (
+            not self.initiating_party_issuer
+            and country_code
+            and country_code in party_issuer_per_country
+        ):
+            self.write(
+                {"initiating_party_issuer": party_issuer_per_country[country_code]}
+            )
+            logger.info("Updated initiating_party_issuer on company %s", self.name)
         party_identifier = False
-        if not self.initiating_party_identifier:
-            if self.vat and country_code:
-                if country_code == "BE":
-                    party_identifier = self.vat[2:].replace(" ", "")
-            if party_identifier:
-                self.write({"initiating_party_identifier": party_identifier})
-                logger.info(
-                    "Updated initiating_party_identifier on company %s", self.name
-                )
+        if (
+            not self.initiating_party_identifier
+            and self.vat
+            and country_code
+            and country_code == "BE"
+        ):
+            party_identifier = self.vat[2:].replace(" ", "")
+        if party_identifier:
+            self.write({"initiating_party_identifier": party_identifier})
+            logger.info("Updated initiating_party_identifier on company %s", self.name)
