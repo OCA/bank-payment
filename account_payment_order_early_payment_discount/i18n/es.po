@@ -1,0 +1,94 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_order_early_payment_discount
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-15 22:50+0000\n"
+"PO-Revision-Date: 2026-09-15 22:50+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_payment_order_early_payment_discount
+#: model:ir.model,name:account_payment_order_early_payment_discount.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: account_payment_order_early_payment_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_account_payment_line__display_name
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_account_payment_order__display_name
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nombre en pantalla"
+
+#. module: account_payment_order_early_payment_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_account_move_line__id
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_account_payment_line__id
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_account_payment_order__id
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: account_payment_order_early_payment_discount
+#: model:ir.model,name:account_payment_order_early_payment_discount.model_account_move_line
+msgid "Journal Item"
+msgstr "Apunte contable"
+
+#. module: account_payment_order_early_payment_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_account_payment_line__ml_maturity_date
+msgid "Maturity Date"
+msgstr "Fecha de vencimiento"
+
+#. module: account_payment_order_early_payment_discount
+#: model:ir.model,name:account_payment_order_early_payment_discount.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Líneas de pago"
+
+#. module: account_payment_order_early_payment_discount
+#: model:ir.model,name:account_payment_order_early_payment_discount.model_account_payment_order
+msgid "Payment Order"
+msgstr "Orden de pago"
+
+#. module: account_payment_order_early_payment_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_account_payment_line__preferred_supplier
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_res_partner__preferred_supplier
+#: model:ir.model.fields,field_description:account_payment_order_early_payment_discount.field_res_users__preferred_supplier
+msgid "Preferred Supplier"
+msgstr "Proveedor preferente"
+
+#. module: account_payment_order_early_payment_discount
+#: model:ir.model.fields,help:account_payment_order_early_payment_discount.field_account_payment_line__preferred_supplier
+#: model:ir.model.fields,help:account_payment_order_early_payment_discount.field_res_partner__preferred_supplier
+#: model:ir.model.fields,help:account_payment_order_early_payment_discount.field_res_users__preferred_supplier
+msgid ""
+"Preferred for payment: its bills are paid on their early payment date, never"
+" on their credit term. Confirming a payment order pulls in the bills whose "
+"early payment falls on the day the order pays, and they stay in the order."
+msgstr ""
+"Preferente para el pago: sus facturas se pagan en su fecha de pronto pago, "
+"nunca en su plazo de crédito. Al confirmar una orden de pago entran las "
+"facturas cuyo pronto pago cae el día en que paga la orden, y se quedan en la"
+" orden."
+
+#. module: account_payment_order_early_payment_discount
+#: model:res.groups,name:account_payment_order_early_payment_discount.account_payment_line_group_remove_preferred
+msgid "Remove Preferred Suppliers from Payment Orders"
+msgstr "Quitar proveedores preferentes de órdenes de pago"
+
+#. module: account_payment_order_early_payment_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_payment_discount/models/account_payment_line.py:0
+msgid ""
+"The bills of a preferred supplier stay in the payment order: %s. Only a user"
+" allowed to remove preferred suppliers can take them out."
+msgstr ""
+"Las facturas de un proveedor preferente se quedan en la orden de pago: %s. "
+"Solo un usuario autorizado a quitar proveedores preferentes puede sacarlas."
