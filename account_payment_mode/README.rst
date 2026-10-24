@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ====================
 Account Payment Mode
 ====================
@@ -17,7 +13,7 @@ Account Payment Mode
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github
@@ -53,6 +49,15 @@ Usage
 This module doesn't add any feature, but it is used by several other
 modules.
 
+It only enforces that two active payment modes of the same company
+cannot share the same name. The comparison ignores case and surrounding
+blanks, so *BOLETO*, *Boleto* and *boleto* are considered to be the same
+name. Archived payment modes are ignored, and the same name can still be
+used in another company.
+
+Duplicating a payment mode keeps working: the copy is named *<name>
+(copy)* when the original name is already taken in the target company.
+
 Bug Tracker
 ===========
 
@@ -80,6 +85,7 @@ Contributors
 - Marçal Isern <marsal.isern@qubiq.es>
 - Miquel Alzanillas <malzanillas@apsl.net>
 - Bert Van Groenendael <bert.vangroenendael@dynapps.eu>
+- Marcos Mendez <m@pop.coop>
 
 Maintainers
 -----------
