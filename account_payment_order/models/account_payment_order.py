@@ -254,7 +254,7 @@ class AccountPaymentOrder(models.Model):
 
     def action_cancel(self):
         # Unreconcile and cancel payments
-        self.payment_ids.filtered(lambda x: x.state == "posted").action_draft()
+        self.payment_ids.filtered(lambda x: x.move_id.state == "posted").action_draft()
         self.payment_ids.filtered(lambda x: x.state == "draft").action_cancel()
         self.write({"state": "cancel"})
         return True

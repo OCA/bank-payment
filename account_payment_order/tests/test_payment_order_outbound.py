@@ -247,6 +247,13 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
 
         payment_order.action_uploaded_cancel()
         self.assertEqual(payment_order.state, "cancel")
+        # Check that payments are cancelled and the invoice is outstanding again.
+        self.assertTrue(payment_order.payment_ids)
+        self.assertEqual(
+            set(payment_order.payment_ids.mapped("state")),
+            {"canceled"},
+        )
+        self.assertEqual(self.invoice.amount_residual, self.invoice.amount_total)
         payment_order.cancel2draft()
         payment_order.unlink()
         self.assertEqual(len(self.env["account.payment.order"].search(self.domain)), 0)
@@ -500,3 +507,27 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.assertEqual(invoice_action["res_id"], self.invoice.id)
         manual_line_action = order.payment_line_ids[1].action_open_business_doc()
         self.assertFalse(manual_line_action)
+
+    def test_cancel_confirmed_payment_order(self):
+        self.invoice.action_post()
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move",
+            active_ids=self.invoice.ids,
+        ).create({}).run()
+        payment_order = self.env["account.payment.order"].search(self.domain)
+        self.assertEqual(len(payment_order), 1)
+        payment_order.journal_id = self.bank_journal
+        payment_order.draft2open()
+        self.assertEqual(payment_order.state, "open")
+        self.assertTrue(payment_order.payment_ids)
+        self.assertEqual(
+            set(payment_order.payment_ids.mapped("state")),
+            {"draft"},
+        )
+        payment_order.action_cancel()
+        self.assertEqual(payment_order.state, "cancel")
+        self.assertEqual(
+            set(payment_order.payment_ids.mapped("state")),
+            {"canceled"},
+        )
+        self.assertEqual(self.invoice.amount_residual, self.invoice.amount_total)
