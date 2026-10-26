@@ -132,6 +132,13 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         # Cancel order
         payment_order.action_uploaded_cancel()
         self.assertEqual(payment_order.state, "cancel")
+        # Check that payments are cancelled and the invoice is outstanding again.
+        self.assertTrue(payment_order.payment_ids)
+        self.assertEqual(
+            set(payment_order.payment_ids.mapped("state")),
+            {"canceled"},
+        )
+        self.assertEqual(self.invoice.amount_residual, self.invoice.amount_total)
         payment_order.cancel2draft()
         payment_order.unlink()
         self.assertEqual(len(self.payment_order_obj.search(self.domain)), 0)
