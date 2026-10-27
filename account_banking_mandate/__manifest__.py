@@ -7,7 +7,7 @@
 {
     "name": "Account Banking Mandate",
     "summary": "Banking mandates",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.0",
     "development_status": "Production/Stable",
     "license": "AGPL-3",
     "author": "Compassion CH, "
@@ -26,8 +26,7 @@
         "views/res_partner_bank_view.xml",
         "views/res_partner.xml",
         "data/mandate_reference_sequence.xml",
-        "security/mandate_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "installable": True,
 }

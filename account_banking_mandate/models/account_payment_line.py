@@ -28,7 +28,7 @@ class AccountPaymentLine(models.Model):
                 and pline.partner_bank_id
                 and pline.mandate_id.partner_bank_id != pline.partner_bank_id
             ):
-                acc_number = pline.partner_bank_id.acc_number or ""
+                account_number = pline.partner_bank_id.account_number or ""
                 raise ValidationError(
                     self.env._(
                         "The payment line number %(line_number)s has "
@@ -36,13 +36,10 @@ class AccountPaymentLine(models.Model):
                         "is not attached to the mandate '%(mandate_ref)s' "
                         "(this mandate is attached to the bank account "
                         "'%(mandate_bank_account)s').",
-                        {
-                            "line_number": pline.name,
-                            "line_bank_account": pline.partner_bank_id.acc_number or "",
-                            "mandate_ref": pline.mandate_id.unique_mandate_reference
-                            or "",
-                            "mandate_bank_account": acc_number or "",
-                        },
+                        line_number=pline.name,
+                        line_bank_account=pline.partner_bank_id.account_number or "",
+                        mandate_ref=pline.mandate_id.unique_mandate_reference or "",
+                        mandate_bank_account=account_number or "",
                     )
                 )
 
@@ -57,10 +54,8 @@ class AccountPaymentLine(models.Model):
                     self.env._(
                         "The payment line number %(line_number)s has a different "
                         "company than that of the linked mandate %(mandate)s.",
-                        {
-                            "line_number": pline.name,
-                            "mandate": pline.mandate_id.display_name or "",
-                        },
+                        line_number=pline.name,
+                        mandate=pline.mandate_id.display_name or "",
                     )
                 )
 

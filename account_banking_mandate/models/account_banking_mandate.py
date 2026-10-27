@@ -16,10 +16,13 @@ class AccountBankingMandate(models.Model):
 
     _name = "account.banking.mandate"
     _description = "A generic banking mandate"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ("mail.thread", "mail.activity.mixin")
     _order = "signature_date desc"
     _check_company_auto = True
-    _rec_names_search = ["unique_mandate_reference", "partner_bank_id.acc_number"]
+    _rec_names_search = (
+        "unique_mandate_reference",
+        "partner_bank_id.account_number",
+    )
 
     def _get_default_partner_bank_id_domain(self):
         if "default_partner_id" in self.env.context:
@@ -51,13 +54,11 @@ class AccountBankingMandate(models.Model):
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         related="partner_bank_id.partner_id",
-        string="Partner",
         store=True,
         index="btree",
     )
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         required=True,
         default=lambda self: self.env.company,
     )
@@ -93,11 +94,11 @@ class AccountBankingMandate(models.Model):
         "A Mandate with the same reference already exists for this company!",
     )
 
-    @api.depends("unique_mandate_reference", "partner_bank_id.acc_number")
+    @api.depends("unique_mandate_reference", "partner_bank_id.account_number")
     def _compute_display_name(self):
         for mandate in self:
             name = mandate.unique_mandate_reference
-            acc_number = mandate.partner_bank_id.acc_number
+            acc_number = mandate.partner_bank_id.account_number
             if acc_number:
                 name = f"{name} [...{acc_number[-4:]}]"
             mandate.display_name = name

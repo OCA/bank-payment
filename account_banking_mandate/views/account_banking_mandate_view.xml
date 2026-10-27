@@ -58,7 +58,7 @@
                         <field name="type" string="Type" />
                         <field
                             name="partner_bank_id"
-                            options="{'create_name_field': 'acc_number'}"
+                            options="{'create_name_field': 'account_number'}"
                             invisible="context.get('mandate_bank_partner_view')"
                         />
                         <field
@@ -88,7 +88,7 @@
                     name="show_payment_lines"
                     help="Payment lines"
                     class="oe_stat_button"
-                    icon="fa-list"
+                    icon="format_list_bulleted"
                     type="object"
                     groups="account_payment_order.group_account_payment"
                 >
@@ -129,7 +129,7 @@
                 <button
                     name="validate"
                     type="object"
-                    icon="fa-check"
+                    icon="check"
                     string="Validate"
                     groups="account_payment_order.group_account_payment"
                     invisible="not id or state != 'draft'"
@@ -139,7 +139,7 @@
                 <button
                     name="back2draft"
                     type="object"
-                    icon="fa-undo"
+                    icon="undo"
                     string="Draft"
                     groups="account_payment_order.group_account_payment"
                     invisible="not id or state != 'cancel'"

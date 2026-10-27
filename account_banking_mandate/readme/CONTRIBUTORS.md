@@ -9,3 +9,5 @@
 - Andrea Stirpe \<<a.stirpe@onestein.nl>\>
 - Manuel Regidor \<<manuel.regidor@sygel.es>\>
 - Giovanni Francesco Capalbo \<<giovanni@therp.nl>\>
+- [Studio73](https://www.studio73.es):
+  - Pablo Cortés
