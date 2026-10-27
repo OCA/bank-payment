@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_mode_form" model="ir.ui.view">
+        <field name="name">account.payment.mode.form.early.discount</field>
+        <field name="model">account.payment.mode</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_mode_form"
+        />
+        <field name="arch" type="xml">
+            <group name="payment_order_options" position="after">
+                <group
+                    name="payment_order_early_discount"
+                    string="Early Payment Discount"
+                    invisible="not payment_order_ok"
+                >
+                    <field name="early_discount_pay_on_discount_date" />
+                    <field name="early_discount_extend_to_workday" />
+                    <field name="early_discount_buffer_days" />
+                    <field name="early_discount_grace_days" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

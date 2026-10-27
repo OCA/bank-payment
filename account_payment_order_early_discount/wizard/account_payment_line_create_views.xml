@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_line_create_form" model="ir.ui.view">
+        <field name="name">account.payment.line.create.form.early.discount</field>
+        <field name="model">account.payment.line.create</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_line_create_form"
+        />
+        <field name="arch" type="xml">
+            <field name="due_on" position="after">
+                <field name="include_early_discount" invisible="date_type != 'due'" />
+            </field>
+            <xpath
+                expr="//field[@name='move_line_ids']/list/field[@name='date_maturity']"
+                position="after"
+            >
+                <field name="discount_date" optional="show" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
