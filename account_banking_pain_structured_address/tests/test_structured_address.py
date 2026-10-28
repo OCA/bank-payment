@@ -90,10 +90,69 @@ class TestStructuredAddress(TransactionCase):
         self.assertEqual(self._tags(address), ["StrtNm", "PstCd", "TwnNm", "Ctry"])
 
     def test_structured_address_values_cut_to_schema_size(self):
-        partner = self._partner(street_name="A" * 80, street_number="1" * 20)
+        partner = self._partner(
+            street_name="A" * 80,
+            street_number="1" * 20,
+            street_number2="B" * 80,
+            street2="C" * 80,
+        )
         address = self._address(partner)
         self.assertEqual(len(address.find("StrtNm").text), 70)
         self.assertEqual(len(address.find("BldgNb").text), 16)
+        self.assertEqual(len(address.find("Room").text), 70)
+        self.assertEqual(len(address.find("AdrLine").text), 70)
+
+    def test_door_number_written_as_room(self):
+        partner = self._partner(
+            street_name="Oudestraat", street_number="12", street_number2="4B"
+        )
+        address = self._address(partner)
+        self.assertEqual(
+            self._tags(address),
+            ["StrtNm", "BldgNb", "Room", "PstCd", "TwnNm", "Ctry"],
+        )
+        self.assertEqual(address.find("Room").text, "4B")
+
+    def test_street2_written_as_address_line(self):
+        partner = self._partner(street="Oudestraat 12", street2="c/o Finance")
+        address = self._address(partner)
+        self.assertEqual(
+            self._tags(address),
+            ["StrtNm", "BldgNb", "PstCd", "TwnNm", "Ctry", "AdrLine"],
+        )
+        self.assertEqual(address.find("AdrLine").text, "c/o Finance")
+
+    def test_door_number_and_street2_together(self):
+        partner = self._partner(
+            street_name="Hauptstrasse",
+            street_number="12",
+            street_number2="Top 5",
+            street2="Stiege 2",
+        )
+        address = self._address(partner)
+        self.assertEqual(
+            self._tags(address),
+            ["StrtNm", "BldgNb", "Room", "PstCd", "TwnNm", "Ctry", "AdrLine"],
+        )
+        self.assertEqual(len(address.findall("AdrLine")), 1)
+
+    def test_blank_door_number_and_street2_not_written(self):
+        partner = self._partner(
+            street_name="Oudestraat",
+            street_number="12",
+            street_number2="   ",
+            street2="   ",
+        )
+        address = self._address(partner)
+        self.assertEqual(
+            self._tags(address), ["StrtNm", "BldgNb", "PstCd", "TwnNm", "Ctry"]
+        )
+
+    def test_uninstall_falls_back_to_hybrid(self):
+        method = self.pay_mode.payment_method_id
+        field = method._fields["sepa_pain09_address_mode"]
+        field.ondelete["structured"](method)
+        self.assertEqual(method.sepa_pain09_address_mode, "hybrid")
 
     def test_no_street_name_falls_back_to_hybrid(self):
         address = self._address(self._partner(street2="Building C"))

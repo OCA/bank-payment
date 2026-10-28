@@ -35,11 +35,16 @@ Account Banking PAIN Structured Address
 This module adds a **Structured** option to the "PAIN.001.001.09 Address
 Mode" of payment methods.
 
-With this option, postal addresses are written with the street name and
-the building number in their own elements (``StrtNm`` and ``BldgNb``),
-followed by ``PstCd``, ``TwnNm`` and ``Ctry``, without any ``AdrLine``.
-The street name and building number come from the fields added by the
-``base_address_extended`` module.
+With this option, postal addresses are written with the street name, the
+building number and the door number in their own elements (``StrtNm``,
+``BldgNb`` and ``Room``), followed by ``PstCd``, ``TwnNm`` and ``Ctry``.
+The street name, building number and door number come from the fields
+added by the ``base_address_extended`` module.
+
+``street2`` has no structured element, so when it is filled it is
+written as one ``AdrLine`` after ``Ctry`` (a hybrid address, which the
+EPC and CBPR+ rules allow as long as the line does not repeat the
+structured elements).
 
 When a partner has no street name, its address is written as in the
 Hybrid mode.
@@ -60,11 +65,21 @@ Configuration
    filled in. Both are set from the street when it is entered, and can
    be corrected on the partner form.
 
+Installing ``base_address_extended`` also splits the street of all
+existing partners automatically, with a heuristic. Review the result
+before switching to Structured: some address formats are split wrongly,
+for example ``Hauptstraße 12/Stiege 2/Top 5`` becomes the street name
+``Hauptstraße 12/Stiege 2/Top`` with building number ``5``. The file is
+still valid, but the bank gets the wrong building number. Correct such
+partners on the partner form (street name, building number, door number
+and street2).
+
+If the module is uninstalled, payment methods using the Structured mode
+are set to Hybrid.
+
 Known issues / Roadmap
 ======================
 
--  In Structured mode, ``street2`` and the door number
-   (``street_number2``) are not written to the file.
 -  As with the Minimal and Hybrid modes, only PAIN.001.001.09 credit
    transfer files are covered.
 

@@ -377,11 +377,15 @@ ul.auto-toc {
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/bank-payment/tree/19.0/account_banking_pain_structured_address"><img alt="OCA/bank-payment" src="https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/bank-payment-19-0/bank-payment-19-0-account_banking_pain_structured_address"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/bank-payment&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <p>This module adds a <strong>Structured</strong> option to the “PAIN.001.001.09 Address
 Mode” of payment methods.</p>
-<p>With this option, postal addresses are written with the street name and
-the building number in their own elements (<tt class="docutils literal">StrtNm</tt> and <tt class="docutils literal">BldgNb</tt>),
-followed by <tt class="docutils literal">PstCd</tt>, <tt class="docutils literal">TwnNm</tt> and <tt class="docutils literal">Ctry</tt>, without any <tt class="docutils literal">AdrLine</tt>.
-The street name and building number come from the fields added by the
-<tt class="docutils literal">base_address_extended</tt> module.</p>
+<p>With this option, postal addresses are written with the street name, the
+building number and the door number in their own elements (<tt class="docutils literal">StrtNm</tt>,
+<tt class="docutils literal">BldgNb</tt> and <tt class="docutils literal">Room</tt>), followed by <tt class="docutils literal">PstCd</tt>, <tt class="docutils literal">TwnNm</tt> and <tt class="docutils literal">Ctry</tt>.
+The street name, building number and door number come from the fields
+added by the <tt class="docutils literal">base_address_extended</tt> module.</p>
+<p><tt class="docutils literal">street2</tt> has no structured element, so when it is filled it is
+written as one <tt class="docutils literal">AdrLine</tt> after <tt class="docutils literal">Ctry</tt> (a hybrid address, which the
+EPC and CBPR+ rules allow as long as the line does not repeat the
+structured elements).</p>
 <p>When a partner has no street name, its address is written as in the
 Hybrid mode.</p>
 <p><strong>Table of contents</strong></p>
@@ -409,12 +413,20 @@ number)</em>.</li>
 filled in. Both are set from the street when it is entered, and can
 be corrected on the partner form.</li>
 </ol>
+<p>Installing <tt class="docutils literal">base_address_extended</tt> also splits the street of all
+existing partners automatically, with a heuristic. Review the result
+before switching to Structured: some address formats are split wrongly,
+for example <tt class="docutils literal">Hauptstraße 12/Stiege 2/Top 5</tt> becomes the street name
+<tt class="docutils literal">Hauptstraße 12/Stiege 2/Top</tt> with building number <tt class="docutils literal">5</tt>. The file is
+still valid, but the bank gets the wrong building number. Correct such
+partners on the partner form (street name, building number, door number
+and street2).</p>
+<p>If the module is uninstalled, payment methods using the Structured mode
+are set to Hybrid.</p>
 </div>
 <div class="section" id="known-issues-roadmap">
 <h2><a class="toc-backref" href="#toc-entry-2">Known issues / Roadmap</a></h2>
 <ul class="simple">
-<li>In Structured mode, <tt class="docutils literal">street2</tt> and the door number
-(<tt class="docutils literal">street_number2</tt>) are not written to the file.</li>
 <li>As with the Minimal and Hybrid modes, only PAIN.001.001.09 credit
 transfer files are covered.</li>
 </ul>

@@ -9,5 +9,11 @@ class AccountPaymentMethod(models.Model):
 
     sepa_pain09_address_mode = fields.Selection(
         selection_add=[("structured", "Structured (street name and number)")],
-        ondelete={"structured": "set default"},
+        # On uninstall, fall back to Hybrid: like Structured, it keeps the street
+        # and the postcode in the file (Minimal would drop them)
+        ondelete={
+            "structured": lambda methods: methods.write(
+                {"sepa_pain09_address_mode": "hybrid"}
+            )
+        },
     )
