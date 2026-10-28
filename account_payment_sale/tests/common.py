@@ -5,11 +5,23 @@ from odoo.addons.base.tests.common import BaseCommon
 
 
 class CommonTestCase(BaseCommon):
+    # 20.0: the tests run as a test user; it creates orders, invoices,
+    # payment modes and a company
+    _test_user_groups = (
+        "base.group_user",
+        "base.group_system",
+        "sales_team.group_sale_manager",
+        "account.group_account_manager",
+    )
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.bank = cls.env["res.partner.bank"].create(
-            {"acc_number": "test", "partner_id": cls.env.user.company_id.partner_id.id}
+            {
+                "account_number": "test",
+                "partner_id": cls.env.user.company_id.partner_id.id,
+            }
         )
         cls.journal = cls.env["account.journal"].create(
             {

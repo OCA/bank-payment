@@ -15,7 +15,7 @@ class TestSaleOrder(CommonTestCase):
     def create_sale_order(self, payment_mode=None):
         with Form(self.env["sale.order"]) as sale_form:
             sale_form.partner_id = self.base_partner
-            for _, p in self.products.items():
+            for p in self.products.values():
                 with sale_form.order_line.new() as order_line:
                     order_line.product_id = p
                     order_line.name = p.name
