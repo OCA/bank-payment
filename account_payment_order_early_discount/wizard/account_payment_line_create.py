@@ -4,6 +4,8 @@ from datetime import timedelta
 from odoo import api, fields, models
 from odoo.osv import expression
 
+from ..models.res_company import MAX_WORKDAY_SHIFT
+
 
 class AccountPaymentLineCreate(models.TransientModel):
     _inherit = "account.payment.line.create"
@@ -40,26 +42,22 @@ class AccountPaymentLineCreate(models.TransientModel):
             and self.order_id.payment_mode_id
         ):
             return res
-        # Same filters without the date filter, then the early discount date
+        # Same filters without the date filter (all fields, also those added by
+        # other modules), then the early discount date
         values = {
             name: self[name]
-            for name in (
-                "order_id",
-                "journal_ids",
-                "partner_ids",
-                "target_move",
-                "invoice",
-                "payment_mode",
-                "due_on",
-                "filter_date",
-                "filter_date_end",
-            )
+            for name, field in self._fields.items()
+            if field.store and not field.automatic
         }
         base = self.new(dict(values, date_type=False))
         super(AccountPaymentLineCreate, base)._compute_move_line_domain()
         mode = self.order_id.payment_mode_id
         today = fields.Date.context_today(self)
-        oldest = today - timedelta(days=mode.early_discount_grace_days + 31)
+        # Older discount dates are past their deadline (grace days, then at most
+        # MAX_WORKDAY_SHIFT days to the next working day)
+        oldest = today - timedelta(
+            days=mode.early_discount_grace_days + MAX_WORKDAY_SHIFT
+        )
         candidates = self.env["account.move.line"].search(
             expression.AND(
                 [

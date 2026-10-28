@@ -6,7 +6,8 @@ class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
     def _get_early_discount_execution_date(self, move_line):
-        """Expected execution date of a new payment line, as draft2open computes it."""
+        """Requested execution date of a payment line for `move_line`, computed like
+        draft2open does."""
         self.ensure_one()
         today = fields.Date.context_today(self)
         if self.date_prefered == "due":
@@ -16,6 +17,12 @@ class AccountPaymentOrder(models.Model):
         else:
             date = today
         return max(date or today, today)
+
+    def draft2open(self):
+        # Before the payments are created and the totals are checked: update the
+        # early discount of the lines to the execution date draft2open will set
+        self.payment_line_ids._update_early_discount()
+        return super().draft2open()
 
     def post_and_reconcile(self):
         # Book the early discount (with tax correction) in the payment entry, like

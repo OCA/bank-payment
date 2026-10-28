@@ -5,6 +5,10 @@ import pytz
 
 from odoo import models
 
+# Days searched for a working day: a company calendar without any working day
+# within a month is considered not maintained, the date is then left as it is
+MAX_WORKDAY_SHIFT = 31
+
 
 class ResCompany(models.Model):
     _inherit = "res.company"
@@ -24,7 +28,7 @@ class ResCompany(models.Model):
     def _payment_order_shift_to_workday(self, day, step):
         """First working day from `day` on, forward (step 1) or backward (-1)."""
         self.ensure_one()
-        for _i in range(31):
+        for _i in range(MAX_WORKDAY_SHIFT):
             if self._payment_order_is_workday(day):
                 return day
             day += timedelta(days=step)

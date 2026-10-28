@@ -4,7 +4,7 @@ from datetime import date, datetime
 
 from odoo import Command
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests import freeze_time, tagged
+from odoo.tests import Form, freeze_time, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -656,3 +656,92 @@ class TestPaymentOrderEarlyDiscount(AccountTestInvoicingCommon):
                 self._upload(order)
                 self._assert_paid(bill)
                 self._assert_discount_booked(order.payment_ids, base, tax)
+
+    @freeze_time("2026-10-12")
+    def test_credit_note_reconciled_before_confirmation(self):
+        # The credit note is reconciled after the line was created: the line
+        # follows the new open amount and keeps the discount
+        bill = self._bill(date(2026, 10, 5))
+        order = self._order()
+        line = self._add(order, date(2026, 10, 18))
+        self.assertAlmostEqual(line.amount_currency, 1176.0)
+        refund = self._bill(
+            date(2026, 10, 6), amount=100.0, term=self.term_net, move_type="in_refund"
+        )
+        (self._term_line(bill) | self._term_line(refund)).reconcile()
+        self._upload(order)
+        self.assertAlmostEqual(line.amount_currency, 1056.0)
+        self.assertAlmostEqual(line.early_discount_amount, 24.0)
+        self.assertAlmostEqual(order.payment_ids.amount, 1056.0)
+        self._assert_paid(bill, refund)
+        self._assert_discount_booked(order.payment_ids, -20.0, -4.0)
+
+    @freeze_time("2026-10-12")
+    def test_payment_line_added_in_form(self):
+        bill = self._bill(date(2026, 10, 5))
+        order = self._order()
+        with Form(order) as order_form:
+            with order_form.payment_line_ids.new() as line_form:
+                line_form.move_line_id = self._term_line(bill)
+        line = order.payment_line_ids
+        self.assertAlmostEqual(line.amount_currency, 1176.0)
+        self.assertAlmostEqual(line.early_discount_amount, 24.0)
+        self._upload(order)
+        self._assert_paid(bill)
+        self._assert_discount_booked(order.payment_ids, -20.0, -4.0)
+
+    @freeze_time("2026-10-12")
+    def test_customer_invoice_direct_debit(self):
+        tax = self.company_data["default_tax_sale"].copy(
+            {"name": "Sales Tax 20%", "amount": 20.0}
+        )
+        mode = self.mode.copy(
+            {
+                "name": "Direct Debit",
+                "payment_method_id": self.env.ref(
+                    "account.account_payment_method_manual_in"
+                ).id,
+            }
+        )
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "out_invoice",
+                "partner_id": self.partner.id,
+                "invoice_date": date(2026, 10, 5),
+                "invoice_payment_term_id": self.term.id,
+                "payment_mode_id": mode.id,
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "name": "Service",
+                            "quantity": 1,
+                            "price_unit": 1000.0,
+                            "account_id": self.company_data[
+                                "default_account_revenue"
+                            ].id,
+                            "tax_ids": [Command.set(tax.ids)],
+                        }
+                    )
+                ],
+            }
+        )
+        invoice.action_post()
+        order = self._order(payment_type="inbound", payment_mode_id=mode.id)
+        line = self._add(order, date(2026, 10, 18))
+        self.assertEqual(line.move_line_id, self._term_line(invoice))
+        self.assertAlmostEqual(line.amount_currency, 1176.0)
+        self.assertAlmostEqual(line.early_discount_amount, 24.0)
+        self._upload(order)
+        self._assert_paid(invoice)
+        lines = order.payment_ids.move_id.line_ids
+        self.assertAlmostEqual(
+            sum(
+                lines.filtered(
+                    lambda line: line.account_id == self.discount_loss
+                ).mapped("balance")
+            ),
+            20.0,
+        )
+        self.assertAlmostEqual(
+            sum(lines.filtered("tax_line_id").mapped("balance")), 4.0
+        )

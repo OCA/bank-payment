@@ -51,9 +51,11 @@ these payment terms:
   pays on the discount date, the **discount date** as execution date
   (moved to a working day); this amount and date go into the payment
   file;
-- when the order is confirmed, the discount is checked again against the
-  actual execution date (full amount and a chatter note if the discount
-  period is over; manually changed amounts are kept);
+- when the order is confirmed, the lines follow the current open amount
+  of the bill (e.g. a credit note reconciled in the meantime) and the
+  discount is checked again against the actual execution date (full
+  amount and a chatter note if the discount period is over; manually
+  changed amounts are kept);
 - when the order is uploaded, the payment entry books the discount and
   the tax correction exactly like the *Register Payment* wizard, so the
   bill is fully reconciled.
@@ -69,6 +71,12 @@ reconciled, credit notes deducted in full):
 - a credit note in the same payment is deducted with its discounted
   amount only; its discount is booked back on the discount account with
   the tax correction.
+
+Direct debit orders handle customer invoices with an early discount the
+same way: an amount collected within the discount period is collected
+with the discount, as the customer would get it with *Register Payment*.
+Collecting on the net due date (option *Pay Early Discounts on Discount
+Date* disabled) collects the full amount.
 
 **Table of contents**
 
@@ -96,8 +104,10 @@ Configuration
    - *Early Discount Buffer Days*: bills are selected and scheduled that
      many days before the end of the discount period (on the working day
      before), so that the money reaches the supplier in time, e.g. 1 to
-     transfer one day early. The discount itself stays valid until the
-     end of the discount period;
+     transfer one day early. Count the days the transfer needs to be
+     credited to the supplier, which can be more for cross-border or
+     non-SEPA payments. The discount itself stays valid until the end of
+     the discount period;
    - *Early Discount Grace Days*: additional days after the end of the
      discount period during which the discount is still deducted,
      relying on the supplier's goodwill.
@@ -116,6 +126,13 @@ Usage
    chatter.
 5. Generate and upload the payment file: the payment entries book the
    discount and the bills are fully reconciled.
+
+Known issues / Roadmap
+======================
+
+- The discount is only deducted when the payment line is in the currency
+  of the bill (the default when the line is created from the bill). A
+  line changed to another currency is paid without discount.
 
 Bug Tracker
 ===========

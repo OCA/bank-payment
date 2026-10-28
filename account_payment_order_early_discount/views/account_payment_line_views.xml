@@ -13,7 +13,9 @@
                 <field
                     name="early_discount_amount"
                     invisible="not early_discount_amount"
+                    force_save="1"
                 />
+                <field name="early_discount_residual" invisible="1" force_save="1" />
             </field>
         </field>
     </record>
@@ -33,6 +35,12 @@
                     name="early_discount_amount"
                     optional="show"
                     sum="Total early discount"
+                    force_save="1"
+                />
+                <field
+                    name="early_discount_residual"
+                    column_invisible="1"
+                    force_save="1"
                 />
             </field>
         </field>

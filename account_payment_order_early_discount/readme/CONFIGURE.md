@@ -11,7 +11,9 @@
      is extended to the next working day;
    - _Early Discount Buffer Days_: bills are selected and scheduled that many days
      before the end of the discount period (on the working day before), so that the
-     money reaches the supplier in time, e.g. 1 to transfer one day early. The discount
-     itself stays valid until the end of the discount period;
+     money reaches the supplier in time, e.g. 1 to transfer one day early. Count the
+     days the transfer needs to be credited to the supplier, which can be more for
+     cross-border or non-SEPA payments. The discount itself stays valid until the end of
+     the discount period;
    - _Early Discount Grace Days_: additional days after the end of the discount period
      during which the discount is still deducted, relying on the supplier's goodwill.

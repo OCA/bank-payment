@@ -16,9 +16,10 @@ This module makes payment orders behave like _Register Payment_ for these paymen
 - payment lines get the **discounted amount** and, if the payment mode pays on the
   discount date, the **discount date** as execution date (moved to a working day); this
   amount and date go into the payment file;
-- when the order is confirmed, the discount is checked again against the actual
-  execution date (full amount and a chatter note if the discount period is over;
-  manually changed amounts are kept);
+- when the order is confirmed, the lines follow the current open amount of the bill
+  (e.g. a credit note reconciled in the meantime) and the discount is checked again
+  against the actual execution date (full amount and a chatter note if the discount
+  period is over; manually changed amounts are kept);
 - when the order is uploaded, the payment entry books the discount and the tax
   correction exactly like the _Register Payment_ wizard, so the bill is fully
   reconciled.
@@ -32,3 +33,8 @@ full):
   nothing, a partial payment the proportional discount;
 - a credit note in the same payment is deducted with its discounted amount only; its
   discount is booked back on the discount account with the tax correction.
+
+Direct debit orders handle customer invoices with an early discount the same way: an
+amount collected within the discount period is collected with the discount, as the
+customer would get it with _Register Payment_. Collecting on the net due date (option
+_Pay Early Discounts on Discount Date_ disabled) collects the full amount.

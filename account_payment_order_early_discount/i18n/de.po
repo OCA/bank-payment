@@ -143,6 +143,23 @@ msgid ""
 msgstr "Letzter Tag, an dem der skontierte Betrag bezahlt sein muss, damit der Skonto gewährt wird"
 
 #. module: account_payment_order_early_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_line__early_discount_residual
+msgid "Open Amount for Early Discount"
+msgstr "Offener Betrag für Skonto"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,help:account_payment_order_early_discount.field_account_payment_line__early_discount_residual
+msgid ""
+"Open amount of the journal item when the amount of this line was computed. "
+"If the amount still matches it (minus the discount), the line is updated to "
+"the open amount and discount on confirmation."
+msgstr ""
+"Offener Betrag der Buchungszeile, als der Betrag dieser Position berechnet "
+"wurde. Entspricht der Betrag noch diesem Wert (abzüglich Skonto), wird die "
+"Position beim Bestätigen auf den aktuellen offenen Betrag und Skonto "
+"angepasst."
+
+#. module: account_payment_order_early_discount
 #: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_mode__early_discount_pay_on_discount_date
 msgid "Pay Early Discounts on Discount Date"
 msgstr "Skonto nutzen: zum Skontodatum zahlen"

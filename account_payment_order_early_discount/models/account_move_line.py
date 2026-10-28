@@ -199,6 +199,7 @@ class AccountMoveLine(models.Model):
     def _prepare_payment_line_vals(self, payment_order):
         vals = super()._prepare_payment_line_vals(payment_order)
         discount = 0.0
+        vals["early_discount_residual"] = abs(vals["amount_currency"])
         if payment_order.payment_mode_id:
             currency = self.env["res.currency"].browse(vals["currency_id"])
             discount = self._get_payment_order_early_discount(
@@ -245,33 +246,40 @@ class AccountMoveLine(models.Model):
         )
         lines = []
         bases = {}
+
+        def base_vals(taxes):
+            return dict(
+                common,
+                name=self.env._("Early Payment Discount"),
+                account_id=account.id,
+                tax_ids=[Command.set(taxes.ids)],
+                tax_tag_ids=[
+                    Command.set(
+                        taxes.invoice_repartition_line_ids.filtered(
+                            lambda rep: rep.repartition_type == "base"
+                        ).tag_ids.ids
+                    )
+                ],
+                amount_currency=0.0,
+                balance=0.0,
+            )
+
         for line in products:
             taxes = line.tax_ids if included else self.env["account.tax"]
-            vals = bases.setdefault(
-                taxes,
-                dict(
-                    common,
-                    name=self.env._("Early Payment Discount"),
-                    account_id=account.id,
-                    tax_ids=[Command.set(taxes.ids)],
-                    tax_tag_ids=[
-                        Command.set(
-                            taxes.invoice_repartition_line_ids.filtered(
-                                lambda rep: rep.repartition_type == "base"
-                            ).tag_ids.ids
-                        )
-                    ],
-                    amount_currency=0.0,
-                    balance=0.0,
-                ),
-            )
+            vals = bases.setdefault(taxes, base_vals(taxes))
             vals["amount_currency"] -= line.amount_currency * share
             vals["balance"] -= line.balance * share
+        if not bases:
+            # No product lines: the whole discount on the discount account
+            bases[self.env["account.tax"]] = base_vals(self.env["account.tax"])
         lines += bases.values()
         if included:
             for line in move.line_ids.filtered("tax_repartition_line_id"):
                 rep = line.tax_repartition_line_id
                 tax = rep.tax_id
+                # Same mapping as inverse_tax_rep() in the core helper: the
+                # distributions of invoices and credit notes match line by line
+                # (constraint _validate_repartition_lines on account.tax)
                 index = list(tax.refund_repartition_line_ids).index(rep)
                 invoice_rep = tax.invoice_repartition_line_ids[index]
                 lines.append(

@@ -23,6 +23,14 @@ class AccountPaymentLine(models.Model):
         readonly=True,
         help="Early payment discount deducted from the amount of this line.",
     )
+    early_discount_residual = fields.Monetary(
+        string="Open Amount for Early Discount",
+        currency_field="currency_id",
+        readonly=True,
+        help="Open amount of the journal item when the amount of this line was "
+        "computed. If the amount still matches it (minus the discount), the line is "
+        "updated to the open amount and discount on confirmation.",
+    )
 
     @api.depends(
         "move_line_id.date_maturity",
@@ -40,26 +48,35 @@ class AccountPaymentLine(models.Model):
             )
 
     def _update_early_discount(self):
-        """Check the early discount against the requested execution date (`date`,
-        set when confirming the order). Lines with a manually changed amount are
-        left untouched and get no discount."""
-        for line in self.filtered("move_line_id"):
+        """Update the amount and early discount of lines of bills with an early
+        discount to the open amount of the bill and the requested execution date,
+        when confirming the order. Lines with a manually changed amount are left
+        untouched and get no discount."""
+        for line in self.filtered(
+            lambda line: line.move_line_id
+            and line.move_line_id._payment_order_has_early_discount()
+        ):
             aml = line.move_line_id
+            order = line.order_id
             currency = line.currency_id
             full = abs(aml.amount_residual_currency)
             amount = abs(line.amount_currency)
-            if currency.compare_amounts(amount, full) and currency.compare_amounts(
-                amount, full - line.early_discount_amount
-            ):
+            computed = (
+                line.early_discount_residual or full
+            ) - line.early_discount_amount
+            if currency.compare_amounts(amount, computed):
                 if line.early_discount_amount:
                     line.early_discount_amount = 0.0
                 continue
+            date = order._get_early_discount_execution_date(aml)
             discount = aml._get_payment_order_early_discount(
-                currency, line.date, line.order_id.payment_mode_id
+                currency, date, order.payment_mode_id
             )
-            if not currency.compare_amounts(
-                amount, full - discount
-            ) and not currency.compare_amounts(discount, line.early_discount_amount):
+            if (
+                not currency.compare_amounts(amount, full - discount)
+                and not currency.compare_amounts(discount, line.early_discount_amount)
+                and not currency.compare_amounts(line.early_discount_residual, full)
+            ):
                 continue
             sign = 1 if line.amount_currency >= 0 else -1
             had_discount = not currency.is_zero(line.early_discount_amount)
@@ -67,6 +84,7 @@ class AccountPaymentLine(models.Model):
                 {
                     "amount_currency": sign * (full - discount),
                     "early_discount_amount": discount,
+                    "early_discount_residual": full,
                 }
             )
             if discount and not had_discount:
@@ -75,27 +93,22 @@ class AccountPaymentLine(models.Model):
                     "(execution %(date)s).",
                     amount=format_amount(self.env, discount, currency),
                     ref=aml.move_id.display_name,
-                    date=format_date(self.env, line.date),
+                    date=format_date(self.env, date),
                 )
             elif not discount and had_discount:
                 body = self.env._(
                     "Early discount period of %(ref)s has expired (execution "
                     "%(date)s, discount until %(deadline)s): the full amount is paid.",
                     ref=aml.move_id.display_name,
-                    date=format_date(self.env, line.date),
+                    date=format_date(self.env, date),
                     deadline=format_date(
                         self.env,
                         aml._get_payment_order_early_discount_deadline(
-                            line.order_id.payment_mode_id
+                            order.payment_mode_id
                         )
                         or aml.discount_date,
                     ),
                 )
             else:
                 continue
-            line.order_id.message_post(body=body)
-
-    def _prepare_account_payment_vals(self):
-        # Called by draft2open after the execution date of the lines has been set
-        self._update_early_discount()
-        return super()._prepare_account_payment_vals()
+            order.message_post(body=body)
