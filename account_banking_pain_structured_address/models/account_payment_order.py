@@ -4,6 +4,7 @@
 from lxml import etree
 
 from odoo import api, models
+from odoo.exceptions import UserError
 
 
 class AccountPaymentOrder(models.Model):
@@ -25,6 +26,17 @@ class AccountPaymentOrder(models.Model):
             or self._get_pain09_address_mode(partner) != "structured"
         ):
             return super().generate_address_block(parent_node, partner, gen_args)
+        if not partner.city.strip():
+            # A city of only spaces would leave TwnNm out without an error
+            raise UserError(
+                self.env._(
+                    "PAIN format %(flavor)s requires City (TwnNm). "
+                    "Partner missing City: %(partner)s. "
+                    "Please set a City or choose an older PAIN format.",
+                    flavor=pain_flavor,
+                    partner=partner.display_name,
+                )
+            )
         postal_address = etree.SubElement(parent_node, "PstlAdr")
         # Same order as PostalAddress24 in the pain.001.001.09 schema
         for tag, field_name, value, max_size in (

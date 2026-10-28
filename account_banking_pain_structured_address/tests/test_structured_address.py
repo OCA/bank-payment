@@ -105,6 +105,11 @@ class TestStructuredAddress(TransactionCase):
         with self.assertRaises(UserError):
             self._address(partner)
 
+    def test_blank_city_is_required(self):
+        partner = self._partner(street="Oudestraat 12", city="   ")
+        with self.assertRaises(UserError):
+            self._address(partner)
+
     def test_other_pain_versions_unchanged(self):
         address = self._address(
             self._partner(street="Oudestraat 12"), pain_flavor="pain.001.001.03"
