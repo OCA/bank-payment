@@ -550,7 +550,7 @@ class AccountPaymentOrder(models.Model):
         pain_flavor = (gen_args.get("pain_flavor", "")).strip()
         address_mode = self._get_pain09_address_mode(partner)
         if pain_flavor.startswith("pain.001.001.09"):
-            if not partner.city:
+            if not (partner.city or "").strip():
                 raise UserError(
                     self.env._(
                         "PAIN format %(flavor)s requires City (TwnNm). "
