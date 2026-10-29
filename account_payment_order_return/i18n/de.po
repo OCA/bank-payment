@@ -1,0 +1,29 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_payment_order_return
+#
+# Translators:
+# Akim Juillerat <akim.juillerat@camptocamp.com>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-15 00:40+0000\n"
+"PO-Revision-Date: 2017-10-15 00:40+0000\n"
+"Last-Translator: Akim Juillerat <akim.juillerat@camptocamp.com>, 2017\n"
+"Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_payment_order_return
+#: model:ir.model.fields,field_description:account_payment_order_return.field_account_payment_line_create__include_returned
+msgid "Include move lines from returns"
+msgstr ""
+
+#. module: account_payment_order_return
+#: model:ir.model,name:account_payment_order_return.model_account_payment_line_create
+msgid "Wizard to create payment lines"
+msgstr "Assistent zum Anlegen von Zahlungszeilen"
