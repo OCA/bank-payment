@@ -1,0 +1,50 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-02-29 15:38+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
+"Language-Team: none\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: account_payment_sale
+#: model_terms:ir.ui.view,arch_db:account_payment_sale.report_sale_payment_mode
+msgid "<strong>Payment Mode:</strong>"
+msgstr "<strong>Modo di pagamento:</strong>"
+
+#. module: account_payment_sale
+#: model:ir.model.fields,field_description:account_payment_sale.field_sale_order__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_sale.field_sale_report__payment_mode_id
+msgid "Payment Mode"
+msgstr "Modo di pagamento"
+
+#. module: account_payment_sale
+#: model:ir.model,name:account_payment_sale.model_sale_report
+msgid "Sales Analysis Report"
+msgstr "Resoconto analisi vendite"
+
+#. module: account_payment_sale
+#: model:ir.model,name:account_payment_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Ordine di vendita"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome visualizzato"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"
+
+#~ msgid "Sales Advance Payment Invoice"
+#~ msgstr "Fattura di vendita con pagamento anticipato"
