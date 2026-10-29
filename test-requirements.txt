@@ -1,0 +1,2 @@
+odoo-addon-account_payment_order_api @ git+https://github.com/OCA/bank-payment.git@refs/pull/1651/head#subdirectory=account_payment_order_api
+odoo-addon-account_payment_schedule @ git+https://github.com/OCA/bank-payment.git@refs/pull/1652/head#subdirectory=account_payment_schedule
