@@ -51,8 +51,10 @@ msgstr "Kulanz- und Puffertage für Skonto dürfen nicht negativ sein."
 #: model:ir.model.fields,help:account_payment_order_early_discount.field_account_payment_line_create__include_early_discount
 msgid ""
 "Also select invoices whose early payment discount must be paid in this "
-"period, even if their due date is later."
-msgstr "Auch Rechnungen auswählen, deren Skonto in diesem Zeitraum bezahlt werden muss, auch wenn sie erst später fällig sind."
+"period, even if their due date is later. For orders paying on the due date,"
+" only with the option 'Pay Early Discounts on Discount Date' of the payment "
+"mode (otherwise they are paid on the due date, without discount)."
+msgstr "Auch Rechnungen auswählen, deren Skonto in diesem Zeitraum bezahlt werden muss, auch wenn sie erst später fällig sind. Bei Aufträgen mit Ausführung zum Fälligkeitsdatum nur mit der Option „Skonto nutzen: zum Skontodatum zahlen“ der Zahlungsart (sonst werden sie bei Fälligkeit ohne Skonto bezahlt)."
 
 #. module: account_payment_order_early_discount
 #: model:ir.model,name:account_payment_order_early_discount.model_res_company
@@ -80,9 +82,17 @@ msgid "Early Discount Grace Days"
 msgstr "Kulanztage Skonto"
 
 #. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_move_line.py:0
 #: model_terms:ir.ui.view,arch_db:account_payment_order_early_discount.account_payment_mode_form
 msgid "Early Payment Discount"
 msgstr "Skonto"
+
+#. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_move_line.py:0
+msgid "Early Payment Discount (%s)"
+msgstr "Skonto (%s)"
 
 #. module: account_payment_order_early_discount
 #. odoo-python
@@ -192,6 +202,15 @@ msgid ""
 " or discount period over). Set the payment order back to draft and confirm "
 "it again."
 msgstr "Der Skonto von %(ref)s kann nicht mehr abgezogen werden (inzwischen bezahlt oder Skontofrist abgelaufen). Zahlungsauftrag auf Entwurf zurücksetzen und erneut bestätigen."
+
+#. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_payment_line.py:0
+msgid ""
+"The open amount or the early discount of %(ref)s has changed since the "
+"payment order was confirmed (settled in the meantime or discount period over"
+" at %(date)s). Set the payment order back to draft and confirm it again."
+msgstr "Der offene Betrag oder der Skonto von %(ref)s hat sich seit der Bestätigung des Zahlungsauftrags geändert (inzwischen ausgeglichen oder Skontofrist am %(date)s abgelaufen). Zahlungsauftrag auf Entwurf zurücksetzen und erneut bestätigen."
 
 #. module: account_payment_order_early_discount
 #: model_terms:ir.ui.view,arch_db:account_payment_order_early_discount.account_payment_line_tree

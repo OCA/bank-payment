@@ -24,13 +24,7 @@ class AccountPaymentOrder(models.Model):
         self.payment_line_ids._update_early_discount()
         return super().draft2open()
 
-    def post_and_reconcile(self):
-        # Book the early discount (with tax correction) in the payment entry, like
-        # the "Register Payment" wizard, so the invoice is fully reconciled.
-        for payment in self.payment_ids.filtered(lambda p: p.state == "draft"):
-            paylines = payment.payment_line_ids.filtered(
-                lambda line: not line.currency_id.is_zero(line.early_discount_amount)
-            )
-            if paylines:
-                payment._generate_payment_order_early_discount_entry(paylines)
-        return super().post_and_reconcile()
+    def open2generated(self):
+        # Before the file asks the bank to pay the confirmed amounts
+        self.payment_line_ids._check_early_discount_before_file()
+        return super().open2generated()

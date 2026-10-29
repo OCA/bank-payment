@@ -311,16 +311,18 @@ class TestPaymentOrderEarlyDiscount(AccountTestInvoicingCommon):
         )
         self.assertAlmostEqual(
             term_line._get_payment_order_early_discount(
-                currency, date(2026, 10, 18), mode
+                currency, date(2026, 10, 16), mode
             ),
             24.0,
         )
-        self.assertEqual(
-            term_line._get_payment_order_early_discount(
-                currency, date(2026, 10, 19), mode
-            ),
-            0.0,
-        )
+        # Requested on Sunday 10-18, the bank executes on Monday 10-19: too late
+        for day in (18, 19):
+            self.assertEqual(
+                term_line._get_payment_order_early_discount(
+                    currency, date(2026, 10, day), mode
+                ),
+                0.0,
+            )
         # Grace days ending on Sunday, extended to Monday
         mode.early_discount_extend_to_workday = True
         self.assertEqual(
@@ -745,3 +747,302 @@ class TestPaymentOrderEarlyDiscount(AccountTestInvoicingCommon):
         self.assertAlmostEqual(
             sum(lines.filtered("tax_line_id").mapped("balance")), 4.0
         )
+
+    def _bill_lines(self, move_type, invoice_date, lines, term=None):
+        bill = self.env["account.move"].create(
+            {
+                "move_type": move_type,
+                "partner_id": self.partner.id,
+                "ref": f"BILL-{self.env['account.move'].search_count([]) + 1}",
+                "invoice_date": invoice_date,
+                "invoice_payment_term_id": (term or self.term).id,
+                "payment_mode_id": self.mode.id,
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "name": "Service",
+                            "quantity": 1,
+                            "price_unit": amount,
+                            "account_id": self.company_data[
+                                "default_account_expense"
+                            ].id,
+                            "tax_ids": [Command.set(tax.ids)],
+                        }
+                    )
+                    for amount, tax in lines
+                ],
+            }
+        )
+        if "check_total" in bill._fields:
+            bill.check_total = bill.amount_total
+        bill.action_post()
+        return bill
+
+    def _tag_tax(self, tax):
+        """Tax report tags as in localizations: +tag on invoices, -tag (negated) on
+        refunds, for base and tax."""
+        country = self.company.country_id or self.env.ref("base.at")
+        for reps, sign in (
+            (tax.invoice_repartition_line_ids, "+"),
+            (tax.refund_repartition_line_ids, "-"),
+        ):
+            for rep in reps:
+                rep.tag_ids = self.env["account.account.tag"].create(
+                    {
+                        "name": f"{sign}{rep.repartition_type}",
+                        "applicability": "taxes",
+                        "tax_negate": sign == "-",
+                        "country_id": country.id,
+                    }
+                )
+
+    @staticmethod
+    def _tax_report(move):
+        """Amounts per tax report line, signed as in the tax report."""
+        res = {}
+        for line in move.line_ids:
+            for tag in line.tax_tag_ids:
+                sign = (-1 if line.tax_tag_invert else 1) * (
+                    -1 if tag.tax_negate else 1
+                )
+                key = tag.name[1:]
+                res[key] = round(res.get(key, 0.0) + sign * line.balance, 2)
+        return res
+
+    def _tax_lines(self, payment):
+        return sorted(
+            (line.tax_line_id.amount, round(line.balance, 2))
+            for line in payment.move_id.line_ids.filtered("tax_line_id")
+        )
+
+    @freeze_time("2026-10-12")
+    def test_tax_report_bill_alone(self):
+        self._tag_tax(self.tax)
+        self._bill(date(2026, 10, 5))
+        order = self._order("now")
+        self._add(order, date(2026, 10, 18))
+        self._upload(order)
+        self.assertEqual(
+            self._tax_report(order.payment_ids.move_id), {"base": -20.0, "tax": -4.0}
+        )
+
+    @freeze_time("2026-10-12")
+    def test_tax_report_credit_note_in_same_payment(self):
+        # The discount given back on the credit note adds to the tax report
+        self._tag_tax(self.tax)
+        self._bill(date(2026, 10, 5))
+        refund = self._bill(date(2026, 10, 6), amount=100.0, move_type="in_refund")
+        order = self._order("now")
+        self._add(order, date(2026, 10, 18))
+        order.payment_line_ids = [
+            Command.create(self._term_line(refund)._prepare_payment_line_vals(order))
+        ]
+        self._upload(order)
+        self.assertEqual(
+            self._tax_report(order.payment_ids.move_id), {"base": -18.0, "tax": -3.6}
+        )
+
+    @freeze_time("2026-10-12")
+    def test_tax_report_credit_note_settled_before(self):
+        self._tag_tax(self.tax)
+        bill = self._bill(date(2026, 10, 5))
+        refund = self._bill(date(2026, 10, 6), amount=100.0, move_type="in_refund")
+        (self._term_line(bill) | self._term_line(refund)).reconcile()
+        order = self._order("now")
+        self._add(order, date(2026, 10, 18))
+        self._upload(order)
+        self._assert_paid(bill, refund)
+        self.assertEqual(
+            self._tax_report(order.payment_ids.move_id), {"base": -18.0, "tax": -3.6}
+        )
+
+    @freeze_time("2026-10-12")
+    def test_settled_before_keeps_rounding(self):
+        # Credit note without discount over 1000.00: the discount of 24.00 is kept
+        # with its tax of 4.00 (not scaled down and up again)
+        bill = self._bill(date(2026, 10, 5))
+        refund = self._bill(
+            date(2026, 10, 6), amount=833.33, term=self.term_net, move_type="in_refund"
+        )
+        self.assertAlmostEqual(refund.amount_total, 1000.0)
+        (self._term_line(bill) | self._term_line(refund)).reconcile()
+        order = self._order("now")
+        line = self._add(order, date(2026, 10, 18))
+        self.assertAlmostEqual(line.early_discount_amount, 24.0)
+        self._upload(order)
+        self._assert_paid(bill, refund)
+        self._assert_discount_booked(order.payment_ids, -20.0, -4.0)
+
+    @freeze_time("2026-10-12")
+    def test_partial_payment_two_taxes(self):
+        tax10 = self.tax.copy({"name": "Purchase Tax 10%", "amount": 10.0})
+        bill = self._bill_lines(
+            "in_invoice", date(2026, 10, 5), [(1000.0, self.tax), (1000.0, tax10)]
+        )
+        self.assertAlmostEqual(bill.amount_total, 2300.0)
+        self.env["account.payment.register"].with_context(
+            active_model="account.move", active_ids=bill.ids
+        ).create(
+            {"amount": 1150.0, "payment_date": date(2026, 10, 12)}
+        )._create_payments()
+        order = self._order("now")
+        line = self._add(order, date(2026, 11, 5))
+        self.assertAlmostEqual(line.early_discount_amount, 23.0)
+        self._upload(order)
+        self._assert_paid(bill)
+        payment = order.payment_ids
+        bases = payment.move_id.line_ids.filtered(
+            lambda line: line.account_id == self.discount_gain
+        )
+        self.assertEqual(
+            sorted((line.tax_ids.amount, round(line.balance, 2)) for line in bases),
+            [(10.0, -10.0), (20.0, -10.0)],
+        )
+        self.assertEqual(self._tax_lines(payment), [(10.0, -1.0), (20.0, -2.0)])
+
+    @freeze_time("2026-10-12")
+    def test_credit_note_other_tax_settled_before(self):
+        # Each document corrects its own tax: -4.00 on 20 %, +0.20 on 10 %
+        tax10 = self.tax.copy({"name": "Purchase Tax 10%", "amount": 10.0})
+        bill = self._bill(date(2026, 10, 5))
+        refund = self._bill_lines("in_refund", date(2026, 10, 6), [(100.0, tax10)])
+        (self._term_line(bill) | self._term_line(refund)).reconcile()
+        order = self._order("now")
+        line = self._add(order, date(2026, 10, 18))
+        self.assertAlmostEqual(line.early_discount_amount, 21.8)
+        self._upload(order)
+        self._assert_paid(bill, refund)
+        self.assertEqual(
+            self._tax_lines(order.payment_ids), [(10.0, 0.2), (20.0, -4.0)]
+        )
+
+    @freeze_time("2026-10-10")
+    def test_requested_on_weekend_executed_after_discount(self):
+        # Discount until Sunday, not extended: requested on Saturday, the bank
+        # executes on Monday, too late
+        self.mode.early_discount_extend_to_workday = False
+        self._bill(date(2026, 10, 1))
+        order = self._order()
+        line = self._add(order, date(2026, 10, 18))
+        order.draft2open()
+        self.assertEqual(line.date, date(2026, 10, 10))
+        self.assertFalse(line.early_discount_amount)
+        self.assertAlmostEqual(line.amount_currency, 1200.0)
+
+    def test_file_generated_after_execution_date(self):
+        with freeze_time("2026-10-12"):
+            self._bill(date(2026, 10, 5))  # discount until Thu 10-15
+            order = self._order()
+            self._add(order, date(2026, 10, 18))
+            order.draft2open()
+        with freeze_time("2026-10-20"), self.assertRaises(UserError):
+            order.open2generated()
+
+    @freeze_time("2026-10-12")
+    def test_settled_after_confirmation_blocks_file(self):
+        bill = self._bill(date(2026, 10, 5))
+        refund = self._bill(
+            date(2026, 10, 6), amount=100.0, term=self.term_net, move_type="in_refund"
+        )
+        order = self._order("now")
+        self._add(order, date(2026, 10, 18))
+        order.draft2open()
+        (self._term_line(bill) | self._term_line(refund)).reconcile()
+        with self.assertRaises(UserError):
+            order.open2generated()
+
+    @freeze_time("2026-10-12")
+    def test_due_date_credit_note_with_first_discounted_payment(self):
+        bill = self._bill(date(2026, 10, 5))
+        refund = self._bill(
+            date(2026, 10, 5), amount=100.0, term=self.term_net, move_type="in_refund"
+        )
+        order = self._order()
+        self._add(order, date(2026, 10, 18))
+        order.payment_line_ids = [
+            Command.create(self._term_line(refund)._prepare_payment_line_vals(order))
+        ]
+        self.assertEqual(
+            order.payment_line_ids.mapped("ml_maturity_date"),
+            [date(2026, 10, 15)] * 2,
+        )
+        self._upload(order)
+        payment = order.payment_ids
+        self.assertEqual(len(payment), 1)
+        self.assertAlmostEqual(payment.amount, 1056.0)
+        self._assert_paid(bill, refund)
+
+    @freeze_time("2026-10-12")
+    def test_payment_of_order_posted_on_its_own(self):
+        bill = self._bill(date(2026, 10, 5))
+        order = self._order("now")
+        self._add(order, date(2026, 10, 18))
+        order.draft2open()
+        order.open2generated()
+        order.payment_ids.action_post()
+        order.generated2uploaded()
+        self._assert_paid(bill)
+        self._assert_discount_booked(order.payment_ids, -20.0, -4.0)
+
+    @freeze_time("2026-10-12")
+    def test_journal_item_removed_from_line(self):
+        self._bill(date(2026, 10, 5))
+        order = self._order("now")
+        line = self._add(order, date(2026, 10, 18))
+        line.write({"move_line_id": False, "amount_currency": 500.0})
+        self._upload(order)
+        self.assertFalse(line.early_discount_amount)
+        self.assertAlmostEqual(order.payment_ids.amount, 500.0)
+
+    @freeze_time("2026-10-12")
+    def test_line_changed_to_other_currency(self):
+        other = self.setup_other_currency("EUR")
+        self._bill(date(2026, 10, 5))
+        order = self._order("now")
+        line = self._add(order, date(2026, 10, 18))
+        line.currency_id = other
+        line._update_early_discount()
+        self.assertAlmostEqual(line.amount_currency, 1176.0)
+        self.assertFalse(line.early_discount_amount)
+
+    def test_public_holiday_of_other_company(self):
+        other = self.env["res.company"].create({"name": "Other Company"})
+        leave = (
+            self.env["resource.calendar.leaves"]
+            .with_company(other)
+            .create(
+                {
+                    "name": "Holiday of the other company",
+                    "calendar_id": False,
+                    "date_from": datetime(2026, 10, 15, 0, 0),
+                    "date_to": datetime(2026, 10, 15, 23, 59),
+                }
+            )
+        )
+        self.assertEqual(leave.company_id, other)
+        company = self.company.with_context(
+            allowed_company_ids=[self.company.id, other.id]
+        )
+        self.assertTrue(company._payment_order_is_workday(date(2026, 10, 15)))
+        self.assertFalse(other._payment_order_is_workday(date(2026, 10, 15)))
+
+    def test_calendar_without_working_days(self):
+        self.company.resource_calendar_id.attendance_ids.unlink()
+        self.assertEqual(
+            self.company._payment_order_shift_to_workday(date(2026, 10, 15), 1),
+            date(2026, 10, 15),
+        )
+
+    @freeze_time("2026-10-12")
+    def test_include_early_discounts_without_mode_option(self):
+        # Orders paying now or on a fixed date: selected by discount date anyway
+        self.mode.early_discount_pay_on_discount_date = False
+        bill = self._bill(date(2026, 10, 5))
+        wizard = self._wizard(
+            self._order("now"), date(2026, 10, 18), include_early_discount=True
+        )
+        self.assertIn(bill, self._found(wizard))
+        wizard = self._wizard(
+            self._order(), date(2026, 10, 18), include_early_discount=True
+        )
+        self.assertNotIn(bill, self._found(wizard))

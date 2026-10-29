@@ -2,7 +2,6 @@
 from datetime import timedelta
 
 from odoo import Command, fields, models
-from odoo.tools import float_compare
 
 # Invoices and credit notes: a discount shown on a credit note reduces its deduction
 EARLY_DISCOUNT_MOVE_TYPES = (
@@ -42,13 +41,35 @@ class AccountMoveLine(models.Model):
         full = self._get_payment_order_full_early_discount()
         return full / abs(self.amount_currency) if full else 0.0
 
-    def _get_payment_order_settled_discount_rate(self, counterpart, own_rate):
-        """Discount rate of an amount settled with `counterpart`: a credit note (or
-        invoice) takes away its own discount, none if it shows no discount; any other
-        settlement (payment) the proportional discount of this line."""
-        if counterpart.move_id.is_invoice(include_receipts=True):
-            return counterpart._get_payment_order_early_discount_rate()
-        return own_rate
+    def _get_payment_order_settled_discounts(self):
+        """Early discount taken away by the amounts already settled on this line:
+        (discount of the payments, [(credit note line, its discount)]). A credit
+        note (or invoice) in the same currency takes away its own discount, booked
+        back with its own taxes, none if it shows no discount; any other settlement
+        (payment) the proportional discount of this line."""
+        self.ensure_one()
+        own_rate = self._get_payment_order_early_discount_rate()
+        payments = 0.0
+        counterparts = []
+        settlements = [
+            (p.credit_amount_currency, p.debit_move_id, p.debit_amount_currency)
+            for p in self.matched_debit_ids
+        ] + [
+            (p.debit_amount_currency, p.credit_move_id, p.credit_amount_currency)
+            for p in self.matched_credit_ids
+        ]
+        for amount, counterpart, counterpart_amount in settlements:
+            if not counterpart.move_id.is_invoice(include_receipts=True):
+                payments += amount * own_rate
+            elif counterpart.currency_id == self.currency_id:
+                rate = counterpart._get_payment_order_early_discount_rate()
+                if rate:
+                    counterparts.append((counterpart, counterpart_amount * rate))
+            else:
+                payments += (
+                    amount * counterpart._get_payment_order_early_discount_rate()
+                )
+        return payments, counterparts
 
     def _get_payment_order_open_early_discount(self):
         """Early discount still open on this line: the full discount minus the
@@ -57,60 +78,69 @@ class AccountMoveLine(models.Model):
         full = self._get_payment_order_full_early_discount()
         if not full:
             return 0.0
-        own_rate = self._get_payment_order_early_discount_rate()
-        settled = 0.0
-        for partial in self.matched_debit_ids:
-            settled += partial.credit_amount_currency * (
-                self._get_payment_order_settled_discount_rate(
-                    partial.debit_move_id, own_rate
-                )
-            )
-        for partial in self.matched_credit_ids:
-            settled += partial.debit_amount_currency * (
-                self._get_payment_order_settled_discount_rate(
-                    partial.credit_move_id, own_rate
-                )
-            )
+        payments, counterparts = self._get_payment_order_settled_discounts()
+        settled = payments + sum(discount for _line, discount in counterparts)
         discount = min(full - settled, abs(self.amount_residual_currency))
         return self.currency_id.round(max(discount, 0.0))
 
     def _get_payment_order_early_discount_lines(self, discount):
-        """Write-off lines booking `discount` of this line, built with the helper of
-        the "Register Payment" wizard and scaled to the open discount if the line is
-        partially settled (the helper always books the full discount)."""
+        """Write-off lines booking `discount` of this line: the discount of the
+        invoice, built with the helper of the "Register Payment" wizard, minus the
+        discount of the credit notes already settled with it (with their taxes)."""
+        self.ensure_one()
+        if self.move_id.move_type in ("in_refund", "out_refund"):
+            return self._get_payment_order_refund_early_discount_lines(discount)
+        currency = self.currency_id
+        lines = []
+        given_back = 0.0
+        for counterpart, amount in self._get_payment_order_settled_discounts()[1]:
+            if counterpart.move_id.move_type in ("in_refund", "out_refund"):
+                amount = currency.round(amount)
+                lines += counterpart._get_payment_order_refund_early_discount_lines(
+                    amount
+                )
+                given_back += amount
+        return (
+            self._get_payment_order_invoice_early_discount_lines(discount + given_back)
+            + lines
+        )
+
+    def _get_payment_order_invoice_early_discount_lines(self, discount):
+        """Write-off lines booking `discount` of an invoice: the lines of the whole
+        discount as the "Register Payment" wizard books them, scaled to `discount`."""
         self.ensure_one()
         move = self.move_id
-        if move.move_type in ("in_refund", "out_refund"):
-            return self._get_payment_order_refund_early_discount_lines(discount)
         company = move.company_id
         currency = self.currency_id
-        result = self.env[
-            "account.move"
-        ]._get_invoice_counterpart_amls_for_early_payment_discount(
-            [
-                {
-                    "aml": self,
-                    "amount_currency": -self.amount_residual_currency,
-                    "balance": -self.amount_residual,
-                }
-            ],
-            0.0,
+        # The helper books the discount of the open share of the line (with the
+        # rounding difference on one base line): computed here for the whole line
+        # and scaled once, so that partial settlements keep the tax distribution
+        self.flush_recordset(["amount_residual_currency"])
+        self.env.cache.set(
+            self, self._fields["amount_residual_currency"], self.amount_currency
         )
+        try:
+            result = self.env[
+                "account.move"
+            ]._get_invoice_counterpart_amls_for_early_payment_discount(
+                [
+                    {
+                        "aml": self,
+                        "amount_currency": -self.amount_currency,
+                        "balance": -self.balance,
+                    }
+                ],
+                0.0,
+            )
+        finally:
+            self.invalidate_recordset(["amount_residual_currency"], flush=False)
         lines = [
             dict(vals)
             for key in ("base_lines", "tax_lines", "term_lines")
             for vals in result[key]
         ]
-        paid_share = (
-            abs(self.amount_residual_currency / move.amount_total)
-            if move.amount_total
-            else 0.0
-        )
         full = self._get_payment_order_full_early_discount()
-        if not lines or (
-            not currency.compare_amounts(discount, full)
-            and not float_compare(paid_share, 1.0, precision_digits=6)
-        ):
+        if not lines or not currency.compare_amounts(discount, full):
             return lines
         factor = discount / full
         sign = 1 if sum(vals["amount_currency"] for vals in lines) >= 0 else -1
@@ -119,24 +149,15 @@ class AccountMoveLine(models.Model):
             "amount_currency": sign * discount,
             "balance": company.currency_id.round(sign * discount * rate),
         }
-        taxes = [vals for vals in lines if vals.get("tax_repartition_line_id")]
         bases = [vals for vals in lines if not vals.get("tax_repartition_line_id")]
         for field, cur in (
             ("amount_currency", currency),
             ("balance", company.currency_id),
         ):
-            # The helper scaled the taxes by the open share of the line
-            for vals in taxes:
-                vals[field] = cur.round(vals[field] / (paid_share or 1.0) * factor)
-            rest = target[field] - sum(vals[field] for vals in taxes)
-            base_total = sum(vals[field] for vals in bases)
-            for vals in bases:
-                vals[field] = cur.round(
-                    rest * vals[field] / base_total if base_total else rest / len(bases)
-                )
-            if bases:
-                biggest = max(bases, key=lambda vals: abs(vals[field]))
-                biggest[field] += target[field] - sum(vals[field] for vals in lines)
+            for vals in lines:
+                vals[field] = cur.round(vals[field] * factor)
+            biggest = max(bases or lines, key=lambda vals: abs(vals[field]))
+            biggest[field] += target[field] - sum(vals[field] for vals in lines)
         return lines
 
     def _get_payment_order_early_discount_deadline(self, payment_mode):
@@ -173,6 +194,12 @@ class AccountMoveLine(models.Model):
         deadline = self._get_payment_order_early_discount_deadline(payment_mode)
         if not deadline or not execution_date or execution_date > deadline:
             return 0.0
+        # A transfer requested on a non-working day is executed on the next one
+        if (
+            self.company_id._payment_order_shift_to_workday(execution_date, 1)
+            > deadline
+        ):
+            return 0.0
         if (
             not self._payment_order_has_early_discount()
             or self.move_id.currency_id != currency
@@ -181,12 +208,13 @@ class AccountMoveLine(models.Model):
         discount = self._get_payment_order_open_early_discount()
         return discount if currency.compare_amounts(discount, 0.0) > 0 else 0.0
 
-    def _get_payment_order_maturity_date(self, payment_mode):
+    def _get_payment_order_maturity_date(self, payment_mode, early_discount=False):
         """Due date used by payment orders: the early discount date while the
-        discount can still be taken and the payment mode pays on discount date."""
+        discount can still be taken and the payment mode pays on discount date (or
+        `early_discount` is set)."""
         self.ensure_one()
         if (
-            payment_mode.early_discount_pay_on_discount_date
+            (early_discount or payment_mode.early_discount_pay_on_discount_date)
             and self.display_type == "payment_term"
             and self.discount_date
         ):
@@ -216,7 +244,9 @@ class AccountMoveLine(models.Model):
     def _get_payment_order_refund_early_discount_lines(self, discount):
         """Write-off lines giving back the discount shown on a credit note (the core
         helper only handles invoices): the credit note lines times the discount
-        share, with the opposite sign, taxes as on invoices."""
+        share, with the opposite sign. They keep the tax distribution, tags and
+        accounts of the credit note, so the tax report reverses its share; fixed
+        taxes are not discounted, as in the core helper."""
         self.ensure_one()
         move = self.move_id
         company = move.company_id
@@ -246,50 +276,51 @@ class AccountMoveLine(models.Model):
         )
         lines = []
         bases = {}
-
-        def base_vals(taxes):
-            return dict(
-                common,
-                name=self.env._("Early Payment Discount"),
-                account_id=account.id,
-                tax_ids=[Command.set(taxes.ids)],
-                tax_tag_ids=[
-                    Command.set(
-                        taxes.invoice_repartition_line_ids.filtered(
-                            lambda rep: rep.repartition_type == "base"
-                        ).tag_ids.ids
-                    )
-                ],
-                amount_currency=0.0,
-                balance=0.0,
-            )
-
         for line in products:
-            taxes = line.tax_ids if included else self.env["account.tax"]
-            vals = bases.setdefault(taxes, base_vals(taxes))
+            taxes = self.env["account.tax"]
+            tags = self.env["account.account.tag"]
+            if included:
+                taxes = line.tax_ids.filtered(lambda tax: tax.amount_type != "fixed")
+                tags = line.tax_tag_ids if taxes else tags
+            vals = bases.setdefault(
+                (taxes, tags),
+                dict(
+                    common,
+                    name=self.env._("Early Payment Discount"),
+                    account_id=account.id,
+                    tax_ids=[Command.set(taxes.ids)],
+                    tax_tag_ids=[Command.set(tags.ids)],
+                    amount_currency=0.0,
+                    balance=0.0,
+                ),
+            )
             vals["amount_currency"] -= line.amount_currency * share
             vals["balance"] -= line.balance * share
         if not bases:
             # No product lines: the whole discount on the discount account
-            bases[self.env["account.tax"]] = base_vals(self.env["account.tax"])
+            bases[None] = dict(
+                common,
+                name=self.env._("Early Payment Discount"),
+                account_id=account.id,
+                amount_currency=0.0,
+                balance=0.0,
+            )
         lines += bases.values()
         if included:
-            for line in move.line_ids.filtered("tax_repartition_line_id"):
-                rep = line.tax_repartition_line_id
-                tax = rep.tax_id
-                # Same mapping as inverse_tax_rep() in the core helper: the
-                # distributions of invoices and credit notes match line by line
-                # (constraint _validate_repartition_lines on account.tax)
-                index = list(tax.refund_repartition_line_ids).index(rep)
-                invoice_rep = tax.invoice_repartition_line_ids[index]
+            for line in move.line_ids.filtered(
+                lambda line: line.tax_repartition_line_id
+                and line.tax_line_id.amount_type != "fixed"
+            ):
                 lines.append(
                     dict(
                         common,
-                        name=self.env._("Early Payment Discount (%s)", tax.name),
+                        name=self.env._(
+                            "Early Payment Discount (%s)", line.tax_line_id.name
+                        ),
                         account_id=line.account_id.id,
-                        tax_repartition_line_id=invoice_rep.id,
+                        tax_repartition_line_id=line.tax_repartition_line_id.id,
                         tax_ids=[Command.set(line.tax_ids.ids)],
-                        tax_tag_ids=[Command.set(invoice_rep.tag_ids.ids)],
+                        tax_tag_ids=[Command.set(line.tax_tag_ids.ids)],
                         group_tax_id=line.group_tax_id.id,
                         amount_currency=-line.amount_currency * share,
                         balance=-line.balance * share,

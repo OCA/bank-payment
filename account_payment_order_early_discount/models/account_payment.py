@@ -54,3 +54,16 @@ class AccountPayment(models.Model):
         self.move_id.with_context(skip_account_move_synchronization=True).write(
             {"line_ids": [Command.clear()] + [Command.create(v) for v in line_vals]}
         )
+
+    def action_post(self):
+        # Book the early discount (with tax correction) in the payment entry, like
+        # the "Register Payment" wizard, so the invoice is fully reconciled; also
+        # when a payment of an order is posted on its own
+        for payment in self.filtered(lambda p: p.state == "draft"):
+            paylines = payment.payment_line_ids.filtered(
+                lambda line: line.move_line_id
+                and not line.currency_id.is_zero(line.early_discount_amount)
+            )
+            if paylines:
+                payment._generate_payment_order_early_discount_entry(paylines)
+        return super().action_post()

@@ -13,7 +13,9 @@ class AccountPaymentLineCreate(models.TransientModel):
     include_early_discount = fields.Boolean(
         string="Include Early Discounts",
         help="Also select invoices whose early payment discount must be paid in "
-        "this period, even if their due date is later.",
+        "this period, even if their due date is later. For orders paying on the due "
+        "date, only with the option 'Pay Early Discounts on Discount Date' of the "
+        "payment mode (otherwise they are paid on the due date, without discount).",
     )
 
     @api.model
@@ -35,11 +37,16 @@ class AccountPaymentLineCreate(models.TransientModel):
     @api.depends("include_early_discount")
     def _compute_move_line_domain(self):
         res = super()._compute_move_line_domain()
+        mode = self.order_id.payment_mode_id
         if not (
             self.include_early_discount
             and self.date_type == "due"
             and self.filter_date
-            and self.order_id.payment_mode_id
+            and mode
+            and (
+                mode.early_discount_pay_on_discount_date
+                or self.order_id.date_prefered != "due"
+            )
         ):
             return res
         # Same filters without the date filter (all fields, also those added by
@@ -51,12 +58,21 @@ class AccountPaymentLineCreate(models.TransientModel):
         }
         base = self.new(dict(values, date_type=False))
         super(AccountPaymentLineCreate, base)._compute_move_line_domain()
-        mode = self.order_id.payment_mode_id
         today = fields.Date.context_today(self)
         # Older discount dates are past their deadline (grace days, then at most
-        # MAX_WORKDAY_SHIFT days to the next working day)
+        # MAX_WORKDAY_SHIFT days to the next working day); later ones are paid
+        # after the filter date (buffer days, then at most MAX_WORKDAY_SHIFT days
+        # back to the previous working day)
         oldest = today - timedelta(
             days=mode.early_discount_grace_days + MAX_WORKDAY_SHIFT
+        )
+        last = (
+            self.filter_date_end
+            if self.due_on == "between" and self.filter_date_end
+            else self.filter_date
+        )
+        latest = last + timedelta(
+            days=mode.early_discount_buffer_days + MAX_WORKDAY_SHIFT
         )
         candidates = self.env["account.move.line"].search(
             expression.AND(
@@ -65,13 +81,14 @@ class AccountPaymentLineCreate(models.TransientModel):
                     [
                         ("display_type", "=", "payment_term"),
                         ("discount_date", ">=", oldest),
+                        ("discount_date", "<=", latest),
                     ],
                 ]
             )
         )
         ids = []
         for aml in candidates:
-            date = aml._get_payment_order_maturity_date(mode)
+            date = aml._get_payment_order_maturity_date(mode, early_discount=True)
             if date != aml.date_maturity and self._early_discount_date_matches(date):
                 ids.append(aml.id)
         if ids:

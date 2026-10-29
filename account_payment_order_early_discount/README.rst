@@ -55,10 +55,17 @@ these payment terms:
   of the bill (e.g. a credit note reconciled in the meantime) and the
   discount is checked again against the actual execution date (full
   amount and a chatter note if the discount period is over; manually
-  changed amounts are kept);
-- when the order is uploaded, the payment entry books the discount and
-  the tax correction exactly like the *Register Payment* wizard, so the
-  bill is fully reconciled.
+  changed amounts are kept). A transfer requested on a non-working day
+  is executed by the bank on the next working day, the discount is only
+  kept if that day is still within the discount period;
+- before the payment file is generated, the lines are checked again: if
+  a bill was settled in the meantime or its discount period is over at
+  the execution date (the date of the line, or today if it is past), the
+  order must be confirmed again;
+- when the payments are posted (on upload, or a payment of the order
+  posted on its own), the payment entry books the discount and the tax
+  correction exactly like the *Register Payment* wizard, so the bill is
+  fully reconciled.
 
 Credit notes and partial settlements, which Odoo does not handle for
 early payment discounts (no discount once a bill is partially
@@ -70,7 +77,13 @@ reconciled, credit notes deducted in full):
   proportional discount;
 - a credit note in the same payment is deducted with its discounted
   amount only; its discount is booked back on the discount account with
-  the tax correction.
+  the tax correction, using the taxes, tax grids and accounts of the
+  credit note (fixed taxes are not discounted, as in Odoo). A credit
+  note with a discount settled before is booked back the same way, so
+  each document corrects its own taxes;
+- in orders paying on the due date, a credit note is deducted from the
+  first payment taking a discount for the same partner, instead of being
+  a (negative) payment of its own on its due date.
 
 Direct debit orders handle customer invoices with an early discount the
 same way: an amount collected within the discount period is collected
@@ -118,14 +131,19 @@ Usage
 1. Create a payment order and click *Create Transactions*.
 2. Set the filter date and check *Include Early Discounts*: bills whose
    discount must be paid by the filter date (end of the discount period
-   minus the buffer days) are proposed in addition to the due bills.
+   minus the buffer days) are proposed in addition to the due bills. For
+   orders paying on the due date, this needs the option *Pay Early
+   Discounts on Discount Date* of the payment mode.
 3. The payment lines show the discount date and the deducted discount;
    the amount is the discounted amount.
 4. Confirm the order: lines whose discount period is over at the
    execution date go back to the full amount, with a note in the
    chatter.
-5. Generate and upload the payment file: the payment entries book the
-   discount and the bills are fully reconciled.
+5. Generate the payment file: if a bill was settled in the meantime or
+   its discount period is over, set the order back to draft and confirm
+   it again.
+6. Upload the payment file: the payment entries book the discount and
+   the bills are fully reconciled.
 
 Known issues / Roadmap
 ======================
