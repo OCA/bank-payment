@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<templates>
+    <t t-name="account_payment_schedule.Dashboard">
+        <div
+            class="o_payment_schedule_dashboard d-flex flex-wrap gap-2 px-3 py-2 border-bottom bg-view"
+        >
+            <t t-foreach="state.counters" t-as="counter" t-key="counter.filter">
+                <button
+                    type="button"
+                    class="o_payment_schedule_counter btn btn-light border text-start"
+                    t-att-class="{'active border-primary': isActive(counter)}"
+                    t-att-data-filter="counter.filter"
+                    t-on-click="() => this.onCounterClick(counter)"
+                >
+                    <div
+                        class="fs-3 lh-1"
+                        t-att-class="{'text-danger': counter.alert and counter.count}"
+                        t-out="counter.count"
+                    />
+                    <div class="small" t-out="counter.label" />
+                    <div
+                        class="small text-muted"
+                        t-out="formatAmount(counter.amount)"
+                    />
+                </button>
+            </t>
+        </div>
+        <PaymentScheduleCashflow />
+    </t>
+
+    <t t-name="account_payment_schedule.Cashflow">
+        <div class="o_payment_schedule_cashflow px-3 py-2 border-bottom bg-view">
+            <div
+                t-if="state.data"
+                class="d-flex flex-wrap align-items-center gap-3 mb-2 small"
+            >
+                <strong>Cash Flow, next 30 days</strong>
+                <select
+                    class="form-select form-select-sm w-auto"
+                    t-on-change="onJournalChange"
+                >
+                    <option
+                        value=""
+                        t-att-selected="!state.journalId"
+                    >All journals</option>
+                    <t
+                        t-foreach="state.data.journals"
+                        t-as="journal"
+                        t-key="journal.id"
+                    >
+                        <option
+                            t-att-value="journal.id"
+                            t-att-selected="journal.id === state.journalId"
+                            t-out="journal.name"
+                        />
+                    </t>
+                </select>
+                <span>Balance today: <b t-out="format(state.data.opening)" /></span>
+                <span>Minimum: <b t-out="format(state.data.minimum)" /></span>
+                <span t-if="state.data.short_days" class="text-danger">
+                    Days below the minimum: <b t-out="state.data.short_days" />
+                </span>
+                <span t-if="state.data.overdue_receivable" class="text-muted">
+                    Overdue receivables, not counted: <b
+                    t-out="format(state.data.overdue_receivable)"
+                />
+                </span>
+            </div>
+            <div class="o_payment_schedule_cashflow_chart">
+                <canvas t-ref="canvas" />
+            </div>
+        </div>
+    </t>
+
+    <t
+        t-name="account_payment_schedule.ListRenderer"
+        t-inherit="web.ListRenderer"
+        t-inherit-mode="primary"
+    >
+        <xpath expr="//div[hasclass('o_list_renderer')]" position="before">
+            <PaymentScheduleDashboard />
+        </xpath>
+    </t>
+</templates>
