@@ -28,7 +28,7 @@ class AccountMoveLine(models.Model):
     def _compute_partner_bank_id(self):
         for ml in self:
             if (
-                ml.move_id.move_type in ("in_invoice", "in_refund")
+                ml.move_id.move_type in ("in_invoice", "in_receipt", "in_refund")
                 and not ml.reconciled
                 and ml.payment_mode_id.payment_order_ok
                 and ml.account_id.account_type
