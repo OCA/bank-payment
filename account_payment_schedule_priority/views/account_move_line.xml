@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_move_line_payment_schedule_tree" model="ir.ui.view">
+        <field name="model">account.move.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_schedule.account_move_line_payment_schedule_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_schedule_date" position="after">
+                <field
+                    name="payment_priority"
+                    optional="show"
+                    decoration-danger="payment_priority == '1'"
+                    decoration-warning="payment_priority == '2'"
+                    decoration-muted="payment_priority == '4'"
+                    attrs="{'readonly': [('payment_schedule_state', '=', 'done')]}"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="account_move_line_payment_schedule_search" model="ir.ui.view">
+        <field name="model">account.move.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_schedule.account_move_line_payment_schedule_search"
+        />
+        <field name="arch" type="xml">
+            <filter name="short_balance" position="after">
+                <separator />
+                <filter
+                    name="priority_critical"
+                    string="Critical"
+                    domain="[('payment_priority', '=', '1')]"
+                />
+                <filter
+                    name="priority_high"
+                    string="High Priority"
+                    domain="[('payment_priority', '=', '2')]"
+                />
+                <filter
+                    name="priority_normal"
+                    string="Normal Priority"
+                    domain="[('payment_priority', '=', '3')]"
+                />
+                <filter
+                    name="priority_low"
+                    string="Low Priority"
+                    domain="[('payment_priority', '=', '4')]"
+                />
+            </filter>
+            <filter name="group_by_payment_mode" position="after">
+                <filter
+                    name="group_by_payment_priority"
+                    string="Payment Priority"
+                    context="{'group_by': 'payment_priority'}"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>
