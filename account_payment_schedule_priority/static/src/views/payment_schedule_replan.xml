@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<templates>
+    <t t-inherit="account_payment_schedule.Cashflow" t-inherit-mode="extension">
+        <xpath
+            expr="//div[hasclass('o_payment_schedule_cashflow')]/div[hasclass('mb-2')]"
+            position="inside"
+        >
+            <button
+                type="button"
+                class="o_payment_schedule_replan btn btn-sm ms-auto"
+                t-att-class="state.data.short_days ? 'btn-primary' : 'btn-secondary'"
+                title="Move the lowest priority items of the dates short of cash to the first date with enough balance"
+                t-on-click="onReplan"
+            >Replan by Priority</button>
+        </xpath>
+    </t>
+</templates>
