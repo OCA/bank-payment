@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_payment_api_line_tree" model="ir.ui.view">
+        <field name="model">account.payment.api.line</field>
+        <field name="arch" type="xml">
+            <tree create="0" delete="0" edit="0">
+                <field name="batch_id" />
+                <field name="partner_id" />
+                <field name="move_line_id" />
+                <field name="amount" sum="Total" />
+                <field name="currency_id" invisible="1" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'paid'"
+                    decoration-info="state in ('accepted', 'scheduled', 'processing')"
+                    decoration-warning="state in ('awaiting_release', 'unknown', 'pending')"
+                    decoration-danger="state in ('refused', 'rejected', 'returned')"
+                    decoration-muted="state == 'cancelled'"
+                />
+                <field name="reason" />
+                <field name="bank_reference" optional="hide" />
+                <field name="authentication" optional="hide" />
+                <field name="date_paid" optional="show" />
+                <button
+                    name="action_api_cancel"
+                    type="object"
+                    string="Cancel at the Bank"
+                    icon="fa-ban"
+                    attrs="{'invisible': [('state', 'not in', ('accepted', 'awaiting_release', 'scheduled'))]}"
+                    confirm="Ask the bank to cancel this payment?"
+                />
+            </tree>
+        </field>
+    </record>
+    <record id="account_payment_api_batch_tree" model="ir.ui.view">
+        <field name="model">account.payment.api.batch</field>
+        <field name="arch" type="xml">
+            <tree create="0" delete="0" edit="0">
+                <field name="batch_key" />
+                <field name="bank_reference" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'sent'"
+                    decoration-warning="state in ('sending', 'uncertain')"
+                    decoration-danger="state == 'failed'"
+                />
+                <field name="date_sent" />
+                <field name="date_checked" />
+                <field name="message" />
+            </tree>
+        </field>
+    </record>
+</odoo>
