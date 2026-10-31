@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_move_line_payment_schedule_tree" model="ir.ui.view">
+        <field name="model">account.move.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_schedule.account_move_line_payment_schedule_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_schedule_state" position="after">
+                <field
+                    name="payment_schedule_bank_state"
+                    widget="badge"
+                    optional="show"
+                    decoration-warning="payment_schedule_bank_state in ('awaiting_release', 'unknown')"
+                    decoration-danger="payment_schedule_bank_state in ('refused', 'rejected', 'returned')"
+                    decoration-success="payment_schedule_bank_state == 'paid'"
+                />
+                <field name="payment_schedule_bank_reason" optional="show" />
+            </field>
+        </field>
+    </record>
+
+    <record id="account_move_line_payment_schedule_search" model="ir.ui.view">
+        <field name="model">account.move.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_schedule.account_move_line_payment_schedule_search"
+        />
+        <field name="arch" type="xml">
+            <filter name="in_progress" position="after">
+                <separator />
+                <filter
+                    name="bank_awaiting_release"
+                    string="Awaiting Release at the Bank"
+                    domain="[('reconciled', '=', False), ('payment_schedule_bank_state', '=', 'awaiting_release')]"
+                />
+                <filter
+                    name="bank_refused"
+                    string="Refused by the Bank"
+                    domain="[('payment_schedule_state', 'in', ('to_schedule', 'missing_instrument')), ('payment_schedule_bank_state', 'in', ('refused', 'rejected', 'returned'))]"
+                />
+                <filter
+                    name="bank_unknown"
+                    string="Outcome Unknown"
+                    domain="[('reconciled', '=', False), ('payment_schedule_bank_state', '=', 'unknown')]"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>
