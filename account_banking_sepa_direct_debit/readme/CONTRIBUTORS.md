@@ -11,3 +11,5 @@
   - Carlos Roca
   - Carolina Fernandez
 - Manuel Regidor \<<manuel.regidor@sygel.es>\>
+- [Studio73](https://www.studio73.es):
+  - Pablo Cortés

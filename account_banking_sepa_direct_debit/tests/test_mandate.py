@@ -5,17 +5,18 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
+
+from .common import AccountBankingMandateCommon
 
 
-class TestMandate(TransactionCase):
-    def test_contrains(self):
+class TestMandate(AccountBankingMandateCommon):
+    def test_01_recurring_sequence_is_required(self):
         with self.assertRaises(UserError):
             self.mandate.recurrent_sequence_type = False
             self.mandate.type = "recurrent"
             self.mandate._check_recurring_type()
 
-    def test_onchange_bank(self):
+    def test_02_onchange_bank_resets_sequence(self):
         self.mandate.write(
             {"type": "recurrent", "recurrent_sequence_type": "recurring"}
         )
@@ -24,17 +25,23 @@ class TestMandate(TransactionCase):
         self.mandate.mandate_partner_bank_change()
         self.assertEqual(self.mandate.recurrent_sequence_type, "first")
 
-    def test_expire(self):
-        self.mandate.signature_date = fields.Date.today() + relativedelta(months=-50)
+    def test_03_expire_after_36_months(self):
+        self.mandate.signature_date = fields.Date.today() + relativedelta(months=-35)
         self.mandate.validate()
         self.assertEqual(self.mandate.state, "valid")
         self.env["account.banking.mandate"]._sdd_mandate_set_state_to_expired()
+        self.assertEqual(self.mandate.state, "valid")
+        self.mandate.signature_date = fields.Date.today() + relativedelta(
+            months=-36, days=-1
+        )
+        self.env["account.banking.mandate"]._sdd_mandate_set_state_to_expired()
         self.assertEqual(self.mandate.state, "expired")
 
-    def test_action_mandate_send(self):
+    def test_04_email_does_not_activate_mandate(self):
         email_ctx = self.mandate.action_mandate_send().get("context", {})
         mail_template = (
             self.env["mail.template"]
+            .sudo()
             .browse(email_ctx.get("default_template_id"))
             .copy({"auto_delete": False})
         )
@@ -45,60 +52,3 @@ class TestMandate(TransactionCase):
         )
         self.assertEqual(self.mandate.state, "draft")
         self.assertTrue(self.mandate.is_sent)
-
-    @classmethod
-    def setUpClass(cls):
-        res = super().setUpClass()
-        cls.env = cls.env(
-            context=dict(
-                cls.env.context,
-                mail_create_nolog=True,
-                mail_create_nosubscribe=True,
-                mail_notrack=True,
-                no_reset_password=True,
-                tracking_disable=True,
-            )
-        )
-        cls.partner = cls.env["res.partner"].create(
-            {
-                "name": "Test Partner",
-            }
-        )
-        cls.partner_2 = cls.env["res.partner"].create(
-            {
-                "name": "Test Partner 2",
-            }
-        )
-        cls.bank = cls.env["res.bank"].create(
-            {
-                "name": "Fiducial Banque",
-                "bic": "FIDCFR21XXX",
-                "street": "38 rue Sergent Michel Berthet",
-                "zip": "69009",
-                "city": "Lyon",
-                "country": cls.env.ref("base.fr").id,
-            }
-        )
-        cls.bank_account = cls.env["res.partner.bank"].create(
-            {
-                "partner_id": cls.partner.id,
-                "bank_id": cls.bank.id,
-                "acc_number": "FR66 1212 1212 1212 1212 1212 121",
-            }
-        )
-        cls.bank_account_02 = cls.env["res.partner.bank"].create(
-            {
-                "partner_id": cls.partner_2.id,
-                "bank_id": cls.bank.id,
-                "acc_number": "FR20 1242 1242 1242 1242 1242 124",
-            }
-        )
-        cls.mandate = cls.env["account.banking.mandate"].create(
-            {
-                "partner_bank_id": cls.bank_account.id,
-                "format": "sepa",
-                "type": "oneoff",
-                "signature_date": "2015-01-01",
-            }
-        )
-        return res

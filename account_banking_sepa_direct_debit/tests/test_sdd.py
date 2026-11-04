@@ -2,350 +2,240 @@
 # Copyright 2018-2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import base64
+from datetime import timedelta
 
 from lxml import etree
 
 from odoo import fields
-from odoo.tests.common import TransactionCase
-from odoo.tools import float_compare
+from odoo.exceptions import UserError
+from odoo.tools import file_open, float_compare
 
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+from .common import AccountBankingSepaDirectDebitCommon
 
 
-class TestSDDBase(TransactionCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
-        cls.company_B = cls.env["res.company"].create({"name": "Company B"})
-        cls.account_payable_company_B = cls.env["account.account"].create(
-            {
-                "code": "NC1110",
-                "name": "Test Payable Account Company B",
-                "account_type": "liability_payable",
-                "reconcile": True,
-                "company_ids": cls.company_B,
-            }
-        )
-        cls.account_receivable_company_B = cls.env["account.account"].create(
-            {
-                "code": "NC1111",
-                "name": "Test Receivable Account Company B",
-                "account_type": "asset_receivable",
-                "reconcile": True,
-                "company_ids": cls.company_B,
-            }
-        )
-        cls.company = cls.env["res.company"]
-        cls.account_model = cls.env["account.account"]
-        cls.journal_model = cls.env["account.journal"]
-        cls.payment_order_model = cls.env["account.payment.order"]
-        cls.payment_line_model = cls.env["account.payment.line"]
-        cls.mandate_model = cls.env["account.banking.mandate"]
-        cls.partner_bank_model = cls.env["res.partner.bank"]
-        cls.attachment_model = cls.env["ir.attachment"]
-        cls.invoice_model = cls.env["account.move"]
-        cls.partner_agrolait = cls.env["res.partner"].create({"name": "Agrolait"})
-        cls.partner_c2c = cls.env["res.partner"].create({"name": "C2C"})
-        cls.eur_currency = cls.env.ref("base.EUR")
-        cls.setUpAdditionalAccounts()
-        cls.setUpAccountJournal()
-        cls.main_company = cls.company_B
-        cls.company_B.write(
-            {
-                "name": "Test EUR company",
-                "currency_id": cls.eur_currency.id,
-                "sepa_creditor_identifier": "FR78ZZZ424242",
-            }
-        )
-        cls.env.user.write(
-            {
-                "company_ids": [(6, 0, cls.main_company.ids)],
-                "company_id": cls.main_company.id,
-            }
-        )
-        (cls.partner_agrolait + cls.partner_c2c).write(
-            {
-                "company_id": cls.main_company.id,
-                "supplier_payment_mode_id": False,
-                "customer_payment_mode_id": False,
-                "property_account_payable_id": cls.account_payable_company_B.id,
-                "property_account_receivable_id": cls.account_receivable_company_B.id,
-            }
-        )
-        cls.bank = cls.env["res.bank"].create(
-            {
-                "name": "La Banque Postale",
-                "bic": "PSSTFRPPXXX",
-                "street": "115 rue de Sèvres",
-                "zip": "75007",
-                "city": "Paris",
-                "country": cls.env.ref("base.fr").id,
-            }
-        )
-        cls.company_bank = cls.env["res.partner.bank"].create(
-            {
-                "acc_number": "ES52 0182 2782 5688 3882 1868",
-                "bank_id": cls.bank.id,
-                "partner_id": cls.main_company.partner_id.id,
-                "company_id": cls.main_company.id,
-            }
-        )
-        # create journal
-        cls.bank_journal = cls.journal_model.create(
-            {
-                "name": "Company Bank journal",
-                "type": "bank",
-                "code": "BNKFC",
-                "payment_sequence": False,
-                "bank_account_id": cls.company_bank.id,
-                "bank_id": cls.company_bank.bank_id.id,
-                "inbound_payment_method_line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "payment_method_id": cls.env.ref(
-                                "account_banking_sepa_direct_debit.sepa_direct_debit"
-                            ).id,
-                            "payment_account_id": cls.account_expense_company_B.id,
-                        },
-                    )
-                ],
-            }
-        )
-        # Set a currency_exchange_journal on the company to avoid an exception
-        # due to the use of a foreign currency
-        cls.main_company.write({"currency_exchange_journal_id": cls.bank_journal.id})
-        cls.company_B.write({"currency_exchange_journal_id": cls.bank_journal.id})
-        # update payment mode
-        cls.payment_mode = cls.env["account.payment.mode"].create(
-            {
-                "name": "SEPA Direct Debit of customers",
-                "company_id": cls.main_company.id,
-                "payment_method_id": cls.env.ref(
-                    "account_banking_sepa_direct_debit.sepa_direct_debit"
-                ).id,
-                "bank_account_link": "fixed",
-                "fixed_journal_id": cls.bank_journal.id,
-            }
-        )
-        # Copy partner bank accounts
-        bank1 = cls.env["res.partner.bank"].create(
-            {
-                "acc_number": "FR66 1212 1212 1212 1212 1212 121",
-                "bank_id": cls.bank.id,
-                "company_id": cls.main_company.id,
-                "partner_id": cls.partner_c2c.id,
-                "acc_type": "iban",
-            }
-        )
-        cls.mandate12 = cls.env["account.banking.mandate"].create(
-            {
-                "format": "sepa",
-                "type": "recurrent",
-                "recurrent_sequence_type": "first",
-                "signature_date": fields.Date.to_string(
-                    fields.Date.today().replace(month=1, day=1)
-                ),
-                "partner_bank_id": bank1.id,
-                "company_id": cls.main_company.id,
-                "state": "valid",
-                "unique_mandate_reference": "BMTEST12",
-            }
-        )
-        bank2 = cls.env["res.partner.bank"].create(
-            {
-                "acc_number": "BE96 9988 7766 5544",
-                "bank_id": cls.bank.id,
-                "company_id": cls.main_company.id,
-                "partner_id": cls.partner_agrolait.id,
-                "acc_type": "iban",
-            }
-        )
-        cls.mandate2 = cls.env["account.banking.mandate"].create(
-            {
-                "format": "sepa",
-                "type": "recurrent",
-                "recurrent_sequence_type": "first",
-                "signature_date": fields.Date.to_string(
-                    fields.Date.today().replace(day=1)
-                ),
-                "partner_bank_id": bank2.id,
-                "company_id": cls.main_company.id,
-                "state": "valid",
-                "unique_mandate_reference": "BMTEST2",
-            }
-        )
-        # Trigger the recompute of account type on res.partner.bank
-        cls.partner_bank_model.search([])._compute_acc_type()
+class TestSDD(AccountBankingSepaDirectDebitCommon):
+    def test_01_pain_008_001_02_core(self):
+        self.check_sdd("pain.008.001.02", "FR78ZZZ424242")
 
-    @classmethod
-    def setUpAdditionalAccounts(cls):
-        """Set up some addionnal accounts: expenses, revenue, ..."""
-        cls.account_income = cls.env["account.account"].create(
-            {
-                "code": "NC1112",
-                "name": "Sale - Test Account",
-                "account_type": "asset_current",
-            }
-        )
-        cls.account_expense = cls.env["account.account"].create(
-            {
-                "code": "NC1113",
-                "name": "HR Expense - Test Purchase Account",
-                "account_type": "expense",
-            }
-        )
-        cls.account_revenue = cls.env["account.account"].create(
-            {
-                "code": "NC1114",
-                "name": "Sales - Test Sales Account",
-                "account_type": "expense_direct_cost",
-                "reconcile": True,
-            }
-        )
-        cls.account_income_company_B = cls.env["account.account"].create(
-            {
-                "code": "NC1112",
-                "name": "Sale - Test Account Company B",
-                "account_type": "expense_direct_cost",
-                "company_ids": [(6, 0, [cls.company_B.id])],
-            }
-        )
-        cls.account_expense_company_B = cls.env["account.account"].create(
-            {
-                "code": "NC1113",
-                "name": "HR Expense - Test Purchase Account Company B",
-                "account_type": "expense",
-                "company_ids": [(6, 0, [cls.company_B.id])],
-                "reconcile": True,
-            }
-        )
-        cls.account_revenue_company_B = cls.env["account.account"].create(
-            {
-                "code": "NC1114",
-                "name": "Sales - Test Sales Account Company B",
-                "account_type": "expense_direct_cost",
-                "reconcile": True,
-                "company_ids": [(6, 0, [cls.company_B.id])],
-            }
+    def test_02_pain_008_003_02_b2b_and_mode_identifier(self):
+        self.mandate2.scheme = "B2B"
+        self.payment_mode.sepa_creditor_identifier = "FR72ZZZ123456"
+        self.check_sdd("pain.008.003.02", "FR72ZZZ123456")
+
+    def test_03_pain_008_001_03(self):
+        self.check_sdd("pain.008.001.03", "FR78ZZZ424242")
+
+    def test_04_pain_008_001_04(self):
+        self.check_sdd("pain.008.001.04", "FR78ZZZ424242")
+
+    def test_05_grouping_by_requested_date(self):
+        self.mandate12.type = "recurrent"
+        self.mandate12.recurrent_sequence_type = "first"
+        self.check_sdd(
+            "pain.008.001.02",
+            "FR78ZZZ424242",
+            oneoff=False,
+            different_dates=True,
         )
 
-    @classmethod
-    def setUpAccountJournal(cls):
-        # Set up some journals
-        cls.journal_purchase_company_B = cls.env["account.journal"].create(
-            {
-                "name": "Purchase Journal Company B - Test",
-                "code": "AJ-PURC",
-                "type": "purchase",
-                "payment_sequence": False,
-                "company_id": cls.company_B.id,
-                "default_account_id": cls.account_expense_company_B.id,
-            }
-        )
-        cls.journal_sale_company_B = cls.env["account.journal"].create(
-            {
-                "name": "Sale Journal Company B - Test",
-                "code": "AJ-SALE",
-                "type": "sale",
-                "payment_sequence": False,
-                "company_id": cls.company_B.id,
-                "default_account_id": cls.account_income_company_B.id,
-            }
-        )
-        cls.journal_general_company_B = cls.env["account.journal"].create(
-            {
-                "name": "General Journal Company B - Test",
-                "code": "AJ-GENERAL",
-                "type": "general",
-                "payment_sequence": False,
-                "company_id": cls.company_B.id,
-            }
-        )
+    def test_06_final_recurrent_sequence_expires(self):
+        self.mandate2.recurrent_sequence_type = "final"
+        self.check_sdd("pain.008.001.02", "FR78ZZZ424242", sequence_type="final")
 
-    def check_sdd(self):
-        self.mandate2.recurrent_sequence_type = "first"
-        invoice1 = self.create_invoice(self.partner_agrolait.id, self.mandate2, 42.0)
-        self.mandate12.type = "oneoff"
-        invoice2 = self.create_invoice(self.partner_c2c.id, self.mandate12, 11.0)
+    def test_07_recurring_sequence_stays_valid(self):
+        self.mandate2.recurrent_sequence_type = "recurring"
+        self.check_sdd("pain.008.001.02", "FR78ZZZ424242", sequence_type="recurring")
+
+    def test_08_missing_mandate_is_rejected(self):
         self.payment_mode.payment_method_id.mandate_required = True
-        for inv in [invoice1, invoice2]:
-            action = inv.create_account_payment_line()
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Customer without a mandate",
+                "company_id": self.company.id,
+                "property_account_payable_id": self.account_payable_company_B.id,
+                "property_account_receivable_id": self.account_receivable_company_B.id,
+            }
+        )
+        invoice = self.create_invoice(partner.id, False, 42.0)
+        self.assertFalse(invoice.mandate_id)
+        action = invoice.create_account_payment_line()
+        payment_order = self.payment_order_model.browse(action["res_id"])
+        with self.assertRaisesRegex(UserError, "Missing Mandate"):
+            payment_order.draft2open()
+
+    def test_09_cancelled_mandate_is_not_selected(self):
+        self.payment_mode.payment_method_id.mandate_required = True
+        self.mandate2.cancel()
+        invoice = self.create_invoice(self.partner_agrolait.id, False, 42.0)
+        self.assertFalse(invoice.mandate_id)
+        action = invoice.create_account_payment_line()
+        payment_order = self.payment_order_model.browse(action["res_id"])
+        with self.assertRaisesRegex(UserError, "Missing Mandate"):
+            payment_order.draft2open()
+
+    def check_sdd(
+        self,
+        pain_version,
+        expected_creditor_identifier,
+        oneoff=True,
+        different_dates=False,
+        sequence_type="first",
+    ):
+        self.payment_mode.payment_method_id.write(
+            {"pain_version": pain_version, "mandate_required": True}
+        )
+        self.mandate2.recurrent_sequence_type = sequence_type
+        invoice1 = self.create_invoice(self.partner_agrolait.id, self.mandate2, 42.0)
+        if oneoff:
+            self.mandate12.type = "oneoff"
+        invoice2 = self.create_invoice(self.partner_c2c.id, self.mandate12, 11.0)
+        action = False
+        for invoice in (invoice1, invoice2):
+            action = invoice.create_account_payment_line()
         self.assertEqual(action["res_model"], "account.payment.order")
         payment_order = self.payment_order_model.browse(action["res_id"])
         self.assertEqual(payment_order.payment_type, "inbound")
         self.assertEqual(payment_order.payment_mode_id, self.payment_mode)
         self.assertEqual(payment_order.journal_id, self.bank_journal)
-        # Check payment line
-        pay_lines = self.payment_line_model.search(
-            [
-                ("partner_id", "=", self.partner_agrolait.id),
-                ("order_id", "=", payment_order.id),
-            ]
+
+        agrolait_pay_line = payment_order.payment_line_ids.filtered(
+            lambda line: line.partner_id == self.partner_agrolait
         )
-        self.assertEqual(len(pay_lines), 1)
-        agrolait_pay_line1 = pay_lines[0]
-        accpre = self.env["decimal.precision"].precision_get("Account")
-        self.assertEqual(agrolait_pay_line1.currency_id, self.eur_currency)
-        self.assertEqual(agrolait_pay_line1.mandate_id, invoice1.mandate_id)
+        self.assertEqual(len(agrolait_pay_line), 1)
+        self.assertEqual(agrolait_pay_line.currency_id, self.eur_currency)
+        self.assertEqual(agrolait_pay_line.mandate_id, invoice1.mandate_id)
         self.assertEqual(
-            agrolait_pay_line1.partner_bank_id, invoice1.mandate_id.partner_bank_id
+            agrolait_pay_line.partner_bank_id, invoice1.mandate_id.partner_bank_id
         )
+        precision = self.env["decimal.precision"].precision_get("Account")
         self.assertEqual(
             float_compare(
-                agrolait_pay_line1.amount_currency, 42, precision_digits=accpre
+                agrolait_pay_line.amount_currency, 42, precision_digits=precision
             ),
             0,
         )
-        self.assertEqual(agrolait_pay_line1.communication_type, "normal")
-        self.assertEqual(agrolait_pay_line1.communication, invoice1.name)
+        self.assertEqual(agrolait_pay_line.communication_type, "normal")
+        self.assertEqual(agrolait_pay_line.communication, invoice1.name)
+
         payment_order._compute_sepa()
         payment_order.draft2open()
         self.assertEqual(payment_order.state, "open")
-        self.assertEqual(payment_order.sepa, True)
-        # Check account payment
-        agrolait_bank_line = payment_order.payment_ids[0]
-        self.assertEqual(agrolait_bank_line.currency_id, self.eur_currency)
+        self.assertTrue(payment_order.sepa)
+        payments = payment_order.payment_ids
+        self.assertEqual(len(payments), 2)
         self.assertEqual(
-            float_compare(agrolait_bank_line.amount, 42.0, precision_digits=accpre),
+            float_compare(
+                sum(payments.mapped("amount")), 53.0, precision_digits=precision
+            ),
             0,
         )
-        self.assertEqual(agrolait_bank_line.payment_reference, invoice1.name)
-        self.assertEqual(
-            agrolait_bank_line.partner_bank_id, invoice1.mandate_id.partner_bank_id
-        )
+        if different_dates:
+            payments[1].payment_line_ids[:1].date = payments[0].payment_line_ids[
+                :1
+            ].date + timedelta(days=1)
         action = payment_order.open2generated()
         self.assertEqual(payment_order.state, "generated")
         self.assertEqual(action["res_model"], "ir.attachment")
         attachment = self.attachment_model.browse(action["res_id"])
-        self.assertEqual(attachment.name[-4:], ".xml")
-        xml_file = base64.b64decode(attachment.datas)
+        self.assertTrue(attachment.name.endswith(".xml"))
+        xml_file = bytes(attachment.raw)
         xml_root = etree.fromstring(xml_file)
-        namespaces = xml_root.nsmap
-        namespaces["p"] = xml_root.nsmap[None]
-        namespaces.pop(None)
-        pay_method_xpath = xml_root.xpath("//p:PmtInf/p:PmtMtd", namespaces=namespaces)
-        self.assertEqual(pay_method_xpath[0].text, "DD")
-        sepa_xpath = xml_root.xpath(
-            "//p:PmtInf/p:PmtTpInf/p:SvcLvl/p:Cd", namespaces=namespaces
-        )
-        self.assertEqual(sepa_xpath[0].text, "SEPA")
-        debtor_acc_xpath = xml_root.xpath(
-            "//p:PmtInf/p:CdtrAcct/p:Id/p:IBAN", namespaces=namespaces
+        namespaces = {"p": xml_root.nsmap[None]}
+        xsd_path = f"account_banking_sepa_direct_debit/data/{pain_version}.xsd"
+        with file_open(xsd_path) as xsd_file:
+            schema = etree.XMLSchema(etree.parse(xsd_file))
+        schema.assertValid(xml_root)
+
+        payment_infos = xml_root.xpath("//p:PmtInf", namespaces=namespaces)
+        self.assertEqual(len(payment_infos), 2)
+        self.assertEqual(
+            xml_root.xpath("string(//p:GrpHdr/p:NbOfTxs)", namespaces=namespaces), "2"
         )
         self.assertEqual(
-            debtor_acc_xpath[0].text,
-            payment_order.company_partner_bank_id.sanitized_acc_number,
+            xml_root.xpath("string(//p:GrpHdr/p:CtrlSum)", namespaces=namespaces),
+            "53.00",
         )
+        self.assertEqual(
+            [
+                int(value)
+                for value in xml_root.xpath(
+                    "//p:PmtInf/p:NbOfTxs/text()", namespaces=namespaces
+                )
+            ],
+            [1, 1],
+        )
+        self.assertCountEqual(
+            xml_root.xpath(
+                "//p:PmtInf/p:PmtTpInf/p:LclInstrm/p:Cd/text()", namespaces=namespaces
+            ),
+            [self.mandate2.scheme, self.mandate12.scheme],
+        )
+        self.assertCountEqual(
+            xml_root.xpath(
+                "//p:PmtInf/p:PmtTpInf/p:SeqTp/text()", namespaces=namespaces
+            ),
+            [
+                {"first": "FRST", "recurring": "RCUR", "final": "FNAL"}[sequence_type],
+                "OOFF" if oneoff else "FRST",
+            ],
+        )
+        self.assertCountEqual(
+            xml_root.xpath("//p:PmtInf/p:CtrlSum/text()", namespaces=namespaces),
+            ["42.00", "11.00"],
+        )
+        instruction_ids = xml_root.xpath(
+            "//p:DrctDbtTxInf/p:PmtId/p:EndToEndId/text()", namespaces=namespaces
+        )
+        self.assertEqual(len(instruction_ids), 2)
+        self.assertEqual(len(set(instruction_ids)), 2)
+
+        creditor_identifiers = xml_root.xpath(
+            "//p:CdtrSchmeId//p:Id/text()", namespaces=namespaces
+        )
+        self.assertIn(expected_creditor_identifier, creditor_identifiers)
+        creditor_accounts = xml_root.xpath(
+            "//p:PmtInf/p:CdtrAcct/p:Id/p:IBAN/text()", namespaces=namespaces
+        )
+        self.assertTrue(creditor_accounts)
+        self.assertTrue(
+            all(
+                account == self.company_bank.account_number.replace(" ", "")
+                for account in creditor_accounts
+            )
+        )
+        requested_dates = {
+            fields.Date.to_string(date) for date in payments.mapped("payment_line_date")
+        }
+        xml_requested_dates = set(
+            xml_root.xpath("//p:PmtInf/p:ReqdColltnDt/text()", namespaces=namespaces)
+        )
+        self.assertEqual(xml_requested_dates, requested_dates)
+        if different_dates:
+            self.assertEqual(len(xml_requested_dates), 2)
+
+        # Generating the file alone must not consume a mandate or change its sequence.
+        self.assertEqual(self.mandate2.state, "valid")
+        self.assertEqual(self.mandate2.recurrent_sequence_type, sequence_type)
+        self.assertFalse(self.mandate2.last_debit_date)
+        self.assertEqual(self.mandate12.state, "valid")
+        self.assertFalse(self.mandate12.last_debit_date)
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "uploaded")
-        self.assertEqual(self.mandate2.recurrent_sequence_type, "recurring")
+        self.assertTrue(self.mandate2.last_debit_date)
+        if sequence_type == "first":
+            self.assertEqual(self.mandate2.recurrent_sequence_type, "recurring")
+        elif sequence_type == "final":
+            self.assertEqual(self.mandate2.state, "expired")
+        else:
+            self.assertEqual(self.mandate2.recurrent_sequence_type, "recurring")
+        if oneoff:
+            self.assertEqual(self.mandate12.state, "expired")
+            self.assertFalse(self.partner_c2c.valid_mandate_id)
+        else:
+            self.assertEqual(self.mandate12.recurrent_sequence_type, "recurring")
 
     def create_invoice(self, partner_id, mandate, price_unit, inv_type="out_invoice"):
-        invoice_vals = [
+        invoice_lines = [
             (
                 0,
                 0,
@@ -361,32 +251,14 @@ class TestSDDBase(TransactionCase):
             {
                 "partner_id": partner_id,
                 "reference_type": "none",
-                "currency_id": self.env.ref("base.EUR").id,
+                "currency_id": self.eur_currency.id,
                 "move_type": inv_type,
                 "journal_id": self.journal_sale_company_B.id,
                 "date": fields.Date.today(),
                 "payment_mode_id": self.payment_mode.id,
-                "mandate_id": mandate.id,
-                "invoice_line_ids": invoice_vals,
+                "mandate_id": mandate.id if mandate else False,
+                "invoice_line_ids": invoice_lines,
             }
         )
         invoice.action_post()
         return invoice
-
-
-class TestSDD(TestSDDBase):
-    def test_pain_001_02(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.001.02"
-        self.check_sdd()
-
-    def test_pain_003_02(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.003.02"
-        self.check_sdd()
-
-    def test_pain_001_03(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.001.03"
-        self.check_sdd()
-
-    def test_pain_001_04(self):
-        self.payment_mode.payment_method_id.pain_version = "pain.008.001.04"
-        self.check_sdd()

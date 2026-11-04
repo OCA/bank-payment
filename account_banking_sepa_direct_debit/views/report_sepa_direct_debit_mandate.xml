@@ -274,7 +274,7 @@
                                 </t>
                             </div>
                             <div class="col-10 offset-2 under-line mt4">
-                                <span t-field="doc.partner_bank_id.acc_number" />
+                                <span t-field="doc.partner_bank_id.account_number" />
                             </div>
                             <div class="col-12">
                                 <em>Type of payment:</em>

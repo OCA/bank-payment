@@ -20,8 +20,6 @@
         <br /><br />
         Your SEPA Mandate for <t
                     t-out="object.company_id.name or ''"
-                    contenteditable="false"
-                    data-oe-t-inline="true"
                 >YourCompany</t> is pending to sign.
         <br /><br />
         Do not hesitate to contact us if you have any questions.
