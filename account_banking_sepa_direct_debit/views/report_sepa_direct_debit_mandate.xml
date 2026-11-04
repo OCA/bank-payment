@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="sepa_direct_debit_mandate_document">
         <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
@@ -11,9 +11,9 @@
                 <div class="col-12 text-center">
                     <img
                         t-if="doc.company_id.logo"
+                        class="float-left"
                         t-att-src="image_data_uri(doc.company_id.logo)"
                         style="max-height: 45px;"
-                        class="float-left"
                     />
                     <h4 t-if="doc.scheme != 'B2B'">
                         <strong>Sepa Direct Debit Mandate</strong>
@@ -41,7 +41,7 @@
                             <t t-if="is_not_english">
                             <span
                                 class="native_lang"
-                                t-esc="'(To be completed by the creditor)'"
+                                t-out="'(To be completed by the creditor)'"
                             />
                         </t>
                         </div>
@@ -51,7 +51,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Mandate Reference)'"
+                                        t-out="'(Mandate Reference)'"
                                     />
                                 </t>
                             </div>
@@ -63,7 +63,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Identifier)'"
+                                        t-out="'(Identifier)'"
                                     />
                                 </t>
                             </div>
@@ -77,7 +77,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Creditor\'s Name)'"
+                                        t-out="'(Creditor\'s Name)'"
                                     />
                                 </t>
                             </div>
@@ -89,7 +89,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Address)'"
+                                        t-out="'(Address)'"
                                     />
                                 </t>
                             </div>
@@ -101,7 +101,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Postal Code - City - Town)'"
+                                        t-out="'(Postal Code - City - Town)'"
                                     />
                                 </t>
                             </div>
@@ -115,7 +115,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Country)'"
+                                        t-out="'(Country)'"
                                     />
                                 </t>
                             </div>
@@ -143,14 +143,14 @@
                            <br />
                            <span
                         class="native_lang"
-                        t-esc="'(By signing this mandate form, you authorise (A) '"
+                        t-out="'(By signing this mandate form, you authorise (A) '"
                     />
                            <t t-if="doc.scheme == 'B2B'">
                         <span class="native_lang" t-field="doc.company_id.name" />
                     </t>
                            <span
                         class="native_lang"
-                        t-esc="' to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from '"
+                        t-out="' to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from '"
                     />
                            <t t-if="doc.scheme == 'B2B'">
                         <span class="native_lang" t-field="doc.company_id.name" />
@@ -170,7 +170,7 @@
                         <br />
                         <span
                             class="native_lang"
-                            t-esc="'(This mandate is only intended for business-to-business transactions. You are not entitled to a refund from your bank after your account has been debited, but you are entitled to request your bank not to debit your account up until the day on which the payment is due.)'"
+                            t-out="'(This mandate is only intended for business-to-business transactions. You are not entitled to a refund from your bank after your account has been debited, but you are entitled to request your bank not to debit your account up until the day on which the payment is due.)'"
                         />
                     </t>
                     </p>
@@ -183,7 +183,7 @@
                         <br />
                         <span
                             class="native_lang"
-                            t-esc="'(As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimed within 8 weeks starting from the date on which your account was debited.)'"
+                            t-out="'(As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimed within 8 weeks starting from the date on which your account was debited.)'"
                         />
                     </t>
                     </p>
@@ -197,7 +197,7 @@
                             <t t-if="is_not_english">
                             <span
                                 class="native_lang"
-                                t-esc="'(To be completed by the debtor)'"
+                                t-out="'(To be completed by the debtor)'"
                             />
                         </t>
                         </div>
@@ -207,7 +207,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Debtor\'s Name)'"
+                                        t-out="'(Debtor\'s Name)'"
                                     />
                                 </t>
                             </div>
@@ -219,7 +219,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Address of the Debtor)'"
+                                        t-out="'(Address of the Debtor)'"
                                     />
                                 </t>
                             </div>
@@ -231,7 +231,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Postal Code - City - Town)'"
+                                        t-out="'(Postal Code - City - Town)'"
                                     />
                                 </t>
                             </div>
@@ -245,7 +245,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Country of the debtor)'"
+                                        t-out="'(Country of the debtor)'"
                                     />
                                 </t>
                             </div>
@@ -257,7 +257,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Swift BIC, up to 8 or 11 characteres)'"
+                                        t-out="'(Swift BIC, up to 8 or 11 characteres)'"
                                     />
                                 </t>
                             </div>
@@ -269,7 +269,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Account Number - IBAN)'"
+                                        t-out="'(Account Number - IBAN)'"
                                     />
                                 </t>
                             </div>
@@ -281,7 +281,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Type of payment)'"
+                                        t-out="'(Type of payment)'"
                                     />
                                 </t>
                             </div>
@@ -294,7 +294,7 @@
                                     <t t-if="is_not_english">
                                 <span
                                     class="native_lang native_lang_small"
-                                    t-esc="'(Recurrent)'"
+                                    t-out="'(Recurrent)'"
                                 />
                             </t>
                                 </input>
@@ -307,7 +307,7 @@
                                     <t t-if="is_not_english">
                                 <span
                                     class="native_lang native_lang_small"
-                                    t-esc="'(One-Off)'"
+                                    t-out="'(One-Off)'"
                                 />
                             </t>
                                 </input>
@@ -317,7 +317,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Date - Location)'"
+                                        t-out="'(Date - Location)'"
                                     />
                                 </t>
                             </div>
@@ -327,7 +327,7 @@
                                 <t t-if="is_not_english">
                                     <span
                                         class="native_lang native_lang_small"
-                                        t-esc="'(Signature of the debtor)'"
+                                        t-out="'(Signature of the debtor)'"
                                     />
                                 </t>
                             </div>
@@ -344,7 +344,7 @@
                         <br />
                         <span
                             class="native_lang"
-                            t-esc="'(ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.)'"
+                            t-out="'(ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE.)'"
                         />
                     </t>
                     </p>
@@ -356,7 +356,7 @@
                         <br />
                         <span
                             class="native_lang"
-                            t-esc="'(ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE. NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT. THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK.)'"
+                            t-out="'(ALL GAPS ARE MANDATORY. ONCE THIS MANDATE HAS BEEN SIGNED MUST BE SENT TO CREDITOR FOR STORAGE. NEVERTHELESS, THE BANK OF DEBTOR REQUIRES DEBTOR’S AUTHORIZATION BEFORE DEBITING B2B DIRECT DEBITS IN THE ACCOUNT. THE DEBTOR WILL BE ABLE TO MANAGE THE MENTIONED AUTHORIZATION THROUGH THE MEANS PROVIDED BY HIS BANK.)'"
                         />
                     </t>
                     </p>

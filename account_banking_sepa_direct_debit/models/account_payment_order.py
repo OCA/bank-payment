@@ -21,19 +21,11 @@ class AccountPaymentOrder(models.Model):
         # We use pain_flavor.startswith('pain.008.001.xx')
         # to support country-specific extensions such as
         # pain.008.001.02.ch.01 (cf l10n_ch_sepa)
-        if pain_flavor.startswith("pain.008.001.02"):
+        if pain_flavor.startswith(("pain.008.001.02", "pain.008.003.02")):
             bic_xml_tag = "BIC"
             name_maxsize = 70
             root_xml_tag = "CstmrDrctDbtInitn"
-        elif pain_flavor.startswith("pain.008.003.02"):
-            bic_xml_tag = "BIC"
-            name_maxsize = 70
-            root_xml_tag = "CstmrDrctDbtInitn"
-        elif pain_flavor.startswith("pain.008.001.03"):
-            bic_xml_tag = "BICFI"
-            name_maxsize = 140
-            root_xml_tag = "CstmrDrctDbtInitn"
-        elif pain_flavor.startswith("pain.008.001.04"):
+        elif pain_flavor.startswith(("pain.008.001.03", "pain.008.001.04")):
             bic_xml_tag = "BICFI"
             name_maxsize = 140
             root_xml_tag = "CstmrDrctDbtInitn"
@@ -64,7 +56,7 @@ class AccountPaymentOrder(models.Model):
         pain_root = etree.SubElement(xml_root, root_xml_tag)
         # A. Group header
         (
-            group_header,
+            _group_header,
             nb_of_transactions_a,
             control_sum_a,
         ) = self.generate_group_header_block(pain_root, gen_args)

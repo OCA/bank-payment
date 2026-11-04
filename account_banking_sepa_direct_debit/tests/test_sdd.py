@@ -343,7 +343,6 @@ class TestSDDBase(TransactionCase):
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "uploaded")
         self.assertEqual(self.mandate2.recurrent_sequence_type, "recurring")
-        return
 
     def create_invoice(self, partner_id, mandate, price_unit, inv_type="out_invoice"):
         invoice_vals = [

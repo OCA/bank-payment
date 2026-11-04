@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="paperformat_euro_sepa_lowmargin" model="report.paperformat">
         <field name="name">European A4 low margin for SEPA</field>

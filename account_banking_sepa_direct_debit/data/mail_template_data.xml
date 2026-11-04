@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
     <record id="email_template_sepa_mandate" model="mail.template">
         <field name="name">SEPA Mandate: Send by email</field>

@@ -3,7 +3,6 @@
 # Copyright 2024 Tecnativa - Carolina Fernandez
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 import logging
-from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
@@ -92,7 +91,7 @@ class AccountBankingMandate(models.Model):
 
     def _sdd_mandate_set_state_to_expired(self):
         logger.info("Searching for SDD Mandates that must be set to Expired")
-        expire_limit_date = datetime.today() + relativedelta(
+        expire_limit_date = fields.Date.today() + relativedelta(
             months=-NUMBER_OF_UNUSED_MONTHS_BEFORE_EXPIRY
         )
         expired_mandates = self.search(
