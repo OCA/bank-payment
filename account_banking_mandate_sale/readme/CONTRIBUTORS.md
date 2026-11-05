@@ -1,2 +1,4 @@
 - Alexis de Lattre \<<alexis.delattre@akretion.com>\>
 - Thomas Binsfeld \<<thomas.binsfeld@acsone.eu>\>
+- [Studio73](https://www.studio73.es):
+  - Pablo Cortés
