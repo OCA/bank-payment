@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==============================================
 Account Payment Order - Generate grouped moves
 ==============================================
@@ -17,7 +13,7 @@ Account Payment Order - Generate grouped moves
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fbank--payment-lightgray.png?logo=github
@@ -38,6 +34,12 @@ payment orders since the refactoring done to use native Odoo payments.
 This serves for easing the reconciliation on bank statements of large
 payment orders, handling them as one or several journal entries
 according payment date.
+
+On large orders, the payments in each grouped move are reconciled in
+batches instead of all at once, to avoid exhausting memory. The batch
+size defaults to 1000 and can be changed with the
+``account_payment_order_grouped_output.reconcile_batch_size`` system
+parameter.
 
 **Table of contents**
 
