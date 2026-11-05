@@ -1,0 +1,4 @@
+odoo-addon-account_payment_mode @ git+https://github.com/OCA/bank-payment.git@refs/pull/1635/head#subdirectory=account_payment_mode
+odoo-addon-account_payment_order @ git+https://github.com/OCA/bank-payment.git@refs/pull/1636/head#subdirectory=account_payment_order
+odoo-addon-account_banking_mandate @ git+https://github.com/OCA/bank-payment.git@refs/pull/1644/head#subdirectory=account_banking_mandate
+odoo-addon-account_payment_sale @ git+https://github.com/OCA/bank-payment.git@refs/pull/1647/head#subdirectory=account_payment_sale
