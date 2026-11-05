@@ -1,7 +1,7 @@
 # Copyright 2022 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from datetime import date, timedelta
+from datetime import timedelta
 
 from freezegun import freeze_time
 
@@ -87,7 +87,7 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
             "communication": "manual line and manual date",
             "currency_id": self.order.payment_mode_id.company_id.currency_id.id,
             "amount_currency": 192.38,
-            "date": date.today() + timedelta(days=8),
+            "date": fields.Date.today() + timedelta(days=8),
         }
         self.env["account.payment.line"].create(vals)
         self.order.date_prefered = "fixed"

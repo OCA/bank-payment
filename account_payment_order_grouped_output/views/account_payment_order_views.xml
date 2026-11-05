@@ -12,7 +12,7 @@
                     class="oe_stat_button"
                     name="action_grouped_moves"
                     type="object"
-                    icon="fa-bars"
+                    icon="menu"
                 >
                     <field
                         string="Grouped Entries"
