@@ -70,3 +70,17 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         self.assertEqual(self.order.grouped_move_count, 1)
         self.order.action_uploaded_cancel()
         self.assertFalse(self.order.grouped_move_count)
+        # Without outstanding account on the payment methods (default setup), the
+        # company one is used
+        self.order.cancel2draft()
+        self.bank_journal.outbound_payment_method_line_ids.payment_account_id = False
+        self.order.draft2open()
+        self.order.open2generated()
+        self.order.generated2uploaded()
+        self.assertEqual(self.order.grouped_move_count, 1)
+        self.assertIn(
+            self.env["account.chart.template"].ref(
+                "account_journal_payment_credit_account_id"
+            ),
+            self.order.grouped_move_ids.line_ids.account_id,
+        )

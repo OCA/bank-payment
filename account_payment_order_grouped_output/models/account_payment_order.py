@@ -124,10 +124,7 @@ class AccountPaymentOrder(models.Model):
         apml = self.env["account.payment.method.line"].search(domain)
         if apml.payment_account_id:
             return apml.payment_account_id
-        elif self.payment_type == "inbound":
-            return payment.company_id.account_journal_payment_debit_account_id
-        else:
-            return payment.company_id.account_journal_payment_credit_account_id
+        return payment._get_outstanding_account(self.payment_type)
 
     def _prepare_move_line_partner_account(self, payment):
         if self.payment_type == "outbound":
