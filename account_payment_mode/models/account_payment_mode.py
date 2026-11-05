@@ -75,6 +75,105 @@ class AccountPaymentMode(models.Model):
         self.variable_journal_ids = False
         self.fixed_journal_id = False
 
+    @api.constrains("name", "company_id", "active")
+    def _check_name_unique(self):
+        """Forbid several active payment modes with the same name in a company.
+
+        This is implemented as a Python constraint and not as a SQL UNIQUE
+        constraint because 'name' is a translated field: it is stored as a
+        jsonb column, so a unique index would compare the whole translation
+        dictionary rather than the name the user actually sees. It would let
+        {"en_US": "Boleto"} and {"en_US": "Boleto", "fr_FR": "Boleto"} coexist
+        while wrongly rejecting two records that merely share the same
+        translations.
+        """
+        modes = self.filtered("active")
+        if not modes:
+            return
+        # sudo() because uniqueness must hold company-wide, even if multi-company
+        # record rules hide part of the existing payment modes from the user.
+        existing = (
+            self.sudo()
+            .with_context(active_test=True)
+            .search([("company_id", "in", modes.company_id.ids)])
+        )
+        # Names are compared case-insensitively and without surrounding blanks:
+        # "BOLETO", "Boleto" and "boleto " are duplicates for a human being.
+        seen = {}
+        for mode in existing - modes:
+            seen.setdefault(mode._name_unique_key(), mode)
+        for mode in modes:
+            key = mode._name_unique_key()
+            if key in seen:
+                raise ValidationError(
+                    _(
+                        "There is already a payment mode named '%(existing)s' in "
+                        "company %(company)s. Payment mode names must be unique "
+                        "per company: please reuse that payment mode instead of "
+                        "creating a new one, or choose a different name.",
+                        existing=seen[key].name,
+                        company=mode.company_id.display_name,
+                    )
+                )
+            seen[key] = mode
+
+    def _name_unique_key(self):
+        """Key used to detect duplicated payment mode names."""
+        self.ensure_one()
+        return self._name_unique_key_for(self.company_id.id, self.name)
+
+    @api.model
+    def _name_unique_key_for(self, company_id, name):
+        return (company_id, (name or "").strip().casefold())
+
+    @api.model
+    def _get_free_name(self, name, company_id, taken_keys):
+        """Return `name` itself if free in that company, a "(copy)" one otherwise."""
+        name = name or ""
+
+        def is_free(candidate):
+            return self._name_unique_key_for(company_id, candidate) not in taken_keys
+
+        if is_free(name):
+            return name
+        candidate = _("%(name)s (copy)", name=name)
+        counter = 2
+        while not is_free(candidate):
+            candidate = _("%(name)s (copy %(counter)s)", name=name, counter=counter)
+            counter += 1
+        return candidate
+
+    def copy_data(self, default=None):
+        """Rename copies whose name is already taken in the target company.
+
+        Names are unique per active payment mode and company, so a copy cannot
+        always keep the name of its original: fall back to a free "(copy)" name,
+        the way Odoo core does for journals, instead of letting
+        `_check_name_unique` reject the standard Duplicate action.
+        """
+        default = dict(default or {})
+        vals_list = super().copy_data(default)
+        if "name" in default:
+            return vals_list
+        company_ids = {
+            vals.get("company_id") or mode.company_id.id
+            for mode, vals in zip(self, vals_list, strict=False)
+            if vals
+        }
+        # sudo() for the same reason as in `_check_name_unique`: the names to
+        # avoid are the ones of the whole company, not only the visible ones.
+        taken_keys = {
+            mode._name_unique_key()
+            for mode in self.sudo().search([("company_id", "in", list(company_ids))])
+        }
+        for mode, vals in zip(self, vals_list, strict=False):
+            if not vals:
+                continue
+            company_id = vals.get("company_id") or mode.company_id.id
+            vals["name"] = self._get_free_name(mode.name, company_id, taken_keys)
+            taken_keys.add(self._name_unique_key_for(company_id, vals["name"]))
+        return vals_list
+
     @api.constrains("bank_account_link", "fixed_journal_id", "payment_method_id")
     def bank_account_link_constrains(self):
         for mode in self.filtered(lambda x: x.bank_account_link == "fixed"):
