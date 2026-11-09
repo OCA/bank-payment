@@ -15,7 +15,7 @@
                     domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]"
                     required="mandate_required and move_type in ('out_invoice', 'out_refund')"
                     invisible="not mandate_required or move_type not in ('out_invoice', 'out_refund')"
-                    readonly="state != 'draft'"
+                    readonly="has_reconciled_items"
                 />
                 <field name="mandate_required" invisible="1" />
             </field>
