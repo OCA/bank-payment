@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_payment_schedule_order_form" model="ir.ui.view">
+        <field name="model">account.payment.schedule.order</field>
+        <field name="arch" type="xml">
+            <form string="Create Payment Orders">
+                <div class="alert alert-info" role="alert">
+                    Each scheduled date becomes a draft payment order per payment mode.
+                    Confirming the order is the approval to pay. A date in the past
+                    becomes today.
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    invisible="not cash_warning"
+                >
+                    <field name="cash_warning" nolabel="1" />
+                </div>
+                <field name="line_ids" invisible="1" />
+                <field name="company_currency_id" invisible="1" />
+                <group>
+                    <field name="ready_amount" />
+                </group>
+                <separator string="Items to Schedule" />
+                <field name="ready_line_ids" nolabel="1">
+                    <list>
+                        <field name="company_currency_id" column_invisible="1" />
+                        <field name="partner_id" />
+                        <field name="move_id" string="Document" />
+                        <field name="date_maturity" />
+                        <field name="payment_schedule_date" />
+                        <field name="payment_mode_id" />
+                        <field name="partner_bank_id" />
+                        <field name="amount_residual" sum="Total" />
+                    </list>
+                </field>
+                <separator string="Items Left Out" invisible="not skipped_line_ids" />
+                <field
+                    name="skipped_line_ids"
+                    nolabel="1"
+                    invisible="not skipped_line_ids"
+                >
+                    <list>
+                        <field name="company_currency_id" column_invisible="1" />
+                        <field name="partner_id" />
+                        <field name="move_id" string="Document" />
+                        <field name="amount_residual" />
+                        <field name="payment_schedule_state" string="Reason" />
+                        <field name="payment_schedule_order_id" />
+                    </list>
+                </field>
+                <footer>
+                    <button
+                        name="action_create_orders"
+                        type="object"
+                        string="Create Payment Orders"
+                        class="btn-primary"
+                        invisible="not ready_line_ids"
+                    />
+                    <button special="cancel" string="Cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
