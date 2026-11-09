@@ -203,10 +203,18 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         line_created_due.create_payment_lines()
         self.assertGreater(len(order.payment_line_ids), 0)
         order.draft2open()
+        self.assertEqual(order.payment_ids[0].memo, order.name)
         self.assertEqual(order.payment_ids[0].partner_bank_id, self.partner.bank_ids)
         order.open2generated()
         order.generated2uploaded()
+        self.assertEqual(order.move_ids[0].ref, order.payment_ids[0].memo)
         self.assertEqual(order.move_ids[0].date, order.payment_ids[0].date)
+        self.assertEqual(
+            order.move_ids[0].line_ids[0].name, order.payment_ids[0].payment_reference
+        )
+        self.assertEqual(
+            order.move_ids[0].line_ids[1].name, order.payment_ids[0].payment_reference
+        )
         self.assertEqual(order.state, "uploaded")
 
     def test_account_payment_line_creation_without_payment_mode(self):
