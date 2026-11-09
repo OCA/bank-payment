@@ -9,7 +9,6 @@ class ResPartner(models.Model):
 
     contact_mandate_id = fields.Many2one(
         comodel_name="account.banking.mandate",
-        string="Contact Mandate",
         company_dependent=True,
     )
 
