@@ -122,6 +122,8 @@ Contributors
   * Pedro M. Baeza
   * Carlos Dauden
   * Carlos Roca
+  * Cristina Hidalgo
+  * Adasat Torres 
 
 * `Open Source Integrators <https://www.opensourceintegrators.com>`_:
 
