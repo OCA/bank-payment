@@ -31,7 +31,7 @@ addon | version | maintainers | summary
 [account_payment_method_fs_storage](account_payment_method_fs_storage/) | 16.0.1.0.3 |  | Add the possibility to specify on the payment method, a storage where files generated will be pushed to upon payment
 [account_payment_mode](account_payment_mode/) | 16.0.2.0.0 |  | Account Payment Mode
 [account_payment_order](account_payment_order/) | 16.0.1.14.0 |  | Account Payment Order
-[account_payment_order_grouped_output](account_payment_order_grouped_output/) | 16.0.1.0.4 |  | Account Payment Order - Generate grouped moves
+[account_payment_order_grouped_output](account_payment_order_grouped_output/) | 16.0.1.0.5 |  | Account Payment Order - Generate grouped moves
 [account_payment_order_notification](account_payment_order_notification/) | 16.0.1.0.3 | <a href='https://github.com/victoralmau'><img src='https://github.com/victoralmau.png' width='32' height='32' style='border-radius:50%;' alt='victoralmau'/></a> | Account Payment Order Notification
 [account_payment_order_return](account_payment_order_return/) | 16.0.1.0.1 |  | Account Payment Order Return
 [account_payment_order_tier_validation](account_payment_order_tier_validation/) | 16.0.1.1.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Extends the functionality of Payment Orders to support a tier validation process.
