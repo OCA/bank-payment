@@ -27,7 +27,11 @@ class AccountPaymentMethod(models.Model):
 
     @api.depends("code", "name", "payment_type")
     def _compute_display_name(self):
+        # Use the translatable label of the selection (e.g. "Outbound") instead
+        # of its technical value (e.g. "outbound"), in the user's language.
+        payment_types = dict(
+            self._fields["payment_type"]._description_selection(self.env)
+        )
         for method in self:
-            method.display_name = (
-                f"[{method.code}] {method.name} ({method.payment_type})"
-            )
+            payment_type = payment_types.get(method.payment_type, method.payment_type)
+            method.display_name = f"[{method.code}] {method.name} ({payment_type})"
