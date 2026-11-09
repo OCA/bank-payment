@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <function
+        model="ir.default"
+        name="set"
+        eval="(
+            'res.partner',
+            'supplier_payment_mode_id',
+            ref('account_payment_mode.payment_mode_outbound_ct1'),
+            False,
+            ref('base.main_company')
+        )"
+    />
+    <function
+        model="ir.default"
+        name="set"
+        eval="(
+            'res.partner',
+            'customer_payment_mode_id',
+            ref('account_payment_mode.payment_mode_inbound_ct1'),
+            False,
+            ref('base.main_company')
+        )"
+    />
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2014-2016 Akretion (http://www.akretion.com/)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_partner_property_form" model="ir.ui.view">
+        <field name="name">account_partner_payment.partner_form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <field name="property_payment_term_id" position="after">
+                <field
+                    name="customer_payment_mode_id"
+                    options="{'no_open': True, 'no_create': True}"
+                />
+            </field>
+            <field name="property_supplier_payment_term_id" position="after">
+                <field
+                    name="supplier_payment_mode_id"
+                    options="{'no_open': True, 'no_create': True}"
+                />
+            </field>
+            <field name="property_inbound_payment_method_line_id" position="attributes">
+                <attribute
+                    name="groups"
+                >account_payment_partner.group_show_account_payment_method</attribute>
+            </field>
+            <field
+                name="property_outbound_payment_method_line_id"
+                position="attributes"
+            >
+                <attribute
+                    name="groups"
+                >account_payment_partner.group_show_account_payment_method</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>
