@@ -23,6 +23,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="row mt16 o_settings_container" id="allow_out_payment_order">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="use_allow_out_payment" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="use_allow_out_payment" />
+                            <div class="text-muted">
+                                If checked, we will check that the account on payment order can be used for out payments
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </xpath>
         </field>
     </record>
