@@ -102,19 +102,23 @@ def create_moves_from_orphan_account_payments(env):
             )
             .browse(row[0])
         )
-        move = env["account.move"].create(
-            {
-                "name": "/",
-                "date": row[1],
-                "payment_id": payment.id,
-                "move_type": "entry",
-                "company_id": row[2],
-                "ref": row[3],
-                "journal_id": row[4],
-                "currency_id": row[5],
-                "state": "draft" if row[6] in {"open", "generated"} else "cancel",
-                "payment_order_id": row[7],
-            }
+        move = (
+            env["account.move"]
+            .with_company(row[2])
+            .create(
+                {
+                    "name": "/",
+                    "date": row[1],
+                    "payment_id": payment.id,
+                    "move_type": "entry",
+                    "company_id": row[2],
+                    "ref": row[3],
+                    "journal_id": row[4],
+                    "currency_id": row[5],
+                    "state": "draft" if row[6] in {"open", "generated"} else "cancel",
+                    "payment_order_id": row[7],
+                }
+            )
         )
         payment.move_id = move
         # Avoid deprecated account warning
