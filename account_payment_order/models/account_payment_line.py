@@ -218,9 +218,9 @@ class AccountPaymentLine(models.Model):
             vals["payment_method_line_id"] = line.id
         # Determine partner_type
         move_type = self[:1].move_line_id.move_id.move_type
-        if move_type in {"out_invoice", "out_refund"}:
+        if move_type in {"out_invoice", "out_receipt", "out_refund"}:
             vals["partner_type"] = "customer"
-        elif move_type in {"in_invoice", "in_refund"}:
+        elif move_type in {"in_invoice", "in_receipt", "in_refund"}:
             vals["partner_type"] = "supplier"
         else:
             p_type = "customer" if vals["payment_type"] == "inbound" else "supplier"

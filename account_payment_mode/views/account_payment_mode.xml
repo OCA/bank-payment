@@ -48,7 +48,12 @@
                         />
                     </group>
                     <group string="Note" name="note">
-                        <field name="note" nolabel="1" colspan="2" />
+                        <field
+                            name="note"
+                            options="{'codeview': true}"
+                            nolabel="1"
+                            colspan="2"
+                        />
                     </group>
                 </sheet>
             </form>

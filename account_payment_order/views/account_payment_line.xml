@@ -14,7 +14,9 @@
                         <field name="name" />
                         <field
                             name="move_line_id"
-                            domain="[('reconciled','=', False), ('account_id.reconcile', '=', True)] "
+                            domain="[('reconciled','=', False),
+                            ('account_id.reconcile', '=', True),
+                            ('parent_state', '!=', 'cancel')]"
                         />
                         <!-- we removed the filter on amount_to_pay, because we want to be able to
                         select refunds -->
