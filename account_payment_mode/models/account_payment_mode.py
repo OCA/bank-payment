@@ -19,7 +19,6 @@ class AccountPaymentMode(models.Model):
     name = fields.Char(required=True, translate=True)
     company_id = fields.Many2one(
         "res.company",
-        string="Company",
         required=True,
         ondelete="restrict",
         default=lambda self: self.env.company,
@@ -56,7 +55,6 @@ class AccountPaymentMode(models.Model):
     )
     payment_method_id = fields.Many2one(
         "account.payment.method",
-        string="Payment Method",
         required=True,
         ondelete="restrict",
     )
