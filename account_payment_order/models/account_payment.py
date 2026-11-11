@@ -54,6 +54,14 @@ class AccountPayment(models.Model):
             pay.partner_bank_id = pay.payment_line_ids.partner_bank_id
         return super(AccountPayment, self - order_pays)._compute_partner_bank_id()
 
+    def _get_aml_default_display_name_list(self):
+        if self.payment_line_ids and self.payment_reference:
+            # We only want this information to be defined as 'name' in the accounting
+            # entries for payments that come from account.payment.order and have a
+            # 'payment_reference' defined, so that we can easily identify them later
+            return [("reference", self.payment_reference)]
+        return super()._get_aml_default_display_name_list()
+
     def update_payment_reference(self):
         view = self.env.ref("account_payment_order.account_payment_update_view_form")
         return {
