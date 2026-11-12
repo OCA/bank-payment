@@ -25,8 +25,9 @@ class SaleOrder(models.Model):
             ).customer_payment_mode_id
 
     def _get_payment_mode_vals(self, vals):
+        # We need to set it if we want to use it as invoice key
+        vals["payment_mode_id"] = self.payment_mode_id.id
         if self.payment_mode_id:
-            vals["payment_mode_id"] = self.payment_mode_id.id
             if (
                 self.payment_mode_id.bank_account_link == "fixed"
                 and self.payment_mode_id.payment_method_id.code == "manual"
