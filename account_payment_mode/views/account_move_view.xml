@@ -23,7 +23,10 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
-            <field name="partner_bank_id" position="before">
+            <xpath
+                expr="//group[@id='header_right_group']//field[@name='partner_bank_id']"
+                position="before"
+            >
                 <field
                     name="payment_mode_id"
                     domain="[('payment_type', '=', payment_mode_filter_type_domain), ('company_id', '=', company_id)]"
@@ -31,7 +34,7 @@
                     readonly="has_reconciled_items"
                     invisible="move_type not in ['out_invoice','out_refund','in_invoice','in_refund']"
                 />
-            </field>
+            </xpath>
             <xpath
                 expr="//group[@id='header_right_group']//field[@name='partner_bank_id']"
                 position="attributes"
