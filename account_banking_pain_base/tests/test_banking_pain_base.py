@@ -128,6 +128,24 @@ class TestBankingPainBase(TransactionCase):
                 root, partner, gen_args
             )
 
+    def test_pain09_blank_city_is_required(self):
+        country = self.env["res.country"].search([("code", "=", "NL")], limit=1)
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Hybrid Partner 09 Blank City",
+                "street": "Oudestraat 1",
+                "zip": "3842 NK",
+                "city": "   ",
+                "country_id": country.id,
+            }
+        )
+        gen_args = {"pain_flavor": "pain.001.001.09"}
+        for mode in ("minimal", "hybrid"):
+            self.pay_mode.payment_method_id.sepa_pain09_address_mode = mode
+            root = etree.Element("Root")
+            with self.assertRaises(UserError):
+                self.po.generate_address_block(root, partner, gen_args)
+
     def test_hybrid_address_block_pain09_hybrid(self):
         country = self.env["res.country"].search([("code", "=", "NL")], limit=1)
         partner = self.env["res.partner"].create(
