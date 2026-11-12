@@ -75,18 +75,42 @@ class AccountPaymentOrder(models.Model):
             move.action_post()
         self.reconcile_grouped_payments(move, payments)
 
-    def reconcile_grouped_payments(self, move, payments):
-        lines_to_rec = move.line_ids[:-1]
-        for payment in payments:
-            journal = payment.journal_id
-            lines_to_rec += payment.move_id.line_ids.filtered(
-                lambda x, journal=journal: x.account_id
-                in (
-                    journal._get_journal_inbound_outstanding_payment_accounts()
-                    + journal._get_journal_outbound_outstanding_payment_accounts()
-                )
+    def _get_reconcile_grouped_payments_batch_size(self):
+        """Number of payments reconciled together in a single
+        account.move.line.reconcile() call.
+
+        Large batches can create a huge recompute backlog and exhaust memory.
+        Defaults to the `account_payment_order_grouped_output.reconcile_batch_size`
+        system parameter (default: 1000).
+        """
+        return int(
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param(
+                "account_payment_order_grouped_output.reconcile_batch_size", 1000
             )
-        lines_to_rec.reconcile()
+        )
+
+    def reconcile_grouped_payments(self, move, payments):
+        consolidated_lines = move.line_ids[:-1]
+        batch_size = self._get_reconcile_grouped_payments_batch_size()
+        for index in range(0, len(payments), batch_size):
+            batch_payments = payments[index : index + batch_size]
+            lines_to_rec = consolidated_lines[index : index + batch_size]
+            for payment in batch_payments:
+                journal = payment.journal_id
+                lines_to_rec += payment.move_id.line_ids.filtered(
+                    lambda x, journal=journal: x.account_id
+                    in (
+                        journal._get_journal_inbound_outstanding_payment_accounts()
+                        + journal._get_journal_outbound_outstanding_payment_accounts()
+                    )
+                )
+            lines_to_rec.reconcile()
+            # Process this batch's recompute backlog and release the ORM
+            # cache before starting the next one, instead of letting it
+            # accumulate for the whole order.
+            self.env.invalidate_all()
 
     def _prepare_move(self, payments=None):
         if self.payment_type == "outbound":
