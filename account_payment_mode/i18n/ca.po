@@ -1,0 +1,523 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_mode
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-21 16:40+0000\n"
+"PO-Revision-Date: 2026-01-21 16:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "# of chars"
+msgstr "Nombre de caràcters"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__show_bank_account_chars
+msgid "# of digits for customer bank account"
+msgstr "Nombre de dígits del compte bancari del client"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.report_invoice_payment_mode
+msgid "<strong>Bank Account:</strong>"
+msgstr "<strong>Compte bancari:</strong>"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.report_invoice_payment_mode
+msgid "<strong>Payment Mode:</strong>"
+msgstr "<strong>Mode de pagament:</strong>"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_line__bank_account_required
+#: model:ir.model.fields,help:account_payment_mode.field_account_move__bank_account_required
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__bank_account_required
+msgid ""
+"Activate this option if this payment method requires you to know the bank "
+"account number of your customer or supplier."
+msgstr ""
+"Activeu aquesta opció si el mètode de pagament obliga a saber el número de "
+"compte bancari del client o proveïdor."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__active
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__active
+msgid "Active"
+msgstr "Actiu"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__variable_journal_ids
+msgid "Allowed Bank Journals"
+msgstr "Diaris de banc permesos"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_form
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "Archived"
+msgstr "Arxivat"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__bank_account_required
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__bank_account_required
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__bank_account_required
+msgid "Bank Account Required"
+msgstr "El compte bancari és necessari"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__show_bank_account_from_journal
+msgid "Bank account from journals"
+msgstr "Compte bancari dels diaris"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__code
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_code
+msgid "Code (Do Not Modify)"
+msgstr "Codi (no modificar)"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
+msgid "Company"
+msgstr "Companyia"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_partner
+msgid "Contact"
+msgstr "Contacte"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__create_uid
+msgid "Created by"
+msgstr "Creat per"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__create_date
+msgid "Created on"
+msgstr "Creat el"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__customer_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_users__customer_payment_mode_id
+msgid "Customer Payment Mode"
+msgstr "Modalitat de pagament del client"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nom de visualització"
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__first
+msgid "First n chars"
+msgstr "Primers n caràcters"
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__fixed
+msgid "Fixed"
+msgstr "Fix"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__fixed_journal_id
+msgid "Fixed Bank Journal"
+msgstr "Diari de banc fix"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__bank_account_link
+msgid ""
+"For payment modes that are always attached to the same bank account of your "
+"company (such as wire transfer from customers or SEPA direct debit from "
+"suppliers), select 'Fixed'. For payment modes that are not always attached "
+"to the same bank account (such as SEPA Direct debit for customers, wire "
+"transfer to suppliers), you should select 'Variable', which means that you "
+"will select the bank account on the payment order. If your company only has "
+"one bank account, you should always select 'Fixed'."
+msgstr ""
+"Per a modes de pagament que sempre s'associen al mateix compte bancari de la "
+"companyia (com ara transferència de clients o dèbit directe SEPA de "
+"proveïdors), seleccioneu 'Fix'. Per a modes de pagament que no s'associen "
+"sempre al mateix compte bancari (com ara dèbit directe SEPA per clients o "
+"transferència per proveïdors), heu de seleccionar 'Variable', que significa "
+"que en la ordre de pagament es seleccionarà el compte bancari. Si la "
+"companyia només té un compte bancari, heu de seleccionar sempre 'Fix'."
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__full
+msgid "Full"
+msgstr "Complet"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__has_reconciled_items
+msgid "Has Reconciled Items"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+msgid "Inbound"
+msgstr "Entrant"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Estadístiques de Factures"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_journal
+msgid "Journal"
+msgstr "Diari"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_move
+msgid "Journal Entry"
+msgstr "Entrada de diari"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_move_line
+msgid "Journal Item"
+msgstr "Apunt comptable"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid "Keep Bank Account Without Payment Mode"
+msgstr ""
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.res_config_settings_view_form
+msgid ""
+"Keep the bank account auto-selected by Odoo on invoices without a payment "
+"mode. Disable to clear the bank account when no payment mode is set."
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
+msgid "Last Updated by"
+msgstr "Darrera Actualització per"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_date
+msgid "Last Updated on"
+msgstr "Darrera Actualització el"
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__last
+msgid "Last n chars"
+msgstr "Últims n caràcters"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__bank_account_link
+msgid "Link to Bank Account"
+msgstr "Enllaç al compte bancari"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+msgid "Name or Code"
+msgstr "Nom o codi"
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__no
+msgid "No"
+msgstr "No"
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/tests/test_account_payment_partner.py:0
+msgid "No Chart of Account Template has been defined !"
+msgstr "No s'ha definit cap plantilla de pla comptable!"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__note
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "Note"
+msgstr "Nota"
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed "
+"bank journal is not set"
+msgstr ""
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"On the payment mode %(paymode)s, the payment method is %(paymethod)s (it is "
+"in fact a debit method), but this debit method is not part of the debit "
+"methods of the fixed bank journal %(journal)s"
+msgstr ""
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"On the payment mode %(paymode)s, the payment method is %(paymethod)s, but "
+"this payment method is not part of the payment methods of the fixed bank "
+"journal %(journal)s"
+msgstr ""
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+msgid "Outbound"
+msgstr "Sortint"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__partner_bank_filter_type_domain
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__partner_bank_filter_type_domain
+msgid "Partner Bank Filter Type Domain"
+msgstr "Domini de tipus de filtre de banc associat"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_id
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+msgid "Payment Method"
+msgstr "Mètode de pagament"
+
+#. module: account_payment_mode
+#: model:ir.actions.act_window,name:account_payment_mode.account_payment_method_action
+#: model:ir.model,name:account_payment_mode.model_account_payment_method
+#: model:ir.ui.menu,name:account_payment_mode.account_payment_method_menu
+msgid "Payment Methods"
+msgstr "Mètodes de pagament"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__payment_mode_id
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_account_invoice_filter
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_account_invoice_report_search
+msgid "Payment Mode"
+msgstr "Mode de pagament"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__payment_mode_filter_type_domain
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__payment_mode_filter_type_domain
+msgid "Payment Mode Filter Type Domain"
+msgstr "Domini de tipus de filtre de modalitat de pagament"
+
+#. module: account_payment_mode
+#: model:ir.actions.act_window,name:account_payment_mode.account_payment_mode_action
+#: model:ir.model,name:account_payment_mode.model_account_payment_mode
+#: model:ir.ui.menu,name:account_payment_mode.account_payment_mode_menu
+msgid "Payment Modes"
+msgstr "Modes de pagament"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_type
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+msgid "Payment Type"
+msgstr "Tipus de pagament"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__payment_mode_id
+msgid "Payment mode"
+msgstr "Mode de pagament"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__refund_payment_mode_id
+msgid "Payment mode for refunds"
+msgstr "Modalitat de pagament per a devolucions"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__payment_mode_ids
+msgid "Payment modes"
+msgstr "Modes de pagament"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_move_line_form
+msgid "Payments"
+msgstr "Pagaments"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_partner__customer_payment_mode_id
+#: model:ir.model.fields,help:account_payment_mode.field_res_users__customer_payment_mode_id
+msgid "Select the default payment mode for this customer."
+msgstr "Seleccioneu el mode de pagament per defecte per a aquest client."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_partner__supplier_payment_mode_id
+#: model:ir.model.fields,help:account_payment_mode.field_res_users__supplier_payment_mode_id
+msgid "Select the default payment mode for this supplier."
+msgstr "Seleccioneu el mode de pagament per defecte per a aquest proveïdor."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__show_bank_account
+msgid "Show Bank Account"
+msgstr ""
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "Show bank account in invoice report"
+msgstr "Mostra compte bancari a l'informe de factura"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__show_bank_account
+msgid "Show in invoices partial or full bank account number"
+msgstr "Mostra en les factures el número de compte bancari parcial o complet"
+
+#. module: account_payment_mode
+#: model:res.groups,name:account_payment_mode.group_show_account_payment_method
+msgid "Show the default payment method line in contacts"
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__supplier_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_users__supplier_payment_mode_id
+msgid "Supplier Payment Mode"
+msgstr "Mode de pagament del proveïdor"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_mode.field_account_move__has_reconciled_items
+msgid "Technical field for supporting the editability of the payment mode"
+msgstr ""
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_journal.py:0
+msgid ""
+"The company of the journal  %(journal)s does not match with the company of "
+"the payment mode  %(paymode)s where it is being used in the Allowed Bank "
+"Journals."
+msgstr ""
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_journal.py:0
+msgid ""
+"The company of the journal %(journal)s does not match with the company of "
+"the payment mode %(paymode)s where it is being used as Fixed Bank Journal."
+msgstr ""
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"The company of the payment mode %(paymode)s, does not match with one of the "
+"Allowed Bank Journals."
+msgstr ""
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__code
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__payment_method_code
+msgid ""
+"This code is used in the code of the Odoo module that handles this payment "
+"method. Therefore, if you change it, the generation of the payment file may "
+"fail."
+msgstr ""
+"Aquest codi s'utilitza al codi del mòdul Odoo que gestiona aquest mètode de "
+"pagament. Per tant, si el canvieu, la generació del fitxer de pagament "
+"podria fallar."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__refund_payment_mode_id
+msgid ""
+"This payment mode will be used when doing refunds coming from the current "
+"payment mode."
+msgstr ""
+"Aquesta modalitat de pagament s'utilitzarà quan es facin reemborsaments "
+"procedents de la modalitat de pagament actual."
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
+msgid "Variable"
+msgstr "Variable"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_company__keep_partner_bank_without_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_config_settings__keep_partner_bank_without_payment_mode
+msgid ""
+"When enabled, invoices without a payment mode will keep the bank account "
+"auto-selected by Odoo. When disabled, the bank account will be cleared if no "
+"payment mode is set."
+msgstr ""
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"You cannot change the Company. There exists at least one Journal Entry with "
+"this Payment Mode, already assigned to another Company."
+msgstr ""
+"No podeu canviar la companyia. Com a mínim existeix un assentament amb "
+"aquest mode de pagament, ja assignat a una altra companyia."
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"You cannot change the Company. There exists at least one Journal Item with "
+"this Payment Mode, already assigned to another Company."
+msgstr ""
+"No podeu canviar la companyia. Com a mínim existeix un assentament amb "
+"aquest mode de pagament, ja assignat a una altra companyia."
+
+#~ msgid "Credit Transfer to Suppliers"
+#~ msgstr "Transferència de crèdit als proveïdors"
+
+#~ msgid "Direct Debit of customers"
+#~ msgstr "Dèbit directe als clients"
+
+#~ msgid "Direct Debit of suppliers from La Banque Postale"
+#~ msgstr "Dèbit directe de proveïdors de La Banque Postale"
+
+#~ msgid "Direct Debit of suppliers from Société Générale"
+#~ msgstr "Dèbit directe de proveïdors de Société Générale"
+
+#~ msgid "Inbound Credit Trf La Banque Postale"
+#~ msgstr "Crèdit entrant transf. La Banque Postale"
+
+#~ msgid "Inbound Credit Trf Société Générale"
+#~ msgstr "Crèdit entrant transf. Société Générale"

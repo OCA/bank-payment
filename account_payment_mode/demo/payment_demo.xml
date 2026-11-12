@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="main_company_iban" model="res.partner.bank">
+        <field name="account_number">FR76 4242 4242 4242 4242 4242 424</field>
+        <field name="bank_name">La Banque Postale</field>
+        <field name="bank_bic">PSSTFRPPXXX</field>
+        <field name="street">115 rue de Sèvres</field>
+        <field name="zip">75007</field>
+        <field name="city">Paris</field>
+        <field name="partner_id" ref="base.main_partner" />
+    </record>
+    <record id="main_company_iban2" model="res.partner.bank">
+        <field name="account_number">FR20 1242 1242 1242 1242 1242 124</field>
+        <field name="bank_name">Société Générale</field>
+        <field name="bank_bic">SOGEFRPPXXX</field>
+        <field name="street">1 avenue du Roi Fabien 1er</field>
+        <field name="zip">75008</field>
+        <field name="city">Paris</field>
+        <field name="partner_id" ref="base.main_partner" />
+    </record>
+    <record id="res_partner_12_iban" model="res.partner.bank">
+        <field name="account_number">FR66 1212 1212 1212 1212 1212 121</field>
+        <field name="bank_name">Fiducial Banque</field>
+        <field name="bank_bic">FIDCFR21XXX</field>
+        <field name="street">38 rue Sergent Michel Berthet</field>
+        <field name="zip">69009</field>
+        <field name="city">Lyon</field>
+        <field name="partner_id" ref="base.res_partner_12" />
+    </record>
+    <record id="res_partner_2_iban" model="res.partner.bank">
+        <field name="account_number">BE96 9988 7766 5544</field>
+        <field name="bank_name">BNP Paribas Fortis Charleroi</field>
+        <field name="bank_bic">GEBABEBB03A</field>
+        <field name="city">Charleroi</field>
+        <field name="partner_id" ref="base.res_partner_2" />
+    </record>
+    <!-- Asustek already has a demo IBAN provided by account -->
+    <record id="payment_mode_outbound_ct1" model="account.payment.mode">
+        <field name="name">Credit Transfer to Suppliers</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">variable</field>
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_out"
+        />
+    </record>
+    <record id="payment_mode_outbound_dd1" model="account.payment.mode">
+        <field name="name">Direct Debit of suppliers from Société Générale</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">variable</field>
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_out"
+        />
+    </record>
+    <record id="payment_mode_outbound_dd2" model="account.payment.mode">
+        <field name="name">Direct Debit of suppliers from La Banque Postale</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">variable</field>
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_out"
+        />
+    </record>
+    <record id="payment_mode_inbound_ct1" model="account.payment.mode">
+        <field name="name">Inbound Credit Trf Société Générale</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">variable</field>
+        <!-- TODO: convert to fixed -->
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+    </record>
+    <record id="payment_mode_inbound_ct2" model="account.payment.mode">
+        <field name="name">Inbound Credit Trf La Banque Postale</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">variable</field>
+        <!-- TODO: convert to fixed -->
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+    </record>
+    <record id="payment_mode_inbound_dd1" model="account.payment.mode">
+        <field name="name">Direct Debit of customers</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">variable</field>
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+    </record>
+</odoo>
