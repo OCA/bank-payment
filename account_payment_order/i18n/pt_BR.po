@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-01 15:18+0000\n"
-"PO-Revision-Date: 2026-11-06 02:30+0000\n"
+"PO-Revision-Date: 2026-11-13 18:07+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/teams/"
 "23907/pt_BR/)\n"
@@ -39,7 +39,7 @@ msgid ""
 "oe-model=account.payment.order data-oe-id=%(order_id)d>%(name)s</a>, which "
 "has been automatically created."
 msgstr ""
-"%(count)d Linhas de pagamento adicionadas ao novo rascunho de ordem de "
+"%(count)d linhas de pagamento adicionadas ao novo rascunho de ordem de "
 "pagamento <a href=# data-oe-model=account.payment.order data-oe-id=%"
 "(order_id)d>%(name)s</a>, que foi criada automaticamente."
 
@@ -525,9 +525,8 @@ msgstr "Livre"
 
 #. module: account_payment_order
 #: model:ir.model.fields.selection,name:account_payment_order.selection__account_move__reference_type__none
-#, fuzzy
 msgid "Free Reference"
-msgstr "Referência estruturada"
+msgstr "Referência livre"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_order_form
@@ -807,6 +806,8 @@ msgid ""
 "No handler for this payment method. Maybe you haven't installed the related "
 "Odoo module."
 msgstr ""
+"Não há tratador para este método de pagamento. Talvez você não tenha "
+"instalado o módulo Odoo relacionado."
 
 #. module: account_payment_order
 #. odoo-python
@@ -861,9 +862,8 @@ msgstr ""
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_method__payment_order_only
-#, fuzzy
 msgid "Only for payment orders"
-msgstr "Ordens de Pagamento"
+msgstr "Somente para ordens de pagamento"
 
 #. module: account_payment_order
 #: model_terms:ir.ui.view,arch_db:account_payment_order.account_payment_mode_form
@@ -889,9 +889,8 @@ msgstr "Conta bancária parceiro"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__partner_ids
-#, fuzzy
 msgid "Partners"
-msgstr "Parceiro"
+msgstr "Parceiros"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line__date
@@ -944,9 +943,8 @@ msgstr "Método de Pagamento"
 
 #. module: account_payment_order
 #: model:ir.model,name:account_payment_order.model_account_payment_method
-#, fuzzy
 msgid "Payment Methods"
-msgstr "Modo de Pagamento"
+msgstr "Métodos de pagamento"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_line_create__payment_mode
@@ -1042,9 +1040,8 @@ msgstr "Pagamentos"
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_bank_statement_line__reference_type
 #: model:ir.model.fields,field_description:account_payment_order.field_account_move__reference_type
-#, fuzzy
 msgid "Reference Type"
-msgstr "Referência estruturada"
+msgstr "Tipo de referência"
 
 #. module: account_payment_order
 #: model:ir.model.fields,field_description:account_payment_order.field_account_payment_order__activity_user_id
