@@ -1,0 +1,98 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_order_grouped_output
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2023-05-09 13:42+0000\n"
+"Last-Translator: Bole <bole@dajmi5.com>\n"
+"Language-Team: none\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.14.1\n"
+
+#. module: account_payment_order_grouped_output
+#. odoo-python
+#: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
+#, python-format
+msgid "Debit bank line %s"
+msgstr ""
+
+#. module: account_payment_order_grouped_output
+#. odoo-python
+#: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
+#, python-format
+msgid "Debit order %s"
+msgstr ""
+
+#. module: account_payment_order_grouped_output
+#: model:ir.model.fields,field_description:account_payment_order_grouped_output.field_account_payment_mode__generate_move
+msgid "Generate Grouped Accounting Entries On File Upload"
+msgstr ""
+
+#. module: account_payment_order_grouped_output
+#: model_terms:ir.ui.view,arch_db:account_payment_order_grouped_output.account_payment_mode_form
+msgid "Grouped Accounting Entries Options"
+msgstr ""
+
+#. module: account_payment_order_grouped_output
+#: model_terms:ir.ui.view,arch_db:account_payment_order_grouped_output.account_payment_order_form
+msgid "Grouped Entries"
+msgstr "Grupirane stavke"
+
+#. module: account_payment_order_grouped_output
+#: model:ir.model.fields,field_description:account_payment_order_grouped_output.field_account_payment_order__grouped_move_ids
+msgid "Journal Entries (Grouped)"
+msgstr "Stavke dnevnika (Grupirane)"
+
+#. module: account_payment_order_grouped_output
+#: model:ir.model,name:account_payment_order_grouped_output.model_account_move
+msgid "Journal Entry"
+msgstr "Stavka dnevnika"
+
+#. module: account_payment_order_grouped_output
+#: model:ir.model.fields,field_description:account_payment_order_grouped_output.field_account_payment_order__grouped_move_count
+msgid "Number of Grouped Journal Entries"
+msgstr "Broj grupiranih stavaka dnevnika"
+
+#. module: account_payment_order_grouped_output
+#: model:ir.model,name:account_payment_order_grouped_output.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Modeli plaćanja"
+
+#. module: account_payment_order_grouped_output
+#: model:ir.model,name:account_payment_order_grouped_output.model_account_payment_order
+msgid "Payment Order"
+msgstr "Nalog za plaćanje"
+
+#. module: account_payment_order_grouped_output
+#: model:ir.model.fields,field_description:account_payment_order_grouped_output.field_account_bank_statement_line__grouped_payment_order_id
+#: model:ir.model.fields,field_description:account_payment_order_grouped_output.field_account_move__grouped_payment_order_id
+#: model:ir.model.fields,field_description:account_payment_order_grouped_output.field_account_payment__grouped_payment_order_id
+msgid "Payment Order (Grouped)"
+msgstr "Nalog za plaćanje (Grupirani)"
+
+#. module: account_payment_order_grouped_output
+#. odoo-python
+#: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
+#, python-format
+msgid "Payment bank line %s"
+msgstr ""
+
+#. module: account_payment_order_grouped_output
+#. odoo-python
+#: code:addons/account_payment_order_grouped_output/models/account_payment_order.py:0
+#, python-format
+msgid "Payment order %s"
+msgstr ""
+
+#. module: account_payment_order_grouped_output
+#: model:ir.model.fields,field_description:account_payment_order_grouped_output.field_account_payment_mode__post_move
+msgid "Post Move"
+msgstr ""
