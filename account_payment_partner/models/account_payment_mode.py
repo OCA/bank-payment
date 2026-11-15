@@ -21,6 +21,11 @@ class AccountPaymentMode(models.Model):
         default="full",
         help="Show in invoices partial or full bank account number",
     )
+    show_company_name = fields.Boolean(
+        help="Show Company name alongwith the Bank Account label.\n"
+        'This will print "<Company Name> Bank Account" instead of '
+        '"Bank Account" in the invoice.',
+    )
     show_bank_account_from_journal = fields.Boolean(string="Bank account from journals")
     show_bank_account_chars = fields.Integer(
         string="# of digits for customer bank account"

@@ -497,7 +497,7 @@ class TestAccountPaymentPartner(SavepointCase):
         self.supplier_invoice.partner_bank_id = self.supplier_bank.id
         report = self.env.ref("account.account_invoices")
         res = str(report._render_qweb_html(self.supplier_invoice.ids)[0])
-        self.assertIn(self.supplier_bank.acc_number, res)
+        self.assertIn(self.supplier_bank.sanitized_acc_number, res)
         payment_mode = self.supplier_payment_mode
         payment_mode.show_bank_account_from_journal = True
         self.supplier_invoice.payment_mode_id = payment_mode.id
@@ -507,7 +507,7 @@ class TestAccountPaymentPartner(SavepointCase):
         payment_mode.bank_account_link = "variable"
         payment_mode.variable_journal_ids = [(6, 0, self.journal.ids)]
         res = str(report._render_qweb_html(self.supplier_invoice.ids)[0])
-        self.assertIn(self.journal_bank.acc_number, res)
+        self.assertIn(self.journal_bank.sanitized_acc_number, res)
 
     def test_filter_type_domain(self):
         in_invoice = self.move_model.create(

@@ -13,6 +13,7 @@
                 <group string="Show bank account in invoice report">
                     <group>
                         <field name="show_bank_account" />
+                        <field name="show_company_name" />
                         <field
                             name="show_bank_account_from_journal"
                             attrs="{'invisible': [('show_bank_account', '=', 'no')]}"
