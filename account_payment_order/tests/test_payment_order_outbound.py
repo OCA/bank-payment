@@ -356,7 +356,8 @@ class TestPaymentOrderOutbound(TestPaymentOrderOutboundBase):
         outbound_order.draft2open()
         self.assertEqual(outbound_order.payment_count, 2)
         self.assertEqual(
-            outbound_order.payment_line_ids[0].payment_ids.date, fields.Date.today()
+            outbound_order.payment_line_ids[0].payment_ids.date,
+            date.today() + timedelta(days=8),
         )
         self.assertEqual(outbound_order.payment_line_ids[1].date, date.today())
         self.assertEqual(
