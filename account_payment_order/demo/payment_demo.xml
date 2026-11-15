@@ -44,4 +44,7 @@
             search="[('type', 'in', ('sale', 'sale_refund'))]"
         />
     </record>
+    <record id="base.default_user" model="res.users">
+        <field name="groups_id" eval="[Command.link(ref('group_account_payment'))]" />
+    </record>
 </odoo>
