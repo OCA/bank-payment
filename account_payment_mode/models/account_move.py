@@ -24,6 +24,7 @@ class AccountMove(models.Model):
         precompute=True,
         check_company=True,
         tracking=True,
+        recursive=True,
     )
     bank_account_required = fields.Boolean(
         related="payment_mode_id.payment_method_id.bank_account_required", readonly=True
