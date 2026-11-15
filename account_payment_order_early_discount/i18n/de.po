@@ -1,0 +1,233 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_order_early_discount
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20261015\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-24 16:20+0000\n"
+"PO-Revision-Date: 2026-10-24 16:20+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,help:account_payment_order_early_discount.field_account_payment_mode__early_discount_grace_days
+msgid ""
+"Additional days after the end of the discount period on which the discount "
+"is still taken (relying on the supplier's goodwill)."
+msgstr ""
+"Zusätzliche Tage nach Ende der Skontofrist, an denen der Skonto noch abgezogen "
+"wird (auf Kulanz des Lieferanten)."
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,help:account_payment_order_early_discount.field_account_payment_mode__early_discount_buffer_days
+msgid ""
+"Invoices with an early discount are selected and scheduled this many days "
+"before the end of the discount period (on the working day before), so that "
+"the money reaches the supplier in time. The discount stays valid until the "
+"end of the discount period."
+msgstr ""
+"Rechnungen mit Skonto werden so viele Tage vor Ende der Skontofrist ausgewählt "
+"und terminiert (am Arbeitstag davor), damit das Geld rechtzeitig beim "
+"Lieferanten ist. Der Skonto gilt weiter bis zum Ende der Skontofrist."
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_mode__early_discount_buffer_days
+msgid "Early Discount Buffer Days"
+msgstr "Puffertage Skonto"
+
+#. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_payment_mode.py:0
+msgid "Early discount grace and buffer days cannot be negative."
+msgstr "Kulanz- und Puffertage für Skonto dürfen nicht negativ sein."
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,help:account_payment_order_early_discount.field_account_payment_line_create__include_early_discount
+msgid ""
+"Also select invoices whose early payment discount must be paid in this "
+"period, even if their due date is later. For orders paying on the due date,"
+" only with the option 'Pay Early Discounts on Discount Date' of the payment "
+"mode (otherwise they are paid on the due date, without discount)."
+msgstr "Auch Rechnungen auswählen, deren Skonto in diesem Zeitraum bezahlt werden muss, auch wenn sie erst später fällig sind. Bei Aufträgen mit Ausführung zum Fälligkeitsdatum nur mit der Option „Skonto nutzen: zum Skontodatum zahlen“ der Zahlungsart (sonst werden sie bei Fälligkeit ohne Skonto bezahlt)."
+
+#. module: account_payment_order_early_discount
+#: model:ir.model,name:account_payment_order_early_discount.model_res_company
+msgid "Companies"
+msgstr "Unternehmen"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_line__early_discount_date
+msgid "Discount Date"
+msgstr "Skontodatum"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_line__ml_maturity_date
+msgid "Due Date"
+msgstr "Fälligkeitsdatum"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_line__early_discount_amount
+msgid "Early Discount"
+msgstr "Skonto"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_mode__early_discount_grace_days
+msgid "Early Discount Grace Days"
+msgstr "Kulanztage Skonto"
+
+#. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_move_line.py:0
+#: model_terms:ir.ui.view,arch_db:account_payment_order_early_discount.account_payment_mode_form
+msgid "Early Payment Discount"
+msgstr "Skonto"
+
+#. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_move_line.py:0
+msgid "Early Payment Discount (%s)"
+msgstr "Skonto (%s)"
+
+#. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_payment_line.py:0
+msgid ""
+"Early discount of %(amount)s deducted for %(ref)s (execution %(date)s)."
+msgstr "Skonto von %(amount)s für %(ref)s abgezogen (Ausführung %(date)s)."
+
+#. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_payment_line.py:0
+msgid ""
+"Early discount period of %(ref)s has expired (execution %(date)s, discount "
+"until %(deadline)s): the full amount is paid."
+msgstr "Skontofrist von %(ref)s abgelaufen (Ausführung %(date)s, Skonto bis %(deadline)s): Der volle Betrag wird bezahlt."
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,help:account_payment_order_early_discount.field_account_payment_line__early_discount_amount
+msgid "Early payment discount deducted from the amount of this line."
+msgstr "Vom Betrag dieser Position abgezogener Skonto."
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_mode__early_discount_extend_to_workday
+msgid "Extend Discount Period to Next Working Day"
+msgstr "Skontofrist bis zum nächsten Arbeitstag verlängern"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,help:account_payment_order_early_discount.field_account_payment_mode__early_discount_extend_to_workday
+msgid ""
+"If the discount period ends on a non-working day of the company calendar "
+"(weekend, public holiday), the discount is still taken when paying on the "
+"next working day."
+msgstr "Endet die Skontofrist an einem arbeitsfreien Tag laut Arbeitszeitkalender des Unternehmens (Wochenende, Feiertag), wird der Skonto bei Zahlung am nächsten Arbeitstag noch abgezogen."
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_line_create__include_early_discount
+msgid "Include Early Discounts"
+msgstr "Skonto berücksichtigen"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,help:account_payment_order_early_discount.field_account_payment_mode__early_discount_pay_on_discount_date
+msgid ""
+"Invoices with an early payment discount are selected by their discount date "
+"in 'Create Transactions' and scheduled on the discount date when the payment"
+" order uses the due date as payment execution date."
+msgstr "Rechnungen mit Skonto werden beim Erstellen der Positionen nach dem Skontodatum ausgewählt und, wenn der Zahlungsauftrag zum Fälligkeitsdatum ausführt, zum Skontodatum terminiert."
+
+#. module: account_payment_order_early_discount
+#: model:ir.model,name:account_payment_order_early_discount.model_account_move_line
+msgid "Journal Item"
+msgstr "Buchungszeile"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,help:account_payment_order_early_discount.field_account_payment_line__early_discount_date
+msgid ""
+"Last date at which the discounted amount must be paid in order for the Early"
+" Payment Discount to be granted"
+msgstr "Letzter Tag, an dem der skontierte Betrag bezahlt sein muss, damit der Skonto gewährt wird"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_line__early_discount_residual
+msgid "Open Amount for Early Discount"
+msgstr "Offener Betrag für Skonto"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,help:account_payment_order_early_discount.field_account_payment_line__early_discount_residual
+msgid ""
+"Open amount of the journal item when the amount of this line was computed. "
+"If the amount still matches it (minus the discount), the line is updated to "
+"the open amount and discount on confirmation."
+msgstr ""
+"Offener Betrag der Buchungszeile, als der Betrag dieser Position berechnet "
+"wurde. Entspricht der Betrag noch diesem Wert (abzüglich Skonto), wird die "
+"Position beim Bestätigen auf den aktuellen offenen Betrag und Skonto "
+"angepasst."
+
+#. module: account_payment_order_early_discount
+#: model:ir.model.fields,field_description:account_payment_order_early_discount.field_account_payment_mode__early_discount_pay_on_discount_date
+msgid "Pay Early Discounts on Discount Date"
+msgstr "Skonto nutzen: zum Skontodatum zahlen"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model,name:account_payment_order_early_discount.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Zahlungszeilen"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model,name:account_payment_order_early_discount.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Zahlungsmodi"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model,name:account_payment_order_early_discount.model_account_payment_order
+msgid "Payment Order"
+msgstr "Zahlungsauftrag"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model,name:account_payment_order_early_discount.model_account_payment
+msgid "Payments"
+msgstr "Zahlungen"
+
+#. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_payment.py:0
+msgid ""
+"The early discount of %(ref)s can no longer be applied (paid in the meantime"
+" or discount period over). Set the payment order back to draft and confirm "
+"it again."
+msgstr "Der Skonto von %(ref)s kann nicht mehr abgezogen werden (inzwischen bezahlt oder Skontofrist abgelaufen). Zahlungsauftrag auf Entwurf zurücksetzen und erneut bestätigen."
+
+#. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_payment_line.py:0
+msgid ""
+"The open amount or the early discount of %(ref)s has changed since the "
+"payment order was confirmed (settled in the meantime or discount period over"
+" at %(date)s). Set the payment order back to draft and confirm it again."
+msgstr "Der offene Betrag oder der Skonto von %(ref)s hat sich seit der Bestätigung des Zahlungsauftrags geändert (inzwischen ausgeglichen oder Skontofrist am %(date)s abgelaufen). Zahlungsauftrag auf Entwurf zurücksetzen und erneut bestätigen."
+
+#. module: account_payment_order_early_discount
+#: model_terms:ir.ui.view,arch_db:account_payment_order_early_discount.account_payment_line_tree
+msgid "Total early discount"
+msgstr "Summe Skonto"
+
+#. module: account_payment_order_early_discount
+#: model:ir.model,name:account_payment_order_early_discount.model_account_payment_line_create
+msgid "Wizard to create payment lines"
+msgstr "Assistent zum Erstellen von Zahlungszeilen"
+
+#. module: account_payment_order_early_discount
+#. odoo-python
+#: code:addons/account_payment_order_early_discount/models/account_payment.py:0
+msgid ""
+"Set the cash discount gain and loss accounts in the accounting settings of "
+"%(company)s to book early payment discounts."
+msgstr ""
+"Für die Skontobuchung in den Buchhaltungseinstellungen von %(company)s die "
+"Konten für Skontoertrag und Skontoaufwand festlegen."
