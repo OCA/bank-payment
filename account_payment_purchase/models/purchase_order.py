@@ -59,4 +59,6 @@ class PurchaseOrder(models.Model):
         correct value with compute."""
         invoice_vals = super()._prepare_invoice()
         invoice_vals.pop("partner_bank_id")
+        if self.payment_mode_id:
+            invoice_vals["payment_mode_id"] = self.payment_mode_id.id
         return invoice_vals
