@@ -35,14 +35,14 @@ class TestAccountPaymentPurchase(TransactionCase):
         cls.bank = cls.env["res.partner.bank"].create(
             {
                 "bank_name": "Test bank",
-                "acc_number": "1234567890",
+                "account_number": "1234567890",
                 "partner_id": cls.partner.id,
             }
         )
         cls.bank2 = cls.env["res.partner.bank"].create(
             {
                 "bank_name": "Test bank #2",
-                "acc_number": "0123456789",
+                "account_number": "0123456789",
                 "partner_id": cls.partner.id,
             }
         )

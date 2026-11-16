@@ -4,7 +4,7 @@
 
 {
     "name": "Account Payment Purchase",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Banking addons",
     "license": "AGPL-3",
     "summary": "Adds Bank Account and Payment Mode on Purchase Orders",
