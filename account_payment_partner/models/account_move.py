@@ -108,16 +108,14 @@ class AccountMove(models.Model):
                     move.partner_bank_id = False
                     continue
                 elif move.move_type in ["out_invoice", "out_receipt"]:
-                    if payment_mode.payment_method_id.bank_account_required:
-                        if (
-                            payment_mode.bank_account_link == "fixed"
-                            and payment_mode.fixed_journal_id.bank_account_id
-                        ):
-                            move.partner_bank_id = (
-                                payment_mode.fixed_journal_id.bank_account_id
-                            )
-                            continue
-                    else:
+                    if (
+                        payment_mode.bank_account_link == "fixed"
+                        and payment_mode.fixed_journal_id.bank_account_id
+                    ):
+                        move.partner_bank_id = (
+                            payment_mode.fixed_journal_id.bank_account_id
+                        )
+                    elif not payment_mode.payment_method_id.bank_account_required:
                         move.partner_bank_id = False
             else:
                 if not move.company_id.keep_partner_bank_without_payment_mode:
