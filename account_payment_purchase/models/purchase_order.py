@@ -28,7 +28,6 @@ class PurchaseOrder(models.Model):
         readonly=False,
         store=True,
         precompute=True,
-        string="Payment Mode",
         domain="[('payment_type', '=', 'outbound'), ('company_id', '=', company_id)]",
         check_company=True,
     )
