@@ -1,0 +1,1 @@
+odoo-addon-account_supplier_early_payment_discount @ git+https://github.com/OCA/account-payment.git@refs/pull/976/head#subdirectory=account_supplier_early_payment_discount
