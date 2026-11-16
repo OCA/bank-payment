@@ -86,28 +86,43 @@ class TestAccountPaymentPurchaseStock(TestAccountPaymentPurchase):
             result and result.get("warning", {}).get("title", False), "Warning"
         )
 
-    def test_stock_rule_buy_payment_mode(self):
+    def _run_buy(self, product, origin, extra_values=None):
         route = self.env.ref("purchase_stock.route_warehouse0_buy")
         rule = self.env["stock.rule"].search([("route_id", "=", route.id)], limit=1)
         rule._run_buy(
             procurements=[
                 (
                     self.env["stock.rule"].Procurement(
-                        self.mto_product,
+                        product,
                         1,
-                        self.mto_product.uom_id,
+                        product.uom_id,
                         self.env["stock.location"].search([], limit=1),
                         "Procurement order test",
-                        "Test",
+                        origin,
                         rule.company_id,
                         {
                             "company_id": rule.company_id,
                             "date_planned": fields.Datetime.now(),
+                            **(extra_values or {}),
                         },
                     ),
                     rule,
                 )
             ]
         )
-        purchase = self.env["purchase.order"].search([("origin", "=", "Test")])
+        return self.env["purchase.order"].search([("origin", "=", origin)])
+
+    def test_stock_rule_buy_payment_mode(self):
+        purchase = self._run_buy(self.mto_product, "Test")
+        self.assertEqual(purchase.payment_mode_id, self.payment_mode)
+        self.assertEqual(purchase.supplier_partner_bank_id, self.bank)
+
+    def test_stock_rule_buy_procurement_partner_without_seller(self):
+        product = self.env["product.product"].create(
+            {"name": "Test product without vendor", "uom_id": self.uom_id}
+        )
+        purchase = self._run_buy(
+            product, "Test no seller", {"procurement_partner": self.partner}
+        )
+        self.assertEqual(purchase.partner_id, self.partner)
         self.assertEqual(purchase.payment_mode_id, self.payment_mode)
