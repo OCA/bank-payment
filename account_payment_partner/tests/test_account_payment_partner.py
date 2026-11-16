@@ -518,6 +518,34 @@ class TestAccountPaymentPartner(BaseCommon):
         self.supplier_invoice.payment_mode_id = False
         self.assertEqual(self.supplier_invoice.partner_bank_id, self.supplier_bank)
 
+    def test_out_invoice_fixed_payment_mode_sets_journal_bank(self):
+        """A fixed inbound payment mode sets the company's bank account of its
+        journal on customer invoices, even if the payment method does not
+        require a bank account (e.g. customers paying by credit transfer)."""
+        self.manual_in.bank_account_required = False
+        journal_bank_account = self.journal_c1.bank_account_id
+        journal_bank_account.allow_out_payment = True
+        self.customer_payment_mode.bank_account_link = "fixed"
+        invoice = self._create_invoice(
+            default_move_type="out_invoice", partner=self.customer
+        )
+        self.assertEqual(invoice.payment_mode_id, self.customer_payment_mode)
+        self.assertEqual(invoice.partner_bank_id, journal_bank_account)
+        invoice.action_post()
+        self.assertEqual(invoice.partner_bank_id, journal_bank_account)
+
+    def test_out_invoice_variable_payment_mode_clears_bank(self):
+        """A variable inbound payment mode whose payment method does not
+        require a bank account leaves partner_bank_id empty on customer
+        invoices."""
+        self.manual_in.bank_account_required = False
+        self.journal_c1.bank_account_id.allow_out_payment = True
+        invoice = self._create_invoice(
+            default_move_type="out_invoice", partner=self.customer
+        )
+        self.assertEqual(invoice.payment_mode_id, self.customer_payment_mode)
+        self.assertFalse(invoice.partner_bank_id)
+
     def test_no_payment_mode_clears_bank_when_flag_disabled(self):
         """When keep_partner_bank_without_payment_mode is disabled,
         clearing the payment mode should also clear partner_bank_id."""
