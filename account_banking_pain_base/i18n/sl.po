@@ -1,0 +1,1157 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_banking_pain_base
+#
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-23 03:38+0000\n"
+"PO-Revision-Date: 2026-06-13 11:46+0000\n"
+"Last-Translator: Matjaz Mozetic <matjaz@luxim.si>\n"
+"Language-Team: Slovenian (https://www.transifex.com/oca/teams/23907/sl/)\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3;\n"
+"X-Generator: Weblate 5.15.2\n"
+
+#. module: account_banking_pain_base
+#: model:ir.model.constraint,message:account_banking_pain_base.constraint_account_payment_method_code_payment_type_unique
+msgid ""
+"A payment method of the same type already exists with this code and PAIN "
+"version"
+msgstr "Plačilna metoda istega tipa z isto kodo in PAIN verzijo že obstaja"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__acct
+msgid "Account Management"
+msgstr "Upravljanje kontov"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__adva
+msgid "Advance Payment"
+msgstr "Predplačilo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__agrt
+msgid "Agricultural Transfer"
+msgstr "Kmetijski transfer"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__airb
+msgid "Air"
+msgstr "Zrak"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__almy
+msgid "Alimony Payment"
+msgstr "Plačilo preživnine"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ants
+msgid "Anesthesia Services"
+msgstr "Anesteziološke storitve"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__anni
+msgid "Annuity"
+msgstr "Anuiteta"
+
+#. module: account_banking_pain_base
+#: model:ir.model,name:account_banking_pain_base.model_res_bank
+msgid "Bank"
+msgstr "Banka"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__batch_booking
+msgid "Batch Booking"
+msgstr "Skupinska rezervacija"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__bonu
+msgid "Bonus Payment"
+msgstr "Plačilo bonusa"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__bonu
+msgid "Bonus Payment."
+msgstr "Plačilo bonusa."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_order__charge_bearer__cred
+msgid "Borne by Creditor"
+msgstr "Nosi upnik"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_order__charge_bearer__debt
+msgid "Borne by Debtor"
+msgstr "Nosi dolžnik"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__busb
+msgid "Bus"
+msgstr "Avtobus"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__bexp
+msgid "Business Expenses"
+msgstr "Poslovni odhodki"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cbtv
+msgid "Cable TV Bill"
+msgstr "Račun za kabelsko TV"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cfee
+msgid "Cancellation Fee"
+msgstr "Pristojbina za odpoved"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid "Cannot compute the field '%(field_name)s'."
+msgstr "Ni mogoče obdelati polja '%(field_name)s'."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__clpr
+msgid "Car Loan Principal Repayment"
+msgstr "Odplačilo glavnice posojila za avtomobil"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__cblk
+msgid "Card Bulk Clearing"
+msgstr "Množični obračun kartic"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__cash
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cash
+msgid "Cash Management Transfer"
+msgstr "Prenos za upravljanje denarnih sredstev"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__category_purpose
+msgid "Category Purpose"
+msgstr "Namen kategorije"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__charge_bearer
+msgid "Charge Bearer"
+msgstr "Nosilec stroškov"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__char
+msgid "Charity Payment"
+msgstr "Plačilo za dobrodelnost"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__bech
+msgid "Child Benefit"
+msgstr "Otroški dodatek"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__coll
+msgid "Collection Payment"
+msgstr "Plačilo iz naslova izterjave"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__comc
+msgid "Commercial Payment"
+msgstr "Poslovno plačilo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__comm
+msgid "Commission"
+msgstr "Provizija"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cmdt
+msgid "Commodity Transfer"
+msgstr "Transfer blaga"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__communication
+msgid "Communication"
+msgstr "Komunikacija"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__communication_type
+msgid "Communication Type"
+msgstr "Tip komunikacije"
+
+#. module: account_banking_pain_base
+#: model:ir.model,name:account_banking_pain_base.model_res_company
+msgid "Companies"
+msgstr "Družbe"
+
+#. module: account_banking_pain_base
+#: model:ir.model,name:account_banking_pain_base.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavitve"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__comt
+msgid "Consumer Third Party Consolidated Payment"
+msgstr "Konsolidirano plačilo potrošnika tretje osebe"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_method__sepa_pain09_address_mode
+msgid ""
+"Controls how the <PstlAdr> block is generated for PAIN.001.001.09- Minimal: "
+"only City (TwnNm) and Country (Ctry)- Hybrid: City/Country plus optional "
+"AdrLine lines (street/street2) and optional Post Code (PstCd) when available."
+msgstr ""
+"Določa, kako se ustvari blok <PstlAdr> za PAIN.001.001.09. Minimalno: samo "
+"kraj (TwnNm) in država (Ctry). Hibridno: kraj/država ter neobvezne vrstice "
+"naslova (street/street2)in neobvezna poštna številka (PstCd), kadar so na "
+"voljo."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cvcf
+msgid "Convalescent Care Facility"
+msgstr "Oskrbovalni center za rekonvalescente"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__convert_to_ascii
+msgid "Convert to ASCII"
+msgstr "Pretvori v ASCII"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cpyr
+msgid "Copyright"
+msgstr "Copyright"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__cost
+msgid "Costs"
+msgstr "Stroški"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__ccrd
+msgid "Credit Card Payment"
+msgstr "Plačilo s kreditno kartico"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ccrd
+msgid "Credit Card Payment "
+msgstr "Plačilo s kreditno kartico "
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid "Creditor name"
+msgstr "Naziv upnika"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid ""
+"Data for evaluation:\n"
+"\tcontext: %(eval_ctx)s\n"
+"\tfield path: %(field_value)s"
+msgstr ""
+"Podatki za oceno:\n"
+"\tkontekst: %(eval_ctx)s\n"
+"\tpot do polja: %(field_value)s"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__dcrd
+msgid "Debit  Card  Payment"
+msgstr "Plačilo z  debetno  kartico"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__dcrd
+msgid "Debit Card Payment"
+msgstr "Plačilo z debetno kartico"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid "Debtor name"
+msgstr "Naziv dolžnika"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__default_batch_booking
+msgid "Default Batch Booking"
+msgstr "Privzeto skupinsko knjiženje"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__default_batch_booking
+msgid ""
+"Default value for payment order batch booking related to this payment mode"
+msgstr ""
+"Privzeta vrednost za skupinsko knjiženje plačilnih nalogov pri tem načinu "
+"plačila"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__dvpm
+msgid "Deliver Against Payment"
+msgstr "Dobava proti plačilu"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__dnts
+msgid "Dental Services"
+msgstr "Zobozdravstvene storitve"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__deri
+msgid "Derivatives"
+msgstr "Derivati"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_bank__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Prikazani naziv"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__divi
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__divd
+msgid "Dividend"
+msgstr "Dividende"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__dmeq
+msgid "Durable Medicale Equipment"
+msgstr "Trajna medicinska oprema"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__elec
+msgid "Electricity Bill"
+msgstr "Račun za električno energijo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings__group_pain_multiple_identifier
+msgid ""
+"Enable this option if your country requires several SEPA/PAIN identifiers "
+"like in Spain."
+msgstr ""
+"To možnost omogočite, če vaša država zahteva več identifikatorjev SEPA/PAIN, "
+"tako kot npr. v Španiji."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__enrg
+msgid "Energies"
+msgstr "Energija"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__estx
+msgid "Estate Tax"
+msgstr "Davek na nepremičnine"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__fcol
+msgid "Fee Collection"
+msgstr "Pobiranje nadomestil"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ferb
+msgid "Ferry"
+msgstr "Trajekt"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_order__charge_bearer__slev
+msgid "Following Service Level"
+msgstr "V skladu z ravnjo storitve"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order__charge_bearer
+msgid ""
+"Following service level : transaction charges are to be applied following "
+"the rules agreed in the service level and/or scheme (SEPA Core messages must "
+"use this). Shared : transaction charges on the debtor side are to be borne "
+"by the debtor, transaction charges on the creditor side are to be borne by "
+"the creditor. Borne by creditor : all transaction charges are to be borne by "
+"the creditor. Borne by debtor : all transaction charges are to be borne by "
+"the debtor."
+msgstr ""
+"Nivo sledenja: stroške transakcije se dodeli glede na naslednja pravila v "
+"sporazumu o ravni storitev in/ali shemi (SEPA temeljna sporočila morajo to "
+"uporabljati). Deljeno: stroške transakcije na strani dolžnika nosi dolžnik "
+"sam, stroške na strani upnika pa upnik. Nosi upnik: vse stroške transakcije "
+"nosi upnik. Nosi dolžnik: vse stroške transakcije nosi dolžnik."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__frex
+msgid "Foreign Exchange"
+msgstr "Devizni tečaji"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__gasb
+msgid "Gas Bill"
+msgstr "Račun za gorivo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__govi
+msgid "Government Insurance"
+msgstr "Obvezno zavarovanje"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__govt
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__govt
+msgid "Government Payment"
+msgstr "Plačila državi"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__hlti
+msgid "Health Insurance"
+msgstr "Zdravstveno zavarovanje"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__hedg
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__hedg
+msgid "Hedging"
+msgstr "Zavarovanje tveganj"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__priority__high
+msgid "High"
+msgstr "Visoka"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__hltc
+msgid "Home Health Care"
+msgstr "Nega na domu"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__hspc
+msgid "Hospital Care"
+msgstr "Bolnišnična oskrba"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__hlrp
+msgid "Housing Loan Repayment"
+msgstr "Odplačilo stanovanjskega posojila"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__hstx
+msgid "Housing Tax"
+msgstr "Davek na nepremičnino"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_method__sepa_pain09_address_mode__hybrid
+msgid "Hybrid (City/Country + AdrLine)"
+msgstr "Hibridno (kraj/država+vrstica naslova)"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_bank__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__id
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__communication_type__iso
+msgid "ISO"
+msgstr "ISO"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_method__convert_to_ascii
+msgid ""
+"If active, Odoo will convert each accented character to the corresponding "
+"unaccented character, so that only ASCII characters are used in the "
+"generated PAIN file."
+msgstr ""
+"Če aktivno, Odoo pretvori vsak naglašen znak v ustrezen nenaglašen znak, "
+"tako, da se uporabi le ASCII znake v ustvarjeni PAIN datoteki."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__category_purpose
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__purpose
+msgid ""
+"If neither your bank nor your local regulations oblige you to set the "
+"category purpose, leave the field empty."
+msgstr ""
+"Če vaša banka in lokalni predpisi ne zahtevajo, da določite namen "
+"kategorije, pustite to polje prazno."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_order__batch_booking
+msgid ""
+"If true, the bank statement will display only one debit line for all the "
+"wire transfers of the SEPA XML file ; if false, the bank statement will "
+"display one debit line per wire transfer of the SEPA XML file."
+msgstr ""
+"Če pravilno, bančni izpisek prikaže le eno postavko obremenitve za vse "
+"transakcije v SEPA XML datoteki ; če napačno, bančni izpisek prikaže le eno "
+"obremenitve za vsako transakcijo v SEPA XML datoteki."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__intx
+msgid "Income Tax"
+msgstr "Davek na dohodek"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__initiating_party_identifier
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__initiating_party_identifier
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__initiating_party_identifier
+msgid "Initiating Party Identifier"
+msgstr "Identifikator začetne stranke"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__initiating_party_issuer
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__initiating_party_issuer
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__initiating_party_issuer
+msgid "Initiating Party Issuer"
+msgstr "Izdajatelj začetne stranke"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_mode__initiating_party_scheme
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_company__initiating_party_scheme
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__initiating_party_scheme
+msgid "Initiating Party Scheme"
+msgstr "Shema izdajatelja"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__insm
+msgid "Installment"
+msgstr "Obrok"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ihrp
+msgid "Instalment Hire Purchase Agreement"
+msgstr "Dogovor o nakupu na obroke"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__insu
+msgid "Insurance Premium"
+msgstr "Zavarovalna premija"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__inte
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__inte
+msgid "Interest"
+msgstr "Obresti"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__icrf
+msgid "Intermediate Care Facility"
+msgstr "Ustanova za prehodno oskrbo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__intc
+msgid "Intra Company Payment"
+msgstr "Plačilo med podjetji"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__intc
+msgid "Intra-Company Payment"
+msgstr "Plačilo med podjetji"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__iccp
+msgid "Irrevocable Credit Card Payment"
+msgstr "Nepreklicno plačilo s kreditno kartico"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__idcp
+msgid "Irrevocable Debit Card Payment"
+msgstr "Nepreklicno plačilo z debetno kartico"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__communication
+msgid "Label of the payment that will be seen by the destinee"
+msgstr "Oznaka plačila, ki bo vidna prejemniku"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__lbri
+msgid "Labor Insurance"
+msgstr "Zavarovanje za primer brezposelnosti"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__licf
+msgid "License Fee"
+msgstr "Nadomestila za licence"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__lifi
+msgid "Life Insurance"
+msgstr "Življenjsko zavarovanje"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__lima
+msgid "Liquidity Management"
+msgstr "Upravljanje likvidnosti"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__loan
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__loan
+msgid "Loan"
+msgstr "Posojilo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__loar
+msgid "Loan Repayment"
+msgstr "Odplačilo posojila"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__local_instrument
+msgid "Local Instrument"
+msgstr "Lokalni instrument"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ltcf
+msgid "Long Term Care Facility"
+msgstr "Ustanova za dolgotrajno oskrbo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__mdcs
+msgid "Medical Services"
+msgstr "Zdravstvene storitve"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_method__sepa_pain09_address_mode__minimal
+msgid "Minimal (City + Country only)"
+msgstr "Minimalno (samo kraj+država)"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid ""
+"Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' for "
+"the company '%(company)s'. Both fields must have a value."
+msgstr ""
+"Manjkajoči 'Izdajatelj začetne stranke' in/ali 'Identifikator začetne "
+"stranke' pri družbi '%(company)s''. Obe polji morata vsebovati vrednost."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__msvc
+msgid "Multiple Service Types"
+msgstr "Več vrst storitev"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_res_config_settings__group_pain_multiple_identifier
+msgid "Multiple identifiers"
+msgstr "Več identifikatorjev"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__nett
+msgid "Netting"
+msgstr "Medsebojni pobot"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__nwch
+msgid "Network Charge"
+msgstr "Omrežnina"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__nwcm
+msgid "Network Communication"
+msgstr "Omrežne komunikacije"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_method.py:0
+msgid "No XSD file path found for payment method '%s'"
+msgstr "Za metodo plačila '%s' ni bila najdena pot do datoteke XSD"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__priority__norm
+msgid "Normal"
+msgstr "Običajna"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__nows
+msgid "Not Otherwise Specified"
+msgstr "Ni drugače določeno"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ofee
+msgid "Opening Fee"
+msgstr "Nadomestilo za odprtje"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__othr
+msgid "Other"
+msgstr "Drugo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__othr
+msgid "Other Payment"
+msgstr "Druga plačila"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__otlc
+msgid "Other Telecom Related Bill"
+msgstr "Drug račun, povezan s telekomunikacijami"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__pain_version
+msgid "PAIN Version"
+msgstr "PAIN verzija"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid ""
+"PAIN format %(flavor)s requires City (TwnNm). Partner missing City: %"
+"(partner)s. Please set a City or choose an older PAIN format."
+msgstr ""
+"Oblika PAIN %(flavor)s zahteva kraj (TwnNm). Partner nima vpisanega kraja: %"
+"(partner)s. Vnesite kraj ali izberite starejšo obliko PAIN."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__sepa_pain09_address_mode
+msgid "PAIN.001.001.09 Address Mode"
+msgstr "Način naslova za PAIN.001.001.09"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid "Partner name"
+msgstr "Naziv partnerja"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid "Partner's bank account is '%(bank)s'."
+msgstr "Partnerjev bančni račun je '%(bank)s'."
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid "Payment Line has reference '%(ref)s'."
+msgstr "Postavka plačila ima sklic '%(ref)s'."
+
+#. module: account_banking_pain_base
+#: model:ir.model,name:account_banking_pain_base.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Plačilne postavke"
+
+#. module: account_banking_pain_base
+#: model:ir.model,name:account_banking_pain_base.model_account_payment_method
+msgid "Payment Methods"
+msgstr "Načini plačila"
+
+#. module: account_banking_pain_base
+#: model:ir.model,name:account_banking_pain_base.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Načini plačil"
+
+#. module: account_banking_pain_base
+#: model:ir.model,name:account_banking_pain_base.model_account_payment_order
+msgid "Payment Order"
+msgstr "Plačilni nalog"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ptsp
+msgid "Payment Terms"
+msgstr "Plačilni pogoji"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__pens
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__pens
+msgid "Pension Payment"
+msgstr "Plačilo pokojnine"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__padd
+msgid "Preauthorized debit"
+msgstr "Predhodno odobrena bremenitev"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__prme
+msgid "Precious Metal"
+msgstr "Plemenite kovine"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__prcp
+msgid "Price Payment"
+msgstr "Plačilo kupnine"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__priority
+msgid "Priority"
+msgstr "Prioriteta"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ppti
+msgid "Property Insurance"
+msgstr "Premoženjsko zavarovanje"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__gdds
+msgid "Purchase Sale Of Goods"
+msgstr "Nakup ali prodaja blaga"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__scve
+msgid "Purchase Sale Of Services"
+msgstr "Nabava ali prodaja storitev"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_line__purpose
+msgid "Purpose"
+msgstr "Namen"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__rlwy
+msgid "Railway"
+msgstr "Železnica"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__rcpt
+msgid "Receipt Payment"
+msgstr "Plačilo prejemka"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__rvpm
+msgid "Receive Against Payment"
+msgstr "Prejem proti plačilu"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__rinp
+msgid "Recurring Installment Payment"
+msgstr "Periodično obročno plačilo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__rent
+msgid "Rent"
+msgstr "Najem"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__roya
+msgid "Royalties"
+msgstr "Licenčnine, avtorski honorarji"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__sepa
+msgid "SEPA Payment"
+msgstr "SEPA plačilo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__sepa_payment_method
+msgid "SEPA Payment Method"
+msgstr "SEPA metoda plačila"
+
+#. module: account_banking_pain_base
+#: model_terms:ir.ui.view,arch_db:account_banking_pain_base.account_payment_order_form
+msgid "SEPA zone"
+msgstr "SEPA območje"
+
+#. module: account_banking_pain_base
+#: model_terms:ir.ui.view,arch_db:account_banking_pain_base.view_account_config_settings
+msgid "SEPA/PAIN"
+msgstr "SEPA/PAIN"
+
+#. module: account_banking_pain_base
+#: model:res.groups,name:account_banking_pain_base.group_pain_multiple_identifier
+msgid "SEPA/PAIN Identifiers on Payment Modes"
+msgstr "SEPA/PAIN identifikatorji za načine plačil"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__sala
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__sala
+msgid "Salary Payment"
+msgstr "Izplačilo plače"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__savg
+msgid "Savings"
+msgstr "Prihranki, varčevanje"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__secu
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__secu
+msgid "Securities"
+msgstr "Vrednostni papirji"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_order__charge_bearer__shar
+msgid "Shared"
+msgstr "Deljeni stroški"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_order__show_warning_not_sepa
+msgid "Show Warning Not Sepa"
+msgstr "Prikaži opozorilo, da ni SEPA"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__ssbe
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__ssbe
+msgid "Social Security Benefit"
+msgstr "Prejemek iz socialnega zavarovanja"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__stdy
+msgid "Study"
+msgstr "Študij"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__subs
+msgid "Subscription"
+msgstr "Članarina, naročnina"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__supp
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__supp
+msgid "Supplier Payment"
+msgstr "Plačilo dobavitelju"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__taxs
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__taxs
+msgid "Tax Payment"
+msgstr "Plačilo davka"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__phon
+msgid "Telephone Bill"
+msgstr "Račun za telefon"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid "The '%s' is empty or 0. It should have a non-null value."
+msgstr "'%s' je prazno ali 0. Vsebovati bi moralo ne ničelno vrednost."
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/res_bank.py:0
+msgid ""
+"The following Bank Identifier Codes (BIC) do not respect the SEPA pattern:\n"
+"%(bic_list)s\n"
+"\n"
+"SEPA pattern: %(sepa_pattern)s"
+msgstr ""
+"Naslednje identifikacijske kode bank (BIC) ne ustrezajo vzorcu SEPA:\n"
+"%(bic_list)s\n"
+"\n"
+"Vzorec SEPA: %(sepa_pattern)s"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid ""
+"The generated XML file is not valid against the official XML Schema "
+"Definition. The generated XML file and the full error have been written in "
+"the server logs. Here is the error, which may give you an idea on the cause "
+"of the problem : %(error)s"
+msgstr ""
+"Ustvarjena XML datoteka ni v skladu z uradno definicijo XML sheme. "
+"Ustvarjena XML datoteka in celotna napaka sta zapisani v strežniške "
+"dnevnike. Tu je napaka, ki bi lahko razjasnila, v čem je vzrok težave : %"
+"(error)s"
+
+#. module: account_banking_pain_base
+#. odoo-python
+#: code:addons/account_banking_pain_base/models/account_payment_order.py:0
+msgid ""
+"The type of the field '%(field)s' is %(value)s. It should be a string or "
+"unicode."
+msgstr "Vrsta polja '%(field)s' je %(value)s. Morala bi biti niz ali Unicode."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_line__priority
+msgid ""
+"This field will be used as 'Instruction Priority' in the generated PAIN file."
+msgstr ""
+"To polje bo uporabljeno kot 'Prioriteta navodil' v ustvarjeni PAIN datoteki."
+
+#. module: account_banking_pain_base
+#: model_terms:ir.ui.view,arch_db:account_banking_pain_base.account_payment_order_form
+msgid ""
+"This payment order is <b>not SEPA</b>. If it is not intented, check that all "
+"payment lines are in € and that all bank accounts are valid IBANs with a "
+"country prefix in the"
+msgstr ""
+"Ta plačilni nalog <b>ni SEPA</b>. Če to ni bilo predvideno, preverite, ali "
+"so vse plačilne vrstice v € in ali so vsi bančni računi veljavni IBAN-i s "
+"predpono države v"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_company__initiating_party_identifier
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings__initiating_party_identifier
+msgid ""
+"This will be used as the 'Initiating Party Identifier' in the PAIN files "
+"generated by Odoo."
+msgstr ""
+"To se uporabi kot 'Identifikator začetne stranke' v PAIN datotekah, ki jih "
+"ustvari Odoo."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__initiating_party_identifier
+msgid ""
+"This will be used as the 'Initiating Party Identifier' in the PAIN files "
+"generated by Odoo. If not defined, Initiating Party Identifier from company "
+"will be used.\n"
+"Common format (13): \n"
+"- Country code (2, optional)\n"
+"- Company idenfier (N, VAT)\n"
+"- Service suffix (N, issued by bank)"
+msgstr ""
+"To bo uporabljeno kot 'Identifikator začetne stranke' v PAIN datotekah, ki "
+"jih ustvari Odoo. Če ni določeno, se uporabi 'Identifikator začetne stranke' "
+"iz obrazca družbe.\n"
+"Običajni format (13): \n"
+"- Koda države (2, optional)\n"
+"- Identifikator družbe (ID za DDV)\n"
+"- Pripona storitve (številka, ki jo poda banka)"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_company__initiating_party_issuer
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings__initiating_party_issuer
+msgid ""
+"This will be used as the 'Initiating Party Issuer' in the PAIN files "
+"generated by Odoo."
+msgstr ""
+"To se uporabi kot 'Izdajatelj začetne stranke' v PAIN datotekah, ki jih "
+"ustvari Odoo."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__initiating_party_issuer
+msgid ""
+"This will be used as the 'Initiating Party Issuer' in the PAIN files "
+"generated by Odoo. If not defined, Initiating Party Issuer from company will "
+"be used.\n"
+"Common format (13): \n"
+"- Country code (2, optional)\n"
+"- Company idenfier (N, VAT)\n"
+"- Service suffix (N, issued by bank)"
+msgstr ""
+"To bo uporabljeno kot 'Izdajatelj začetne stranke' v PAIN datotekah, ki jih "
+"ustvari Odoo. Če ni določeno, se uporabi 'Identifikator začetne stranke' iz "
+"obrazca družbe.\n"
+"Običajni format (13): \n"
+"- Koda države (2, optional)\n"
+"- Identifikator družbe (ID za DDV)\n"
+"- Pripona storitve (številka, ki jo poda banka)"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_company__initiating_party_scheme
+#: model:ir.model.fields,help:account_banking_pain_base.field_res_config_settings__initiating_party_scheme
+msgid ""
+"This will be used as the 'Initiating Party Scheme Name' in the PAIN files "
+"generated by Odoo."
+msgstr ""
+"To se uporabi kot 'Naziv sheme začetne stranke' v PAIN datotekah, ki jih "
+"ustvari Odoo."
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,help:account_banking_pain_base.field_account_payment_mode__initiating_party_scheme
+msgid ""
+"This will be used as the 'Initiating Party Scheme Name' in the PAIN files "
+"generated by Odoo. This value is determined by the financial institution "
+"that will process the file. If not defined, no scheme will be used.\n"
+msgstr ""
+"To bo uporabljeno kot 'ime sheme iniciatorja' v datotekah PAIN, ki jih "
+"ustvari Odoo. To vrednost določi finančna institucija, ki bo obdelala "
+"datoteko. Če ni določena, shema ne bo uporabljena.\n"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__trad
+msgid "Trade"
+msgstr "Trgovina"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__trad
+msgid "Trade Services"
+msgstr "Trgovinske storitve"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__cort
+msgid "Trade Settlement Payment"
+msgstr "Plačilo poravnave trgovanja"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__trea
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__trea
+msgid "Treasury Payment"
+msgstr "Zakladniško plačilo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__trfd
+msgid "Trust Fund"
+msgstr "Skrbniški sklad"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__bene
+msgid "Unemployment Disability Benefit"
+msgstr "Nadomestilo za brezposelnost ali invalidnost"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__vatx
+msgid "VAT Payment"
+msgstr "Plačilo DDV"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__vatx
+msgid "Value Added Tax Payment"
+msgstr "Plačilo DDV"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__view
+msgid "Vision Care"
+msgstr "Oskrba vida"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields,field_description:account_banking_pain_base.field_account_payment_method__warn_not_sepa
+msgid "Warn If Not SEPA"
+msgstr "Opozori, če ni SEPA"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__purpose__wter
+msgid "Water Bill"
+msgstr "Račun za vodo"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__whld
+msgid "WithHolding"
+msgstr "Odtegljaj"
+
+#. module: account_banking_pain_base
+#: model:ir.model.fields.selection,name:account_banking_pain_base.selection__account_payment_line__category_purpose__epay
+msgid "ePayment"
+msgstr "e-plačilo"
+
+#, fuzzy
+#~ msgid "Cannot compute the field '{field_name}'."
+#~ msgstr "Ne morem izračunati '%s'."
+
+#~ msgid ""
+#~ "Missing 'Initiating Party Issuer' and/or 'Initiating Party Identifier' "
+#~ "for the company '%s'. Both fields must have a value."
+#~ msgstr ""
+#~ "Manjkajoči 'Izdajatelj začetne stranke' in/ali 'Identifikator začetne "
+#~ "stranke' pri družbi '%s'. Obe polji morata vsebovati vrednost."
+
+#, fuzzy
+#~ msgid "Payment Line has reference '%s'."
+#~ msgstr "Plačilne postavke s sklicem '%s'."
+
+#~ msgid ""
+#~ "The generated XML file is not valid against the official XML Schema "
+#~ "Definition. The generated XML file and the full error have been written "
+#~ "in the server logs. Here is the error, which may give you an idea on the "
+#~ "cause of the problem : %s"
+#~ msgstr ""
+#~ "Ustvarjena XML datoteka ni v skladu z uradno definicijo XML sheme. "
+#~ "Ustvarjena XML datoteka in celotna napaka sta zapisani v strežniške "
+#~ "dnevnike. Tu je napaka, ki bi lahko razjasnila, v čem je vzrok težave : %s"
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Postavke bančnih plačil"
+
+#, python-format
+#~ msgid "The type of the field '%s' is %s. It should be a string or unicode."
+#~ msgstr "Tip polja '%s' je %s. Moral bi biti niz ali unicode."
+
+#~ msgid "Cannot compute the '%s' of the Payment Line with reference '%s'."
+#~ msgstr "Ne morem izračunati '%s' plačilne postavke s sklicem '%s'."
+
+#~ msgid "Cannot compute the '%s'."
+#~ msgstr "Ne morem izračunati '%s'."
