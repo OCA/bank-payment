@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# Copyright 2013-2016 Akretion - Alexis de Lattre
-# Copyright 2014-2017 Tecnativa - Pedro M. Baeza
-# Copyright 2016 Tecnativa - Antonio Espinosa
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Copyright 2021 Tecnativa - Carlos Roca
+# Copyright 2014-2022 Tecnativa - Pedro M. Baeza
+# Copyright 2026 Therp BV <https://therp.nl>.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'Account Banking PAIN Base Module',
