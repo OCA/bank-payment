@@ -538,15 +538,19 @@ class AccountPaymentOrder(models.Model):
             party_account_other_id.text = partner_bank.sanitized_acc_number
         return True
 
+    def _get_pain09_address_mode(self, partner):
+        """Address mode to use for this partner in PAIN.001.001.09 files.
+        This function is designed to be inherited."""
+        return self.payment_mode_id.payment_method_id.sepa_pain09_address_mode
+
     @api.model
     def generate_address_block(self, parent_node, partner, gen_args):  # noqa: C901
         if not partner.country_id:
             return True
         pain_flavor = (gen_args.get("pain_flavor", "")).strip()
-        payment_method = self.payment_mode_id.payment_method_id
-        address_mode = payment_method.sepa_pain09_address_mode
+        address_mode = self._get_pain09_address_mode(partner)
         if pain_flavor.startswith("pain.001.001.09"):
-            if not partner.city:
+            if not (partner.city or "").strip():
                 raise UserError(
                     self.env._(
                         "PAIN format %(flavor)s requires City (TwnNm). "
