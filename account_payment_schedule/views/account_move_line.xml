@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_move_line_payment_schedule_tree" model="ir.ui.view">
+        <field name="model">account.move.line</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <tree
+                js_class="payment_schedule_list"
+                editable="top"
+                expand="1"
+                create="0"
+                delete="0"
+                multi_edit="1"
+                decoration-muted="payment_schedule_state in ('done', 'blocked')"
+            >
+                <header>
+                    <button
+                        name="action_payment_schedule_create_orders"
+                        type="object"
+                        string="Create Payment Orders"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_payment_schedule_remove"
+                        type="object"
+                        string="Remove from Order"
+                    />
+                </header>
+                <field name="company_id" invisible="1" />
+                <field name="company_currency_id" invisible="1" />
+                <field name="partner_id" readonly="1" />
+                <field name="move_id" string="Document" readonly="1" />
+                <field name="date_maturity" widget="remaining_days" readonly="1" />
+                <field
+                    name="payment_schedule_date"
+                    attrs="{'readonly': [('payment_schedule_state', 'in', ('in_progress', 'done'))]}"
+                />
+                <field name="amount_residual" readonly="1" sum="Total" />
+                <field
+                    name="payment_mode_id"
+                    attrs="{'readonly': [('payment_schedule_state', 'in', ('draft_order', 'in_progress', 'done'))]}"
+                />
+                <field
+                    name="partner_bank_id"
+                    domain="[('partner_id', '=', partner_id)]"
+                    attrs="{'readonly': [('payment_schedule_state', 'in', ('draft_order', 'in_progress', 'done'))]}"
+                />
+                <field
+                    name="payment_schedule_state"
+                    widget="badge"
+                    decoration-info="payment_schedule_state == 'to_schedule'"
+                    decoration-warning="payment_schedule_state in ('missing_instrument', 'blocked')"
+                    decoration-primary="payment_schedule_state == 'draft_order'"
+                    decoration-success="payment_schedule_state in ('in_progress', 'done')"
+                />
+                <field name="payment_schedule_order_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="account_move_line_payment_schedule_search" model="ir.ui.view">
+        <field name="model">account.move.line</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <search string="Payment Schedule">
+                <field name="partner_id" />
+                <field name="move_id" string="Document" />
+                <field name="payment_mode_id" />
+                <filter
+                    name="open"
+                    string="Open"
+                    domain="[('reconciled', '=', False)]"
+                />
+                <separator />
+                <filter
+                    name="to_schedule"
+                    string="To Schedule"
+                    domain="[('payment_schedule_state', '=', 'to_schedule')]"
+                />
+                <filter
+                    name="missing_instrument"
+                    string="Missing Instrument"
+                    domain="[('payment_schedule_state', '=', 'missing_instrument')]"
+                />
+                <filter
+                    name="draft_order"
+                    string="In Draft Order"
+                    domain="[('payment_schedule_state', '=', 'draft_order')]"
+                />
+                <filter
+                    name="in_progress"
+                    string="In Progress"
+                    domain="[('payment_schedule_state', '=', 'in_progress')]"
+                />
+                <filter
+                    name="short_balance"
+                    string="Short of Cash"
+                    domain="[('payment_schedule_short_balance', '=', True)]"
+                />
+                <separator />
+                <filter
+                    name="due_today"
+                    string="Scheduled until Today"
+                    domain="[('reconciled', '=', False), ('payment_schedule_date', '&lt;=', context_today().strftime('%Y-%m-%d'))]"
+                />
+                <filter
+                    name="overdue"
+                    string="Overdue"
+                    domain="[('reconciled', '=', False), ('date_maturity', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_by_schedule_date"
+                        string="Scheduled Payment Date"
+                        context="{'group_by': 'payment_schedule_date:day'}"
+                    />
+                    <filter
+                        name="group_by_partner"
+                        string="Partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
+                        name="group_by_payment_mode"
+                        string="Payment Mode"
+                        context="{'group_by': 'payment_mode_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record
+        id="account_move_line_payment_schedule_action"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Payment Schedule</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="account_move_line_payment_schedule_tree" />
+        <field name="search_view_id" ref="account_move_line_payment_schedule_search" />
+        <field
+            name="domain"
+        >[('account_type', '=', 'liability_payable'), ('parent_state', '=', 'posted'), ('balance', '&lt;', 0)]</field>
+        <field
+            name="context"
+        >{'search_default_open': 1, 'search_default_group_by_schedule_date': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Nothing to pay</p>
+            <p>
+                Open vendor bills show up here by scheduled payment date. Set the
+                payment mode and date, then create the payment orders.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="account_move_line_payment_schedule_menu"
+        action="account_move_line_payment_schedule_action"
+        parent="account.menu_finance_payables"
+        groups="account_payment_order.group_account_payment"
+        sequence="20"
+    />
+</odoo>
