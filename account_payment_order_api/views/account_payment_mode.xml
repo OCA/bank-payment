@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_payment_mode_form" model="ir.ui.view">
+        <field name="model">account.payment.mode</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_mode_form"
+        />
+        <field name="arch" type="xml">
+            <field name="group_lines" position="before">
+                <field
+                    name="api_provider"
+                    attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
+                />
+                <field
+                    name="api_require_second_factor"
+                    attrs="{'invisible': [('api_provider', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
