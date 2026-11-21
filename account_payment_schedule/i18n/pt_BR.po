@@ -1,0 +1,406 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_schedule
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-20 22:54+0000\n"
+"PO-Revision-Date: 2026-11-20 22:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: Portuguese (Brazil)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: account_payment_schedule
+#. odoo-javascript
+#: code:addons/account_payment_schedule/static/src/views/payment_schedule_dashboard.xml:0
+msgid "All journals"
+msgstr "Todos os diários"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__ready_amount
+msgid "Amount to Schedule"
+msgstr "Valor a programar"
+
+#. module: account_payment_schedule
+#. odoo-javascript
+#: code:addons/account_payment_schedule/static/src/views/payment_schedule_dashboard.xml:0
+msgid "Balance today:"
+msgstr "Saldo hoje:"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields.selection,name:account_payment_schedule.selection__account_move_line__payment_schedule_state__blocked
+msgid "Blocked"
+msgstr "Bloqueado"
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_payment_schedule_order_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: account_payment_schedule
+#. odoo-javascript
+#: code:addons/account_payment_schedule/static/src/views/payment_schedule_dashboard.xml:0
+msgid "Cash Flow, next 30 days"
+msgstr "Fluxo de Caixa, próximos 30 dias"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_order__payment_schedule_cash_warning
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__cash_warning
+msgid "Cash Warning"
+msgstr "Alerta de Caixa"
+
+#. module: account_payment_schedule
+#: model:ir.model,name:account_payment_schedule.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__company_currency_id
+msgid "Company Currency"
+msgstr "Moeda da Empresa"
+
+#. module: account_payment_schedule
+#: model:ir.model,name:account_payment_schedule.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configurações"
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_tree
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_payment_schedule_order_form
+msgid "Create Payment Orders"
+msgstr "Criar Ordens de Pagamento"
+
+#. module: account_payment_schedule
+#: model:ir.model,name:account_payment_schedule.model_account_payment_schedule_order
+msgid "Create Payment Orders from the Payment Schedule"
+msgstr "Criar Ordens de Pagamento a partir da Programação de Pagamentos"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,help:account_payment_schedule.field_account_move_line__payment_schedule_date
+msgid "Date on which this item should be paid. It starts as the due date."
+msgstr "Data em que este item deve ser pago. Começa como o vencimento."
+
+#. module: account_payment_schedule
+#. odoo-javascript
+#: code:addons/account_payment_schedule/static/src/views/payment_schedule_dashboard.xml:0
+msgid "Days below the minimum:"
+msgstr "Dias abaixo do mínimo:"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__display_name
+msgid "Display Name"
+msgstr "Nome de Exibição"
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_tree
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_payment_schedule_order_form
+msgid "Document"
+msgstr "Documento"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields.selection,name:account_payment_schedule.selection__account_move_line__payment_schedule_state__done
+msgid "Done"
+msgstr "Concluído"
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_payment_schedule_order_form
+msgid ""
+"Each scheduled date becomes a draft payment order per payment mode.\n"
+"                    Confirming the order is the approval to pay. A date in the past\n"
+"                    becomes today."
+msgstr "Cada data programada vira uma ordem de pagamento em rascunho por modo de pagamento. Confirmar a ordem é a aprovação do pagamento. Uma data no passado passa a ser hoje."
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+msgid "From %(date)s on, the projected balance stays above the minimum."
+msgstr "A partir de %(date)s, o saldo projetado permanece acima do mínimo."
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+#: model:ir.model.fields.selection,name:account_payment_schedule.selection__account_move_line__payment_schedule_state__draft_order
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "In Draft Order"
+msgstr "Em Ordem de Rascunho"
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+#: model:ir.model.fields.selection,name:account_payment_schedule.selection__account_move_line__payment_schedule_state__in_progress
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "In Progress"
+msgstr "Em andamento"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__line_ids
+msgid "Items"
+msgstr "Itens"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__skipped_line_ids
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_payment_schedule_order_form
+msgid "Items Left Out"
+msgstr "Itens Excluídos"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__ready_line_ids
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_payment_schedule_order_form
+msgid "Items to Schedule"
+msgstr "Itens a Programar"
+
+#. module: account_payment_schedule
+#: model:ir.model,name:account_payment_schedule.model_account_move_line
+msgid "Journal Item"
+msgstr "Item do Diário"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_payment_schedule_order__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: account_payment_schedule
+#. odoo-javascript
+#: code:addons/account_payment_schedule/static/src/views/payment_schedule_cashflow.esm.js:0
+#: model:ir.model.fields,field_description:account_payment_schedule.field_res_company__payment_schedule_minimum_balance
+#: model:ir.model.fields,field_description:account_payment_schedule.field_res_config_settings__payment_schedule_minimum_balance
+msgid "Minimum Balance"
+msgstr "Saldo Mínimo"
+
+#. module: account_payment_schedule
+#. odoo-javascript
+#: code:addons/account_payment_schedule/static/src/views/payment_schedule_dashboard.xml:0
+msgid "Minimum:"
+msgstr "Mínimo:"
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+#: model:ir.model.fields.selection,name:account_payment_schedule.selection__account_move_line__payment_schedule_state__missing_instrument
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "Missing Instrument"
+msgstr "Instrumento faltando"
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/wizard/account_payment_schedule_order.py:0
+msgid "None of the selected items can be scheduled."
+msgstr "Nenhum dos itens selecionados pode ser programado."
+
+#. module: account_payment_schedule
+#: model_terms:ir.actions.act_window,help:account_payment_schedule.account_move_line_payment_schedule_action
+msgid "Nothing to pay"
+msgstr "Nada a pagar"
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+msgid ""
+"On %(date)s the projected balance is %(balance)s, below the minimum balance "
+"of %(minimum)s."
+msgstr "Em %(date)s o saldo projetado é %(balance)s, abaixo do saldo mínimo de %(minimum)s."
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "Open"
+msgstr "Em aberto"
+
+#. module: account_payment_schedule
+#: model_terms:ir.actions.act_window,help:account_payment_schedule.account_move_line_payment_schedule_action
+msgid ""
+"Open vendor bills show up here by scheduled payment date. Set the\n"
+"                payment mode and date, then create the payment orders."
+msgstr "As faturas de fornecedor em aberto aparecem aqui pela data programada do pagamento. Defina o modo e a data de pagamento e depois crie as ordens de pagamento."
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "Overdue"
+msgstr "Vencido"
+
+#. module: account_payment_schedule
+#. odoo-javascript
+#: code:addons/account_payment_schedule/static/src/views/payment_schedule_dashboard.xml:0
+msgid "Overdue receivables, not counted:"
+msgstr "Recebíveis vencidos, não contabilizados:"
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: account_payment_schedule
+#: model:ir.model,name:account_payment_schedule.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Linhas de Pagamento"
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "Payment Mode"
+msgstr "Modo de Pagamento"
+
+#. module: account_payment_schedule
+#: model:ir.model,name:account_payment_schedule.model_account_payment_order
+msgid "Payment Order"
+msgstr "Ordem de Pagamento"
+
+#. module: account_payment_schedule
+#: model:ir.actions.act_window,name:account_payment_schedule.account_move_line_payment_schedule_action
+#: model:ir.ui.menu,name:account_payment_schedule.account_move_line_payment_schedule_menu
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "Payment Schedule"
+msgstr "Programação de Pagamentos"
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+msgid "Payment schedule of %s"
+msgstr "Programação de pagamentos de %s"
+
+#. module: account_payment_schedule
+#. odoo-javascript
+#: code:addons/account_payment_schedule/static/src/views/payment_schedule_cashflow.esm.js:0
+msgid "Payments"
+msgstr "Pagamentos"
+
+#. module: account_payment_schedule
+#. odoo-javascript
+#: code:addons/account_payment_schedule/static/src/views/payment_schedule_cashflow.esm.js:0
+msgid "Projected Balance"
+msgstr "Saldo Projetado"
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_payment_schedule_order_form
+msgid "Reason"
+msgstr "Motivo"
+
+#. module: account_payment_schedule
+#. odoo-javascript
+#: code:addons/account_payment_schedule/static/src/views/payment_schedule_cashflow.esm.js:0
+msgid "Receipts"
+msgstr "Recebimentos"
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_tree
+msgid "Remove from Order"
+msgstr "Remover da Ordem"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_move_line__payment_schedule_state
+msgid "Schedule Status"
+msgstr "Situação da Programação"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_move_line__payment_schedule_date
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "Scheduled Payment Date"
+msgstr "Data Programada do Pagamento"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_move_line__payment_schedule_order_id
+msgid "Scheduled Payment Order"
+msgstr "Ordem de Pagamento Programada"
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,help:account_payment_schedule.field_account_move_line__payment_schedule_short_balance
+msgid ""
+"Scheduled on a date whose projected balance is below the minimum balance of "
+"the company."
+msgstr "Programado em uma data cujo saldo projetado está abaixo do saldo mínimo da empresa."
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "Scheduled until Today"
+msgstr "Programados até hoje"
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+#: model:ir.model.fields,field_description:account_payment_schedule.field_account_move_line__payment_schedule_short_balance
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "Short of Cash"
+msgstr "Sem saldo"
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+msgid ""
+"The payment date cannot change once the payment order is confirmed. Cancel "
+"the order first."
+msgstr "A data de pagamento não pode mudar depois que a ordem de pagamento é confirmada. Cancele a ordem primeiro."
+
+#. module: account_payment_schedule
+#: model:ir.model.fields,help:account_payment_schedule.field_res_company__payment_schedule_minimum_balance
+#: model:ir.model.fields,help:account_payment_schedule.field_res_config_settings__payment_schedule_minimum_balance
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.res_config_settings_view_form
+msgid ""
+"The payment schedule warns about the dates whose projected balance is below "
+"this amount."
+msgstr "A programação de pagamentos avisa sobre as datas cujo saldo projetado está abaixo deste valor."
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+#: model:ir.model.fields.selection,name:account_payment_schedule.selection__account_move_line__payment_schedule_state__to_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_search
+msgid "To Schedule"
+msgstr "A programar"
+
+#. module: account_payment_schedule
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_move_line_payment_schedule_tree
+#: model_terms:ir.ui.view,arch_db:account_payment_schedule.account_payment_schedule_order_form
+msgid "Total"
+msgstr "Total"
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+msgid "Unsupported search on the cash shortage."
+msgstr "Pesquisa não suportada sobre a falta de saldo."
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+msgid "Unsupported search on the schedule status."
+msgstr "Pesquisa não suportada sobre a situação da programação."
+
+#. module: account_payment_schedule
+#. odoo-python
+#: code:addons/account_payment_schedule/models/account_move_line.py:0
+msgid "Until Today"
+msgstr "Até hoje"

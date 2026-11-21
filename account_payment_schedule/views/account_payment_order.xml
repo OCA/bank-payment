@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_payment_order_form" model="ir.ui.view">
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div
+                    class="alert alert-warning mb-0"
+                    role="alert"
+                    invisible="not payment_schedule_cash_warning"
+                >
+                    <field name="payment_schedule_cash_warning" nolabel="1" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
