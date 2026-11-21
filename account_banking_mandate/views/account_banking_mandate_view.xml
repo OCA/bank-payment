@@ -59,6 +59,7 @@
                         <field
                             name="partner_bank_id"
                             options="{'create_name_field': 'acc_number'}"
+                            domain="partner_bank_domain"
                             invisible="context.get('mandate_bank_partner_view')"
                         />
                         <field
