@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_payment_api_second_factor_own" model="ir.rule">
+        <field name="name">Second factor wizard: own records only</field>
+        <field name="model_id" ref="model_account_payment_api_second_factor" />
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+    </record>
+</odoo>

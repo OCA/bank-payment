@@ -1,0 +1,686 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_order_api
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-20 22:54+0000\n"
+"PO-Revision-Date: 2026-11-20 22:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: Portuguese (Brazil)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__accepted
+msgid "Accepted"
+msgstr "Aceito"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__amount
+msgid "Amount"
+msgstr "Valor"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__amount_paid
+msgid "Amount Paid"
+msgstr "Valor Pago"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_order__api_can_send
+msgid "Api Can Send"
+msgstr "API Pode Enviar"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_order__api_confirmed_user_id
+msgid "Api Confirmed User"
+msgstr "Usuário que Confirmou na API"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_order__api_state__open
+msgid "Approved"
+msgstr "Aprovado"
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_api_line_tree
+msgid "Ask the bank to cancel this payment?"
+msgstr "Pedir ao banco para cancelar este pagamento?"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__authentication
+msgid "Authentication"
+msgstr "Autenticação"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,help:account_payment_order_api.field_account_payment_api_line__authentication
+msgid "Authentication code given by the bank"
+msgstr "Código de autenticação fornecido pelo banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__code
+msgid "Authenticator Code"
+msgstr "Código do Autenticador"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__description
+msgid "Authorizes"
+msgstr "Autoriza"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__awaiting_release
+msgid "Awaiting Release at the Bank"
+msgstr "Aguardando Liberação no Banco"
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_order_form
+msgid "Bank"
+msgstr "Banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__provider
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_mode__api_provider
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_order__api_provider
+msgid "Bank API Provider"
+msgstr "Provedor de API do banco"
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_api_batch.py:0
+msgid "Bank API provider %(provider)s does not implement %(op)s."
+msgstr "O provedor de API do banco %(provider)s não implementa %(op)s."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_mode.py:0
+msgid "Bank API providers only send outbound payments."
+msgstr "Os provedores de API do banco enviam apenas pagamentos de saída."
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_order__api_batch_ids
+msgid "Bank Batches"
+msgstr "Lotes do Banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__bank_reference
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__bank_reference
+msgid "Bank Reference"
+msgstr "Referência do Banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_order__api_state
+msgid "Bank Status"
+msgstr "Situação no Banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__batch_id
+msgid "Batch"
+msgstr "Lote"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__batch_key
+msgid "Batch Key"
+msgstr "Chave do Lote"
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_api_second_factor_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_api_line_tree
+msgid "Cancel at the Bank"
+msgstr "Cancelar no Banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__cancelled
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_order__api_state__cancel
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_order_form
+msgid "Check Bank Now"
+msgstr "Consultar banco agora"
+
+#. module: account_payment_order_api
+#: model:ir.model,name:account_payment_order_api.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__company_id
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: account_payment_order_api
+#: model:ir.model,name:account_payment_order_api.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configurações"
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_api_second_factor_form
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/wizard/account_payment_api_second_factor.py:0
+msgid "Confirm with Your Authenticator"
+msgstr "Confirme com o Seu Autenticador"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__create_uid
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__create_uid
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__create_uid
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor_state__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__create_date
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__create_date
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__create_date
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor_state__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__currency_id
+msgid "Currency of the Payment Transaction"
+msgstr "Moeda da Transação de Pagamento"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__date_checked
+msgid "Date Checked"
+msgstr "Data da Consulta"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__date_paid
+msgid "Date Paid"
+msgstr "Data do Pagamento"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__date_sent
+msgid "Date Sent"
+msgstr "Data do Envio"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__display_name
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__display_name
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__display_name
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor_state__display_name
+msgid "Display Name"
+msgstr "Nome de Exibição"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_order__api_state__done
+msgid "Done"
+msgstr "Concluído"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_batch__state__draft
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_order__api_state__draft
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,help:account_payment_order_api.field_account_payment_api_line__payment_id
+msgid ""
+"Draft payment created when the order was confirmed; it is only posted when "
+"the bank reports the line as paid."
+msgstr "Pagamento em rascunho criado quando a ordem foi confirmada; só é lançado quando o banco informa a linha como paga."
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_api_second_factor_form
+msgid "Enter the 6-digit code from your authenticator app."
+msgstr "Informe o código de 6 dígitos do seu aplicativo autenticador."
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_batch__state__failed
+msgid "Failed"
+msgstr "Falhou"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor_state__failures
+msgid "Failures"
+msgstr "Falhas"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__id
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__id
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__id
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor_state__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,help:account_payment_order_api.field_account_payment_api_batch__bank_reference
+msgid "Identifier of the batch at the bank"
+msgstr "Identificador do lote no banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,help:account_payment_order_api.field_account_payment_api_line__bank_reference
+msgid "Identifier of the line at the bank"
+msgstr "Identificador da linha no banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__move_line_id
+msgid "Journal Item"
+msgstr "Item do Diário"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor_state__last_counter
+msgid "Last Counter"
+msgstr "Último Contador"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor_state__last_failure
+msgid "Last Failure"
+msgstr "Última Falha"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__write_uid
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__write_uid
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__write_uid
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor_state__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__write_date
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__write_date
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__write_date
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor_state__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__line_ids
+msgid "Line"
+msgstr "Linha"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_order__api_line_ids
+msgid "Lines Sent to the Bank"
+msgstr "Linhas Enviadas ao Banco"
+
+#. module: account_payment_order_api
+#: model:ir.model,name:account_payment_order_api.model_account_payment_api_second_factor_state
+msgid "Lockout and Last Used Code per User (no user access)"
+msgstr "Bloqueio e Último Código Usado por Usuário (sem acesso de usuário)"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__message
+msgid "Message"
+msgstr "Mensagem"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__method
+msgid "Method"
+msgstr "Método"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: account_payment_order_api
+#: model:ir.model.constraint,message:account_payment_order_api.constraint_account_payment_api_second_factor_state_user_uniq
+msgid "One second factor state per user."
+msgstr "Um estado de segundo fator por usuário."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_api_line.py:0
+msgid "Only lines the bank has not executed yet can be cancelled."
+msgstr "Somente linhas que o banco ainda não executou podem ser canceladas."
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__order_id
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__order_id
+msgid "Order"
+msgstr "Ordem"
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_order.py:0
+msgid "Orders sent through a bank API have no payment file: use Send to Bank."
+msgstr "Ordens enviadas por uma API do banco não têm arquivo de pagamento: use Enviar ao banco."
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_batch__state__uncertain
+msgid "Outcome Unknown"
+msgstr "Resultado Desconhecido"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__paid
+msgid "Paid"
+msgstr "Pago"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__partner_id
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__payment_id
+msgid "Payment"
+msgstr "Pagamento"
+
+#. module: account_payment_order_api
+#: model:ir.model,name:account_payment_order_api.model_account_payment_api_batch
+msgid "Payment Batch Sent to a Bank API"
+msgstr "Lote de Pagamento Enviado a uma API do Banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__payment_line_id
+msgid "Payment Line"
+msgstr "Linha de Pagamento"
+
+#. module: account_payment_order_api
+#: model:ir.model,name:account_payment_order_api.model_account_payment_api_line
+msgid "Payment Line Sent to a Bank API"
+msgstr "Linha de Pagamento Enviada a uma API do Banco"
+
+#. module: account_payment_order_api
+#: model:ir.model,name:account_payment_order_api.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Linhas de Pagamento"
+
+#. module: account_payment_order_api
+#: model:ir.model,name:account_payment_order_api.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Modos de Pagamento"
+
+#. module: account_payment_order_api
+#: model:ir.model,name:account_payment_order_api.model_account_payment_order
+msgid "Payment Order"
+msgstr "Ordem de Pagamento"
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.res_config_settings_view_form
+msgid "Payment Orders"
+msgstr "Ordens de Pagamento"
+
+#. module: account_payment_order_api
+#: model:ir.actions.server,name:account_payment_order_api.ir_cron_payment_api_check_ir_actions_server
+msgid "Payment Orders: check bank API batches"
+msgstr "Ordens de Pagamento: consultar lotes da API do banco"
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_mode.py:0
+msgid ""
+"Payment mode %s sends through a bank API: the bank answers line by line, so "
+"payment lines cannot be grouped."
+msgstr "O modo de pagamento %s envia por uma API do banco: o banco responde linha a linha, então as linhas de pagamento não podem ser agrupadas."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/wizard/account_payment_api_second_factor.py:0
+msgid ""
+"Payment order %(order)s needs a second person: the code must be entered by a"
+" user other than the one who confirmed the order (%(user)s)."
+msgstr "A ordem de pagamento %(order)s precisa de uma segunda pessoa: o código deve ser informado por um usuário diferente do que confirmou a ordem (%(user)s)."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_order.py:0
+msgid ""
+"Payment order %s has lines without a draft payment: cancel it and confirm it"
+" again."
+msgstr "A ordem de pagamento %s tem linhas sem pagamento em rascunho: cancele-a e confirme-a novamente."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_order.py:0
+msgid "Payment order %s has nothing to send to the bank."
+msgstr "A ordem de pagamento %s não tem nada para enviar ao banco."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_order.py:0
+msgid ""
+"Payment order %s is already confirmed: a bank API order cannot change its "
+"payment mode or bank journal."
+msgstr "A ordem de pagamento %s já está confirmada: uma ordem de API do banco não pode mudar o modo de pagamento nem o diário bancário."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_order.py:0
+msgid "Payment order %s is not in draft: its payment lines cannot change."
+msgstr "A ordem de pagamento %s não está em rascunho: suas linhas de pagamento não podem mudar."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_mode.py:0
+msgid ""
+"Payment order %s is still open with this payment mode: finish or cancel it "
+"before changing the bank API settings."
+msgstr "A ordem de pagamento %s ainda está em aberto com este modo de pagamento: conclua ou cancele-a antes de alterar as configurações da API do banco."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_order.py:0
+msgid ""
+"Payment order %s was already sent to the bank: cancel its lines at the bank "
+"instead."
+msgstr "A ordem de pagamento %s já foi enviada ao banco: cancele as linhas dela no banco."
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,help:account_payment_order_api.field_account_payment_api_batch__provider
+#: model:ir.model.fields,help:account_payment_order_api.field_account_payment_mode__api_provider
+#: model:ir.model.fields,help:account_payment_order_api.field_account_payment_order__api_provider
+msgid ""
+"Payment orders of this mode are sent to the bank through this provider "
+"instead of a payment file. Each provider module adds its value."
+msgstr "As ordens de pagamento deste modo são enviadas ao banco por este provedor, em vez de um arquivo de pagamento. Cada módulo de provedor adiciona o seu valor."
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__pending
+msgid "Pending"
+msgstr "Pendente"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__processing
+msgid "Processing"
+msgstr "Processando"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,help:account_payment_order_api.field_account_payment_api_batch__batch_key
+msgid ""
+"Provider key grouping the lines of one bank batch (for instance, the kind of"
+" payment)"
+msgstr "Chave do provedor que agrupa as linhas de um lote do banco (por exemplo, o tipo de pagamento)"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__reason
+msgid "Reason"
+msgstr "Motivo"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,help:account_payment_order_api.field_account_payment_api_line__reason
+msgid "Reason given by the bank for the current status"
+msgstr "Motivo informado pelo banco para a situação atual"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__refused
+msgid "Refused"
+msgstr "Recusado"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__rejected
+msgid "Rejected"
+msgstr "Rejeitado"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_mode__api_require_second_factor
+msgid "Require Second Factor"
+msgstr "Exigir Segundo Fator"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__res_ids
+msgid "Res"
+msgstr "Registros"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor__res_model
+msgid "Res Model"
+msgstr "Modelo do Registro"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__returned
+msgid "Returned"
+msgstr "Devolvido"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__scheduled
+msgid "Scheduled"
+msgstr "Programado"
+
+#. module: account_payment_order_api
+#: model:ir.model,name:account_payment_order_api.model_account_payment_api_second_factor
+msgid "Second Factor for a Bank API Action"
+msgstr "Segundo Fator para uma Ação da API do Banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_res_company__api_second_person_required
+#: model:ir.model.fields,field_description:account_payment_order_api.field_res_config_settings__api_second_person_required
+msgid "Second Person for the Bank Second Factor"
+msgstr "Segunda Pessoa para o Segundo Fator do Banco"
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/wizard/account_payment_api_second_factor.py:0
+msgid "Second factor confirmed by %(user)s for %(method)s."
+msgstr "Segundo fator confirmado por %(user)s para %(method)s."
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_order_form
+msgid ""
+"Send these payments to the bank? Releasing the money may still be required "
+"at the bank."
+msgstr "Enviar estes pagamentos ao banco? Ainda pode ser necessário liberar o dinheiro no banco."
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_order_form
+msgid "Send to Bank"
+msgstr "Enviar ao banco"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_batch__state__sending
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_order__api_state__sending
+msgid "Sending"
+msgstr "Enviando"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,help:account_payment_order_api.field_account_payment_mode__api_require_second_factor
+msgid ""
+"Sending to the bank asks for a code from the user's authenticator app, once "
+"per action."
+msgstr "O envio ao banco pede um código do aplicativo autenticador do usuário, uma vez por ação."
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_batch__state__sent
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_batch__state
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_line__state
+msgid "State"
+msgstr "Situação"
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.res_config_settings_view_form
+msgid ""
+"The user who enters the authenticator code must differ from the user who "
+"confirmed the payment order. Applies to the payment modes that require the "
+"code."
+msgstr "O usuário que informa o código do autenticador deve ser diferente do usuário que confirmou a ordem de pagamento. Vale para os modos de pagamento que exigem o código."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/wizard/account_payment_api_second_factor.py:0
+msgid "This action can only be confirmed in a user session."
+msgstr "Esta ação só pode ser confirmada em uma sessão de usuário."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/wizard/account_payment_api_second_factor.py:0
+msgid "This action cannot be confirmed with a second factor."
+msgstr "Esta ação não pode ser confirmada com um segundo fator."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/wizard/account_payment_api_second_factor.py:0
+msgid ""
+"This action requires two-factor authentication: enable it in the Account "
+"Security tab of your user profile."
+msgstr "Esta ação exige autenticação em dois fatores: ative-a na aba Segurança da Conta do seu perfil de usuário."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/wizard/account_payment_api_second_factor.py:0
+msgid "This code was already used: wait for the next one."
+msgstr "Este código já foi usado: aguarde o próximo."
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/wizard/account_payment_api_second_factor.py:0
+msgid "Too many wrong codes: wait a few minutes and try again."
+msgstr "Muitos códigos errados: aguarde alguns minutos e tente novamente."
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_api_line_tree
+msgid "Total"
+msgstr "Total"
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_api_line__state__unknown
+msgid "Unknown"
+msgstr "Desconhecido"
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/models/account_payment_api_line.py:0
+msgid "Unknown payment status %s from the bank."
+msgstr "Situação de pagamento %s desconhecida informada pelo banco."
+
+#. module: account_payment_order_api
+#: model:ir.model.fields,field_description:account_payment_order_api.field_account_payment_api_second_factor_state__user_id
+msgid "User"
+msgstr "Usuário"
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/wizard/account_payment_api_second_factor.py:0
+msgid "Verification failed, please double-check the 6-digit code."
+msgstr "A verificação falhou, confira o código de 6 dígitos."
+
+#. module: account_payment_order_api
+#: model:ir.model.fields.selection,name:account_payment_order_api.selection__account_payment_order__api_state__tracking
+msgid "Waiting for the Bank"
+msgstr "Aguardando o banco"
+
+#. module: account_payment_order_api
+#: model:ir.model,name:account_payment_order_api.model_account_payment_line_create
+msgid "Wizard to create payment lines"
+msgstr "Assistente para criar linhas de pagamento"
+
+#. module: account_payment_order_api
+#: model_terms:ir.ui.view,arch_db:account_payment_order_api.account_payment_api_second_factor_form
+msgid "e.g. 123456"
+msgstr "ex.: 123456"
+
+#. module: account_payment_order_api
+#. odoo-python
+#: code:addons/account_payment_order_api/wizard/account_payment_api_second_factor.py:0
+msgid "unknown"
+msgstr "desconhecido"

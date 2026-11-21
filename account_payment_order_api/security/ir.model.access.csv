@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_payment_api_batch,Payment API batch for Payment Manager,model_account_payment_api_batch,account_payment_order.group_account_payment,1,0,0,0
+access_account_payment_api_batch_readonly,Payment API batch read only,model_account_payment_api_batch,account.group_account_readonly,1,0,0,0
+access_account_payment_api_line,Payment API line for Payment Manager,model_account_payment_api_line,account_payment_order.group_account_payment,1,0,0,0
+access_account_payment_api_line_readonly,Payment API line read only,model_account_payment_api_line,account.group_account_readonly,1,0,0,0
+access_account_payment_api_second_factor,Payment API second factor for Payment Manager,model_account_payment_api_second_factor,account_payment_order.group_account_payment,1,1,1,0
+access_account_payment_api_second_factor_state,Payment API second factor state (no user access),model_account_payment_api_second_factor_state,,0,0,0,0

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_payment_order_form" model="ir.ui.view">
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <button name="open2generated" position="attributes">
+                <attribute name="invisible">state != 'open' or api_provider</attribute>
+            </button>
+            <button name="generated2uploaded" position="attributes">
+                <attribute
+                    name="invisible"
+                >state != 'generated' or api_provider</attribute>
+            </button>
+            <button name="open2generated" position="before">
+                <field name="api_provider" invisible="1" />
+                <field name="api_can_send" invisible="1" />
+                <button
+                    name="action_api_send"
+                    type="object"
+                    string="Send to Bank"
+                    class="oe_highlight"
+                    invisible="not api_can_send"
+                    confirm="Send these payments to the bank? Releasing the money may still be required at the bank."
+                />
+                <button
+                    name="action_api_check"
+                    type="object"
+                    string="Check Bank Now"
+                    invisible="not api_provider or not api_batch_ids"
+                />
+            </button>
+            <field name="state" position="attributes">
+                <attribute name="invisible">api_provider</attribute>
+            </field>
+            <field name="state" position="after">
+                <field
+                    name="api_state"
+                    widget="statusbar"
+                    statusbar_visible="draft,open,sending,tracking,done"
+                    invisible="not api_provider"
+                />
+            </field>
+            <notebook position="inside">
+                <page name="api" string="Bank" invisible="not api_batch_ids">
+                    <field name="api_line_ids" />
+                    <field name="api_batch_ids" />
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
